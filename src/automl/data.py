@@ -8,6 +8,7 @@ from typing import Any, Callable, Optional, Tuple, Union, Type
 import PIL.Image
 import pandas as pd
 from torch.utils.data import DataLoader
+from torchvision.transforms.v2 import Compose
 from torchvision.datasets import VisionDataset
 from torch import distributed as TorchDistributed
 from torchvision.datasets.utils import download_and_extract_archive, check_integrity
@@ -211,6 +212,7 @@ class DataLoaders:
         self,
         batch_size: int,
         num_workers: int = 0,
+        augmentations: Optional[Callable] = None,
         transform: Optional[Callable] = None,
         target_transform: Optional[Callable] = None,
         dataset_class: Type[BaseVisionDataset] = None,
@@ -219,7 +221,9 @@ class DataLoaders:
             dataset_class(
                 root="./data",
                 split="train",
-                transform=transform,
+                transform=(
+                    Compose([augmentations, transform]) if augmentations else transform
+                ),
                 target_transform=target_transform,
                 download=True,
             ),

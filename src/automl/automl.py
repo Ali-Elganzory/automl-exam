@@ -9,7 +9,7 @@ import torch
 import random
 import numpy as np
 from torch import nn
-from torch.utils.data import DataLoader
+from torchvision.transforms.v2 import Compose, RandomChoice, AugMix, TrivialAugmentWide
 
 from automl.model import ResNet50
 from automl.trainer import Trainer
@@ -41,9 +41,23 @@ class AutoML:
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
 
+        augmentations = RandomChoice(
+            [
+                TrivialAugmentWide(),
+                AugMix(),
+                Compose(
+                    [
+                        TrivialAugmentWide(),
+                        AugMix(),
+                    ]
+                ),
+            ]
+        )
+
         self.dataloaders = DataLoaders(
             batch_size=64,
             num_workers=2,
+            augmentations=augmentations,
             transform=ResNet50.transform,
             dataset_class=dataset_class,
         )
