@@ -167,3 +167,6 @@ data/*
 
 # Whiteboard Test Predictions:
 !data/exam_dataset/
+
+# Uncomment this for adding a submission
+*.npy

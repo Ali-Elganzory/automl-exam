@@ -1,21 +1,21 @@
 """
 This module contains the datasets used in the AutoML exam.
-If you want to edit this file be aware that we will later 
-  push the test set to this file which might cause problems.
-
 """
 
-
 from pathlib import Path
-from typing import Any, Callable, Optional, Tuple, Union
+from typing import Any, Callable, Optional, Tuple, Union, Type
 
 import PIL.Image
 import pandas as pd
+from torch.utils.data import DataLoader
 from torchvision.datasets import VisionDataset
+from torch import distributed as TorchDistributed
 from torchvision.datasets.utils import download_and_extract_archive, check_integrity
 
 
-BASE_URL = "https://ml.informatik.uni-freiburg.de/research-artifacts/automl-exam-24-vision/"
+BASE_URL = (
+    "https://ml.informatik.uni-freiburg.de/research-artifacts/automl-exam-24-vision/"
+)
 
 
 class BaseVisionDataset(VisionDataset):
@@ -27,16 +27,17 @@ class BaseVisionDataset(VisionDataset):
         split: string (optional)
             The dataset split, supports `train` (default), `val`, or `test`.
         transform: callable (optional)
-            A function/transform that takes in a PIL image and returns a transformed version. 
+            A function/transform that takes in a PIL image and returns a transformed version.
             E.g, `transforms.RandomCrop`.
         target_transform: callable (optional)
             A function/transform that takes in the target and transforms it.
         download: bool (optional)
-            If true, downloads the dataset from the internet and puts it in root directory. 
+            If true, downloads the dataset from the internet and puts it in root directory.
             If dataset is already downloaded, it is not downloaded again.
     """
+
     _download_url_prefix = BASE_URL
-    _download_file = Tuple[str, str] # Checksum that is provided here is not used.
+    _download_file = Tuple[str, str]  # Checksum that is provided here is not used.
     _dataset_name: str
     _md5_train: str
     _md5_test: str
@@ -68,24 +69,46 @@ class BaseVisionDataset(VisionDataset):
             )
 
         data = pd.read_csv(self._base_folder / f"{self._split}.csv")
-        self._labels = data['label'].tolist()
-        self._image_files = data['image_file_name'].tolist()
+
+        if TorchDistributed.is_initialized():
+            rank = TorchDistributed.get_rank()
+            world_size = TorchDistributed.get_world_size()
+            self.data = self.data[
+                rank
+                * len(self.data)
+                // world_size : (rank + 1)
+                * len(self.data)
+                // world_size
+            ]
+            self.targets = self.targets[
+                rank
+                * len(self.targets)
+                // world_size : (rank + 1)
+                * len(self.targets)
+                // world_size
+            ]
+
+        self._labels = data["label"].tolist()
+        self._image_files = data["image_file_name"].tolist()
 
     def _check_integrity(self):
         train_images_folder = self._base_folder / "images_train"
         test_images_folder = self._base_folder / "images_test"
-        if not (train_images_folder.exists() and train_images_folder.is_dir()) or \
-           not (test_images_folder.exists() and test_images_folder.is_dir()):
+        if not (train_images_folder.exists() and train_images_folder.is_dir()) or not (
+            test_images_folder.exists() and test_images_folder.is_dir()
+        ):
             return False
 
-        for filename, md5 in [("train.csv", self._md5_train), ("test.csv", self._md5_test)]:
+        for filename, md5 in [
+            ("train.csv", self._md5_train),
+            ("test.csv", self._md5_test),
+        ]:
             if not check_integrity(str(self._base_folder / filename), md5):
                 return False
         return True
 
     def download(self):
-        """Download the dataset from the URL.
-        """
+        """Download the dataset from the URL."""
         if self._check_integrity():
             return
         download_and_extract_archive(
@@ -94,16 +117,13 @@ class BaseVisionDataset(VisionDataset):
         )
 
     def extra_repr(self) -> str:
-        """String representation of the dataset.
-        """
+        """String representation of the dataset."""
         return f"split={self._split}"
 
     def __getitem__(self, idx: int) -> Tuple[Any, Any]:
         image_file, label = self._image_files[idx], self._labels[idx]
         image = PIL.Image.open(self._base_folder / f"images_{self._split}" / image_file)
-        if self.channels == 1:
-            image = image.convert("L")
-        elif self.channels == 3:
+        if self.channels in [1, 3]:
             image = image.convert("RGB")
         else:
             raise ValueError(f"Unsupported number of channels: {self.channels}")
@@ -121,11 +141,12 @@ class BaseVisionDataset(VisionDataset):
 
 
 class EmotionsDataset(BaseVisionDataset):
-    """ Emotions Dataset.
+    """Emotions Dataset.
 
     This dataset contains images of faces displaying in to one of seven emotions
     (0=Angry, 1=Disgust, 2=Fear, 3=Happy, 4=Sad, 5=Surprise, 6=Neutral).
     """
+
     _download_file = ("emotions.tgz", "e8302a10bc38a7bfb2e60c67b6bab1e4")
     _dataset_name = "emotions"
     _md5_train = "7a48baafcddeb5b9caaa01c5b9fcd309"
@@ -141,6 +162,7 @@ class FlowersDataset(BaseVisionDataset):
 
     This dataset contains images of 102 types of flowers. The task is to classify the flower type.
     """
+
     _download_file = ("flowers.tgz", "31ff68dec06e95997aa4d77cd1eb5744")
     _dataset_name = "flowers"
     _md5_train = "08f3283cfa42d37755bcf972ed368264"
@@ -156,6 +178,7 @@ class FashionDataset(BaseVisionDataset):
 
     This dataset contains images of fashion items. The task is to classify what kind of fashion item it is.
     """
+
     _download_file = ("fashion.tgz", "ec70b7addb6493d4e3d57939ff76e2d5")
     _dataset_name = "fashion"
     _md5_train = "a364148066eb5bace445e4c9e7fb95d4"
@@ -183,3 +206,36 @@ class SkinCancerDataset(BaseVisionDataset):
     height = 450
     channels = 3
     num_classes = 7
+class DataLoaders:
+    def __init__(
+        self,
+        batch_size: int,
+        num_workers: int = 0,
+        transform: Optional[Callable] = None,
+        target_transform: Optional[Callable] = None,
+        dataset_class: Type[BaseVisionDataset] = None,
+    ):
+        self.train = DataLoader(
+            dataset_class(
+                root="./data",
+                split="train",
+                transform=transform,
+                target_transform=target_transform,
+                download=True,
+            ),
+            shuffle=True,
+            batch_size=batch_size,
+            num_workers=num_workers,
+        )
+        self.test = DataLoader(
+            dataset_class(
+                root="./data",
+                split="test",
+                transform=transform,
+                target_transform=target_transform,
+                download=True,
+            ),
+            shuffle=False,
+            batch_size=batch_size,
+            num_workers=num_workers,
+        )
