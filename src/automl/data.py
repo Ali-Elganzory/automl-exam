@@ -2,6 +2,7 @@
 This module contains the datasets used in the AutoML exam.
 """
 
+from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional, Tuple, Union, Type
 
@@ -207,6 +208,22 @@ class SkinCancerDataset(BaseVisionDataset):
     height = 450
     channels = 3
     num_classes = 7
+
+
+class Dataset(Enum):
+    FASHION = "fashion"
+    FLOWERS = "flowers"
+    EMOTIONS = "emotions"
+
+    @property
+    def factory(self) -> Type[BaseVisionDataset]:
+        return {
+            Dataset.FASHION: FashionDataset,
+            Dataset.FLOWERS: FlowersDataset,
+            Dataset.EMOTIONS: EmotionsDataset,
+        }[self]
+
+
 class DataLoaders:
     def __init__(
         self,

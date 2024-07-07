@@ -3,7 +3,15 @@ name = "automl"
 license = { file = "LICENSE" }
 # Feel free to change from here
 version = "0.1.0"
-dependencies = ["torchvision", "pandas", "scikit-learn", "numpy<2.0", "IPython", "tqdm"]
+dependencies = [
+  "torchvision",
+  "pandas",
+  "scikit-learn",
+  "numpy<2.0",
+  "IPython",
+  "tqdm",
+  "typer",
+]
 requires-python = ">=3.8"
 authors = [{ name = "user", email = "user@user.com" }]
 readme = "README.md"

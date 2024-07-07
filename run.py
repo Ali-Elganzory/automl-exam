@@ -8,43 +8,62 @@ to a file, which we will grade using github classrooms!
 """
 
 from __future__ import annotations
-import logging
-import argparse
 from pathlib import Path
+from typing import Annotated
 
 import numpy as np
+from typer import Typer, Option
 
+from automl.data import Dataset
 from automl.automl import AutoML
-from automl.data import FashionDataset, FlowersDataset, EmotionsDataset
-
-logger = logging.getLogger(__name__)
+from automl.utils import set_log_level, Level, log as print
 
 
-def main(
-        dataset: str,
-        output_path: Path,
-        seed: int,
+app = Typer()
+
+
+@app.command()
+def auto(
+    dataset: Annotated[
+        Dataset,
+        Option(
+            help="The dataset to run on.",
+        ),
+    ],
+    output_path: Annotated[
+        Path,
+        Option(
+            help="The path to save the predictions to.",
+        ),
+    ] = Path("predictions.npy"),
+    seed: Annotated[
+        int,
+        Option(
+            help="Random seed for reproducibility.",
+        ),
+    ] = 42,
+    quiet: Annotated[
+        bool,
+        Option(
+            help="Whether to log only warnings and errors.",
+        ),
+    ] = False,
 ):
-    match dataset:
-        case "fashion":
-            dataset_class = FashionDataset
-        case "flowers":
-            dataset_class = FlowersDataset
-        case "emotions":
-            dataset_class = EmotionsDataset
-        case "skin_cancer":
-            dataset_class = SkinCancerDataset
-        case _:
-            raise ValueError(f"Invalid dataset: {args.dataset}")
+    if not quiet:
+        set_log_level(Level.INFO)
+    else:
+        set_log_level(Level.WARNING)
 
-    logger.info("Fitting AutoML")
+    print(f"Fitting dataset {dataset.name}")
 
     automl = AutoML(seed=seed)
-    automl.fit(dataset_class)
+    automl.fit(dataset.factory)
     _, accuracy, test_preds = automl.predict()
 
     # Write the predictions of X_test to disk
-    logger.info("Writing predictions to disk")
+    # This will be used by github classrooms to get a performance
+    # on the test set.
+    print("Writing predictions to disk")
     with output_path.open("wb") as f:
         np.save(f, test_preds)
 
@@ -58,55 +77,11 @@ def main(
 
     # check if test_labels has missing data
     if True:
-        logger.info(f"Accuracy on test set: {accuracy:.4f}")
+        print(f"Accuracy on test set: {accuracy:.4f}")
     else:
         # This is the setting for the exam dataset, you will not have access to the labels
-        logger.info(f"No test split for dataset '{dataset}'")
+        print(f"No test split for dataset '{dataset}'")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--dataset",
-        type=str,
-        required=True,
-        help="The name of the dataset to run on.",
-        choices=["fashion", "flowers", "emotions", "skin_cancer"]
-    )
-    parser.add_argument(
-        "--output-path",
-        type=Path,
-        default=Path("predictions.npy"),
-        help=(
-            "The path to save the predictions to."
-            " By default this will just save to './predictions.npy'."
-        ),
-    )
-    parser.add_argument(
-        "--seed",
-        type=int,
-        default=42,
-        help=(
-            "Random seed for reproducibility if you are using and randomness,"
-            " i.e. torch, numpy, pandas, sklearn, etc."
-        ),
-    )
-    parser.add_argument(
-        "--quiet", action="store_true", help="Whether to log only warnings and errors."
-    )
-
-    args = parser.parse_args()
-
-    if not args.quiet:
-        logging.basicConfig(level=logging.INFO)
-    else:
-        logging.basicConfig(level=logging.WARNING)
-
-    logger.info(f"Running dataset {args.dataset}" f"\n{args}")
-
-    main(
-        dataset=args.dataset,
-        output_path=args.output_path,
-        seed=args.seed,
-    )
+    app()

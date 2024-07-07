@@ -6,6 +6,8 @@ from torch import nn, optim
 from torch.utils.data import DataLoader
 from torch import distributed as TorchDistributed
 
+from automl.utils import log as print, MAIN_NODE, RANK, DISTRIBUTED, log_prefix
+
 
 class Trainer:
     def __init__(
@@ -40,11 +42,9 @@ class Trainer:
         if self.loss_fn is None:
             self.loss_fn = nn.CrossEntropyLoss()
 
-        self.pb_pos = 0
-        self.pb_desc_template = "Epoch {}/{} - {}"
-        if TorchDistributed.is_initialized():
-            self.pb_pos = TorchDistributed.get_rank()
-            self.pb_desc_template = f"[{self.pb_pos}] " + self.pb_desc_template
+    @property
+    def pb_desc_template(self):
+        return f"{log_prefix()} " + "Epoch {}/{} - {}"
 
     def train_step(
         self, data: torch.Tensor, target: torch.Tensor
@@ -72,7 +72,7 @@ class Trainer:
         for data, target in tqdm.tqdm(
             data_loader,
             desc=self.pb_desc_template.format(epoch, epochs, "Train"),
-            position=self.pb_pos,
+            position=RANK,
         ):
             loss, accuracy = self.train_step(data, target)
             cumulative_loss += loss
@@ -94,15 +94,14 @@ class Trainer:
         for epoch in range(1, epochs + 1):
             train_loss, train_accuracy = self.train_epoch(train_loader, epoch, epochs)
 
-            if TorchDistributed.is_initialized():
+            if DISTRIBUTED:
                 TorchDistributed.barrier()
 
             val_loss, val_accuracy, _ = self.eval(val_loader, epoch, epochs)
 
-            if TorchDistributed.is_initialized():
+            if DISTRIBUTED:
                 TorchDistributed.barrier()
                 print(
-                    f"[{self.pb_pos}] "
                     f"Epoch {epoch}/{epochs} - "
                     f"Train Loss: {train_loss:.4f}, "
                     f"Train Accuracy: {train_accuracy:.4f}, "
@@ -118,16 +117,15 @@ class Trainer:
                 train_loss, train_accuracy, val_loss, val_accuracy = metrics.tolist()
                 TorchDistributed.barrier()
 
-            if self.pb_pos == 0:
+            if MAIN_NODE:
                 print(
-                    f"[{self.pb_pos}] "
                     f"Epoch {epoch}/{epochs} (Overall Values) - "
                     f"Train Loss: {train_loss:.4f}, "
                     f"Train Accuracy: {train_accuracy:.4f}, "
                     f"Val Loss: {val_loss:.4f}, "
                     f"Val Accuracy: {val_accuracy:.4f}"
                 )
-                print("-" * 80)
+                print("-" * 80, no_prefix=True)
 
                 losses.append(train_loss)
                 accuracies.append(train_accuracy)
@@ -137,7 +135,7 @@ class Trainer:
             if TorchDistributed.is_initialized():
                 TorchDistributed.barrier()
 
-        if self.results_file is not None and self.pb_pos == 0:
+        if self.results_file is not None and MAIN_NODE:
             data = {
                 "epoch": range(1, epochs + 1),
                 "train_loss": losses,
@@ -187,9 +185,9 @@ class Trainer:
                 desc=(
                     self.pb_desc_template.format(epoch, epochs, "Val")
                     if epoch is not None and epochs is not None
-                    else "Val"
+                    else f"{log_prefix()} " + "Val"
                 ),
-                position=self.pb_pos,
+                position=RANK,
             ):
                 loss, accuracy, predictions = self.eval_step(
                     data, target, return_predictions
