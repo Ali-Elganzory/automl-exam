@@ -56,20 +56,23 @@ def auto(
 
     print(f"Fitting dataset {dataset.name}")
 
-    automl = AutoML(seed=seed)
-    automl.fit(dataset.factory)
-    _, accuracy, test_preds = automl.predict()
+    automl = AutoML(
+        dataset.factory,
+        seed=seed,
+    )
+    automl.fit()
+    # _, accuracy, test_preds = automl.predict()
 
-    # Write the predictions of X_test to disk
-    # This will be used by github classrooms to get a performance
-    # on the test set.
-    print("Writing predictions to disk")
-    with output_path.open("wb") as f:
-        np.save(f, test_preds)
+    # # Write the predictions of X_test to disk
+    # # This will be used by github classrooms to get a performance
+    # # on the test set.
+    # print("Writing predictions to disk")
+    # with output_path.open("wb") as f:
+    #     np.save(f, test_preds)
 
     # In case of running on the test data, also add the predictions.npy
     # to the correct location for autoevaluation.
-    if dataset=="skin_cancer":
+    if dataset == "skin_cancer":
         test_output_path = Path("data/exam_dataset/predictions.npy")
         test_output_path.parent.mkdir(parents=True, exist_ok=True)
         with test_output_path.open("wb") as f:
@@ -81,6 +84,12 @@ def auto(
     else:
         # This is the setting for the exam dataset, you will not have access to the labels
         print(f"No test split for dataset '{dataset}'")
+    # # check if test_labels has missing data
+    # if True:
+    #     print(f"Accuracy on test set: {accuracy:.4f}")
+    # else:
+    #     # This is the setting for the exam dataset, you will not have access to the labels
+    #     print(f"No test split for dataset '{dataset}'")
 
 
 if __name__ == "__main__":

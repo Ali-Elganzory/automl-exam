@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Type
 
 import tqdm
 import torch
@@ -13,8 +13,17 @@ class Trainer:
     def __init__(
         self,
         model: nn.Module,
-        optimizer: optim.Optimizer = None,
-        lr_scheduler: optim.lr_scheduler._LRScheduler = None,
+        optimizer: optim.Optimizer | Type[optim.Optimizer] | str = "adamw",
+        lr: float = 1e-3,
+        weight_decay: float = 1e-2,
+        lr_scheduler: (
+            optim.lr_scheduler._LRScheduler
+            | Type[optim.lr_scheduler._LRScheduler]
+            | str
+        ) = "step",
+        scheduler_step_size: int = 1000,
+        scheduler_gamma: float = 0.1,
+        scheduler_step_every_epoch: bool = False,
         loss_fn: nn.Module = None,
         device: torch.device = None,
         output_device: torch.device = None,
@@ -22,21 +31,50 @@ class Trainer:
     ):
         self.model = model
         self.optimizer = optimizer
+        self.lr = lr
+        self.weight_decay = weight_decay
         self.lr_scheduler = lr_scheduler
+        self.scheduler_step_size = scheduler_step_size
+        self.scheduler_gamma = scheduler_gamma
+        self.scheduler_step_every_epoch = scheduler_step_every_epoch
         self.loss_fn = loss_fn
         self.device = device
         self.output_device = output_device if output_device else device
         self.results_file = results_file
 
+        self.epochs_already_trained: int = 0
+
         self.model.to(self.device)
         self.model.train()
 
-        if self.optimizer is None:
-            self.optimizer = optim.AdamW(self.model.parameters(), lr=1e-3)
+        if not isinstance(self.optimizer, optim.Optimizer):
+            optimizer_factories = {
+                "adamw": optim.AdamW,
+                "adam": optim.Adam,
+                "sgd": optim.SGD,
+                "rmsprop": optim.RMSprop,
+            }
+            if isinstance(self.optimizer, str):
+                self.optimizer = optimizer_factories[self.optimizer.lower()]
+            self.optimizer = self.optimizer(
+                self.model.parameters(),
+                lr=self.lr,
+                weight_decay=self.weight_decay,
+            )
 
-        if self.lr_scheduler is None:
-            self.lr_scheduler = optim.lr_scheduler.StepLR(
-                self.optimizer, step_size=1000, gamma=0.1
+        if not isinstance(self.lr_scheduler, optim.lr_scheduler._LRScheduler):
+            scheduler_factories = {
+                "step": optim.lr_scheduler.StepLR,
+                "multi_step": optim.lr_scheduler.MultiStepLR,
+                "exponential": optim.lr_scheduler.ExponentialLR,
+                "cosine": optim.lr_scheduler.CosineAnnealingLR,
+            }
+            if isinstance(self.lr_scheduler, str):
+                self.lr_scheduler = scheduler_factories[self.lr_scheduler.lower()]
+            self.lr_scheduler = self.lr_scheduler(
+                self.optimizer,
+                step_size=self.scheduler_step_size,
+                gamma=self.scheduler_gamma,
             )
 
         if self.loss_fn is None:
@@ -55,7 +93,8 @@ class Trainer:
         loss = self.loss_fn(output, target)
         loss.backward()
         self.optimizer.step()
-        self.lr_scheduler.step()
+        if not self.scheduler_step_every_epoch:
+            self.lr_scheduler.step()
 
         accuracy = (output.argmax(dim=1) == target).float().mean()
         return loss.item(), accuracy.item()
@@ -78,6 +117,9 @@ class Trainer:
             cumulative_loss += loss
             cumulative_accuracy += accuracy
 
+        if self.scheduler_step_every_epoch:
+            self.lr_scheduler.step()
+
         return cumulative_loss / len(data_loader), cumulative_accuracy / len(
             data_loader
         )
@@ -87,12 +129,23 @@ class Trainer:
         train_loader: DataLoader,
         val_loader: DataLoader,
         epochs: int,
-    ):
+    ) -> Tuple[list[float], list[float], list[float], list[float]]:
+        """Train the model.
+
+        Args:
+            train_loader (DataLoader): The training data loader.
+            val_loader (DataLoader): The validation data loader.
+            epochs (int): The number of epochs to train for.
+
+        Returns:
+            float: The time taken to train the model in seconds.
+        """
         losses, accuracies = [], []
         val_losses, val_accuracies = [], []
 
-        for epoch in range(1, epochs + 1):
+        for epoch in range(self.epochs_already_trained + 1, epochs + 1):
             train_loss, train_accuracy = self.train_epoch(train_loader, epoch, epochs)
+            self.epochs_already_trained = epochs
 
             if DISTRIBUTED:
                 TorchDistributed.barrier()
@@ -149,6 +202,8 @@ class Trainer:
                     f.write(
                         f"{data['epoch'][i]},{data['train_loss'][i]},{data['train_accuracy'][i]},{data['val_loss'][i]},{data['val_accuracy'][i]}\n"
                     )
+
+        return losses, accuracies, val_losses, val_accuracies
 
     def eval_step(
         self,
@@ -207,8 +262,22 @@ class Trainer:
             )
 
     def save(self, path: str):
-        torch.save(self.model.state_dict(), path)
+        if not MAIN_NODE:
+            return
+
+        torch.save(
+            {
+                "model": self.model.state_dict(),
+                "optimizer": self.optimizer.state_dict(),
+                "lr_scheduler": self.lr_scheduler.state_dict(),
+                "epochs_already_trained": self.epochs_already_trained,
+            },
+            path,
+        )
 
     def load(self, path: str):
-        self.model.load_state_dict(torch.load(path), map_location=self.device)
-        self.model.train()
+        checkpoint = torch.load(path, map_location=self.device)
+        self.model.load_state_dict(checkpoint["model"])
+        self.optimizer.load_state_dict(checkpoint["optimizer"])
+        self.lr_scheduler.load_state_dict(checkpoint["lr_scheduler"])
+        self.epochs_already_trained = checkpoint["epochs_already_trained"]

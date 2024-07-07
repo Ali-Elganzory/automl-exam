@@ -170,3 +170,5 @@ data/*
 
 # Uncomment this for adding a submission
 *.npy
+
+results/*

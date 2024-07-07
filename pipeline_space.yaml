@@ -1,0 +1,49 @@
+epochs:
+  type: int
+  lower: 2
+  upper: 30
+  is_fidelity: true
+
+batch_size:
+  type: int
+  lower: 16
+  upper: 128
+  log: true
+  default: 64
+  default_confidence: medium
+
+optimizer:
+  type: categorical
+  choices: ["adamw", "adam", "sgd", "rmsprop"]
+  default: "adamw"
+  default_confidence: medium
+
+learning_rate:
+  type: float
+  lower: 0.000001
+  upper: 0.1
+  log: true
+  default: 0.001
+  default_confidence: medium
+
+weight_decay:
+  type: float
+  lower: 0.00001
+  upper: 0.1
+  log: true
+  default: 0.01
+  default_confidence: low
+
+scheduler_step_size:
+  type: int
+  lower: 1
+  upper: 10
+  default: 2
+  default_confidence: low
+
+scheduler_gamma:
+  type: float
+  lower: 0.01
+  upper: 0.99
+  default: 0.97
+  default_confidence: low
