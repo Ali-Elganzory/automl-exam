@@ -107,7 +107,7 @@ class AutoML:
 
         train_losses, train_accuracies, val_losses, val_accuracies = self.trainer.train(
             self.dataloaders.train,
-            self.dataloaders.test,
+            self.dataloaders.val,
             epochs=epochs,
         )
 
@@ -129,7 +129,7 @@ class AutoML:
             },
         }
 
-    def fit(self) -> None:
+    def fit(self, budget: int) -> None:
         neps.run(
             lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
                 pipeline_directory=pipeline_directory,
@@ -147,7 +147,7 @@ class AutoML:
             root_directory="./results/" + self.dataset_class.__name__,
             pipeline_space="./pipeline_space.yaml",
             searcher="priorband_bo",
-            max_cost_total=60 * 60 * 12,
+            max_cost_total=budget,
             post_run_summary=True,
             overwrite_working_directory=True,
         )

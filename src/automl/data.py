@@ -14,6 +14,7 @@ from torchvision.transforms.v2 import Compose
 from torchvision.datasets import VisionDataset
 from torch import distributed as TorchDistributed
 from torch.utils.data.sampler import WeightedRandomSampler
+from torch.utils.data import random_split, Subset as TorchSubset
 from torchvision.datasets.utils import download_and_extract_archive, check_integrity
 
 
@@ -87,12 +88,6 @@ class BaseVisionDataset(VisionDataset):
 
         self._labels = data["label"].tolist()
         self._image_files = data["image_file_name"].tolist()
-
-        labels = torch.tensor(self._labels)
-        classes = torch.unique(labels)
-        self.weights = torch.ones_like(labels, dtype=torch.float32)
-        for c in classes:
-            self.weights[labels == c] /= len(labels[labels == c])
 
     def _check_integrity(self):
         train_images_folder = self._base_folder / "images_train"
@@ -225,6 +220,38 @@ class Dataset(Enum):
         }[self]
 
 
+class Subset:
+    def __init__(self, torch_subset: TorchSubset) -> None:
+        self.torch_subset = torch_subset
+
+    @property
+    def dataset(self) -> BaseVisionDataset:
+        return self.torch_subset.dataset
+
+    @property
+    def indices(self):
+        return self.torch_subset.indices
+
+    @property
+    def weights(self):
+        labels = torch.tensor(self.dataset._labels)
+        labels = labels[self.indices]
+        classes = torch.unique(labels)
+        weights = torch.ones_like(labels, dtype=torch.float32)
+        for c in classes:
+            weights[labels == c] /= len(labels[labels == c])
+        return weights
+
+    def __getitem__(self, idx):
+        return self.torch_subset.__getitem__(idx)
+
+    def __getitems__(self, indices: list[int]) -> list:
+        return self.torch_subset.__getitems__(indices)
+
+    def __len__(self):
+        return len(self.indices)
+
+
 class DataLoaders:
     def __init__(
         self,
@@ -235,7 +262,7 @@ class DataLoaders:
         target_transform: Optional[Callable] = None,
         dataset_class: Type[BaseVisionDataset] = None,
     ):
-        train_dataset = dataset_class(
+        self.full_train_dataset = dataset_class(
             root="./data",
             split="train",
             transform=(
@@ -244,6 +271,19 @@ class DataLoaders:
             target_transform=target_transform,
             download=True,
         )
+
+        val_split = 0.2
+        train_size = int((1 - val_split) * len(self.full_train_dataset))
+        val_size = len(self.full_train_dataset) - train_size
+
+        train_dataset, val_dataset = random_split(
+            self.full_train_dataset, [train_size, val_size]
+        )
+        train_dataset, val_dataset = Subset(train_dataset), Subset(val_dataset)
+
+        if transform and not augmentations:
+            val_dataset.dataset.transform = transform
+
         sampler = WeightedRandomSampler(
             weights=train_dataset.weights,
             num_samples=len(train_dataset),
@@ -252,6 +292,12 @@ class DataLoaders:
         self.train = DataLoader(
             train_dataset,
             sampler=sampler,
+            batch_size=batch_size,
+            num_workers=num_workers,
+        )
+        self.val = DataLoader(
+            val_dataset,
+            shuffle=False,
             batch_size=batch_size,
             num_workers=num_workers,
         )

@@ -38,6 +38,12 @@ def auto(
             help="The dataset to run on.",
         ),
     ],
+    budget: Annotated[
+        int,
+        Option(
+            help="The budget of the pipeline in seconds.",
+        ),
+    ] = 300,
     output_path: Annotated[
         Path,
         Option(
@@ -68,7 +74,7 @@ def auto(
         dataset.factory,
         seed=seed,
     )
-    automl.fit()
+    automl.fit(budget=budget)
     # _, accuracy, test_preds = automl.predict()
 
     # # Write the predictions of X_test to disk
