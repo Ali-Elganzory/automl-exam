@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import Tuple, Type
 
 import tqdm
@@ -9,22 +10,73 @@ from torch import distributed as TorchDistributed
 from automl.utils import log as print, MAIN_NODE, RANK, DISTRIBUTED, log_prefix
 
 
+class Optimizer(Enum):
+    adamw = "adamw"
+    adam = "adam"
+    sgd = "sgd"
+    rmsprop = "rmsprop"
+
+    @property
+    def factory(self):
+        return OPTIMIZERS[self]
+
+
+OPTIMIZERS = {
+    Optimizer.adamw: optim.AdamW,
+    Optimizer.adam: optim.Adam,
+    Optimizer.sgd: optim.SGD,
+    Optimizer.rmsprop: optim.RMSprop,
+}
+
+
+class LR_Scheduler(Enum):
+    step = "step"
+    multi_step = "multi_step"
+    exponential = "exponential"
+
+    @property
+    def factory(self):
+        return LR_SCHEDULERS[self]
+
+
+LR_SCHEDULERS = {
+    LR_Scheduler.step: optim.lr_scheduler.StepLR,
+    LR_Scheduler.multi_step: optim.lr_scheduler.MultiStepLR,
+    LR_Scheduler.exponential: optim.lr_scheduler.ExponentialLR,
+}
+
+
+class LossFn(Enum):
+    cross_entropy = "cross_entropy"
+
+    @property
+    def factory(self):
+        return LOSS_FNS[self]
+
+
+LOSS_FNS = {
+    LossFn.cross_entropy: nn.CrossEntropyLoss,
+}
+
+
 class Trainer:
     def __init__(
         self,
         model: nn.Module,
-        optimizer: optim.Optimizer | Type[optim.Optimizer] | str = "adamw",
+        optimizer: (
+            optim.Optimizer | Type[optim.Optimizer] | Optimizer
+        ) = Optimizer.adamw,
         lr: float = 1e-3,
         weight_decay: float = 1e-2,
         lr_scheduler: (
             optim.lr_scheduler._LRScheduler
             | Type[optim.lr_scheduler._LRScheduler]
-            | str
-        ) = "step",
+            | LR_Scheduler
+        ) = LR_Scheduler.step,
         scheduler_step_size: int = 1000,
         scheduler_gamma: float = 0.1,
         scheduler_step_every_epoch: bool = False,
-        loss_fn: nn.Module = None,
+        loss_fn: nn.Module | Type[nn.Module] | LossFn = LossFn.cross_entropy,
         device: torch.device = None,
         output_device: torch.device = None,
         results_file: str = None,
@@ -48,14 +100,8 @@ class Trainer:
         self.model.train()
 
         if not isinstance(self.optimizer, optim.Optimizer):
-            optimizer_factories = {
-                "adamw": optim.AdamW,
-                "adam": optim.Adam,
-                "sgd": optim.SGD,
-                "rmsprop": optim.RMSprop,
-            }
-            if isinstance(self.optimizer, str):
-                self.optimizer = optimizer_factories[self.optimizer.lower()]
+            if isinstance(self.optimizer, Optimizer):
+                self.optimizer = self.optimizer.factory
             self.optimizer = self.optimizer(
                 self.model.parameters(),
                 lr=self.lr,
@@ -63,22 +109,17 @@ class Trainer:
             )
 
         if not isinstance(self.lr_scheduler, optim.lr_scheduler._LRScheduler):
-            scheduler_factories = {
-                "step": optim.lr_scheduler.StepLR,
-                "multi_step": optim.lr_scheduler.MultiStepLR,
-                "exponential": optim.lr_scheduler.ExponentialLR,
-                "cosine": optim.lr_scheduler.CosineAnnealingLR,
-            }
-            if isinstance(self.lr_scheduler, str):
-                self.lr_scheduler = scheduler_factories[self.lr_scheduler.lower()]
+            if isinstance(self.lr_scheduler, LR_Scheduler):
+                self.lr_scheduler = self.lr_scheduler.factory
             self.lr_scheduler = self.lr_scheduler(
                 self.optimizer,
                 step_size=self.scheduler_step_size,
                 gamma=self.scheduler_gamma,
             )
 
-        if self.loss_fn is None:
-            self.loss_fn = nn.CrossEntropyLoss()
+        if not isinstance(self.loss_fn, nn.Module):
+            if isinstance(self.loss_fn, LossFn):
+                self.loss_fn = self.loss_fn.factory()
 
     @property
     def pb_desc_template(self):

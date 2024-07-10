@@ -16,13 +16,21 @@ from typer import Typer, Option
 
 from automl.data import Dataset
 from automl.automl import AutoML
+from automl.trainer import (
+    Trainer,
+    Optimizer,
+    LR_Scheduler,
+    LossFn,
+)
 from automl.utils import set_log_level, Level, log as print
 
 
 app = Typer()
 
 
-@app.command()
+@app.command(
+    help="Run the AutoML pipeline on a dataset.",
+)
 def auto(
     dataset: Annotated[
         Dataset,
@@ -90,6 +98,137 @@ def auto(
     # else:
     #     # This is the setting for the exam dataset, you will not have access to the labels
     #     print(f"No test split for dataset '{dataset}'")
+
+
+@app.command(
+    help="Train a model on a dataset.",
+)
+def train(
+    dataset: Annotated[
+        Dataset,
+        Option(
+            help="The dataset to train on.",
+        ),
+    ],
+    epochs: Annotated[
+        int,
+        Option(
+            help="The number of epochs to train for.",
+        ),
+    ] = 3,
+    batch_size: Annotated[
+        int,
+        Option(
+            help="The batch size.",
+        ),
+    ] = 64,
+    optimizer: Annotated[
+        Optimizer,
+        Option(
+            help="The optimizer to use.",
+        ),
+    ] = Optimizer.adamw.value,
+    lr: Annotated[
+        float,
+        Option(
+            help="The learning rate.",
+        ),
+    ] = 1e-3,
+    weight_decay: Annotated[
+        float,
+        Option(
+            help="The weight decay.",
+        ),
+    ] = 1e-2,
+    lr_scheduler: Annotated[
+        LR_Scheduler,
+        Option(
+            help="The learning rate scheduler.",
+        ),
+    ] = LR_Scheduler.step.value,
+    scheduler_step_size: Annotated[
+        int,
+        Option(
+            help="The scheduler step size.",
+        ),
+    ] = 1000,
+    scheduler_gamma: Annotated[
+        float,
+        Option(
+            help="The scheduler gamma.",
+        ),
+    ] = 0.1,
+    scheduler_step_every_epoch: Annotated[
+        bool,
+        Option(
+            help="Whether to step the scheduler every epoch.",
+        ),
+    ] = False,
+    loss_fn: Annotated[
+        LossFn,
+        Option(
+            help="The loss function.",
+        ),
+    ] = LossFn.cross_entropy.value,
+    device: Annotated[
+        str,
+        Option(
+            help="The device to use.",
+        ),
+    ] = "cuda:0",
+    output_device: Annotated[
+        str,
+        Option(
+            help="The output device to use.",
+        ),
+    ] = "cuda:0",
+    seed: Annotated[
+        int,
+        Option(
+            help="Random seed for reproducibility.",
+        ),
+    ] = 42,
+    quiet: Annotated[
+        bool,
+        Option(
+            help="Whether to log only warnings and errors.",
+        ),
+    ] = False,
+):
+    if not quiet:
+        set_log_level(Level.INFO)
+    else:
+        set_log_level(Level.WARNING)
+
+    print(f"Training on dataset {dataset.name}")
+
+    automl = AutoML(
+        dataset.factory,
+        seed=seed,
+    )
+
+    pipeline_directory = Path(f"results/{dataset.name}_Train")
+    if not pipeline_directory.exists():
+        pipeline_directory.mkdir(parents=True)
+
+    results = automl.run_pipeline(
+        pipeline_directory=pipeline_directory,
+        epochs=epochs,
+        batch_size=batch_size,
+        optimizer=optimizer,
+        lr=lr,
+        weight_decay=weight_decay,
+        lr_scheduler=lr_scheduler,
+        scheduler_step_size=scheduler_step_size,
+        scheduler_gamma=scheduler_gamma,
+        schedular_step_every_epoch=scheduler_step_every_epoch,
+        loss_fn=loss_fn,
+        device=device,
+        output_device=output_device,
+        results_file=pipeline_directory / "results.csv",
+    )
+
+    print(f"Results: {results}")
 
 
 if __name__ == "__main__":

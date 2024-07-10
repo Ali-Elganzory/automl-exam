@@ -15,7 +15,7 @@ from torch import nn
 from torchvision.transforms.v2 import RandomChoice, AugMix, TrivialAugmentWide
 
 from automl.model import ResNet50
-from automl.trainer import Trainer
+from automl.trainer import Trainer, Optimizer, LR_Scheduler, LossFn
 
 from automl.utils import log as print
 from automl.data import DataLoaders, BaseVisionDataset
@@ -52,16 +52,29 @@ class AutoML:
 
     def run_pipeline(
         self,
-        pipeline_directory: Path,
-        previous_pipeline_directory: Path,
         epochs: int,
         batch_size: int,
-        optimizer: str,
-        learning_rate: float,
+        optimizer: str | Optimizer,
+        lr: float,
         weight_decay: float,
+        lr_scheduler: str | LR_Scheduler,
         scheduler_step_size: int,
         scheduler_gamma: float,
+        schedular_step_every_epoch: bool,
+        loss_fn: str | LossFn,
+        device: str | None = None,
+        output_device: str | None = None,
+        pipeline_directory: Path | None = None,
+        previous_pipeline_directory: Path | None = None,
+        results_file: str | None = None,
     ) -> None:
+        if isinstance(optimizer, str):
+            optimizer = Optimizer(optimizer)
+        if isinstance(lr_scheduler, str):
+            lr_scheduler = LR_Scheduler(lr_scheduler)
+        if isinstance(loss_fn, str):
+            loss_fn = LossFn(loss_fn)
+
         start = time()
 
         self.dataloaders = DataLoaders(
@@ -74,21 +87,20 @@ class AutoML:
 
         self.trainer = Trainer(
             model=ResNet50(self.dataset_class.num_classes),
-            device=torch.device("cuda:0"),
+            device=torch.device(device) if device else None,
+            output_device=torch.device(output_device) if output_device else None,
             optimizer=optimizer,
-            lr=learning_rate,
+            lr=lr,
             weight_decay=weight_decay,
-            lr_scheduler="step",
+            lr_scheduler=lr_scheduler,
             scheduler_step_size=scheduler_step_size,
             scheduler_gamma=scheduler_gamma,
-            loss_fn=nn.CrossEntropyLoss(),
-            scheduler_step_every_epoch=True,
+            scheduler_step_every_epoch=schedular_step_every_epoch,
+            loss_fn=loss_fn,
+            results_file=results_file,
         )
 
-        if (
-            previous_pipeline_directory
-            and previous_pipeline_directory / "checkpoint.pth"
-        ):
+        if previous_pipeline_directory and previous_pipeline_directory.exists():
             self.trainer.load(previous_pipeline_directory / "checkpoint.pth")
 
         start_epoch = self.trainer.epochs_already_trained
@@ -99,7 +111,9 @@ class AutoML:
             epochs=epochs,
         )
 
-        self.trainer.save(pipeline_directory / "checkpoint.pth")
+        if pipeline_directory and pipeline_directory.exists():
+            self.trainer.save(pipeline_directory / "checkpoint.pth")
+
         end = time()
 
         return {
@@ -120,7 +134,15 @@ class AutoML:
             lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
                 pipeline_directory=pipeline_directory,
                 previous_pipeline_directory=previous_pipeline_directory,
-                **kwargs,
+                **{
+                    **kwargs,
+                    "lr_scheduler": LR_Scheduler.step,
+                    "scheduler_step_every_epoch": False,
+                    "loss_fn": LossFn.cross_entropy,
+                    "device": "cuda:0",
+                    "output_device": "cuda:0",
+                    "results_file": None,
+                },
             ),
             root_directory="./results/" + self.dataset_class.__name__,
             pipeline_space="./pipeline_space.yaml",

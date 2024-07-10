@@ -6,12 +6,14 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional, Tuple, Union, Type
 
+import torch
 import PIL.Image
 import pandas as pd
 from torch.utils.data import DataLoader
 from torchvision.transforms.v2 import Compose
 from torchvision.datasets import VisionDataset
 from torch import distributed as TorchDistributed
+from torch.utils.data.sampler import WeightedRandomSampler
 from torchvision.datasets.utils import download_and_extract_archive, check_integrity
 
 
@@ -82,16 +84,15 @@ class BaseVisionDataset(VisionDataset):
                 * len(self.data)
                 // world_size
             ]
-            self.targets = self.targets[
-                rank
-                * len(self.targets)
-                // world_size : (rank + 1)
-                * len(self.targets)
-                // world_size
-            ]
 
         self._labels = data["label"].tolist()
         self._image_files = data["image_file_name"].tolist()
+
+        labels = torch.tensor(self._labels)
+        classes = torch.unique(labels)
+        self.weights = torch.ones_like(labels, dtype=torch.float32)
+        for c in classes:
+            self.weights[labels == c] /= len(labels[labels == c])
 
     def _check_integrity(self):
         train_images_folder = self._base_folder / "images_train"
@@ -234,17 +235,23 @@ class DataLoaders:
         target_transform: Optional[Callable] = None,
         dataset_class: Type[BaseVisionDataset] = None,
     ):
-        self.train = DataLoader(
-            dataset_class(
-                root="./data",
-                split="train",
-                transform=(
-                    Compose([augmentations, transform]) if augmentations else transform
-                ),
-                target_transform=target_transform,
-                download=True,
+        train_dataset = dataset_class(
+            root="./data",
+            split="train",
+            transform=(
+                Compose([augmentations, transform]) if augmentations else transform
             ),
-            shuffle=True,
+            target_transform=target_transform,
+            download=True,
+        )
+        sampler = WeightedRandomSampler(
+            weights=train_dataset.weights,
+            num_samples=len(train_dataset),
+            replacement=True,
+        )
+        self.train = DataLoader(
+            train_dataset,
+            sampler=sampler,
             batch_size=batch_size,
             num_workers=num_workers,
         )
