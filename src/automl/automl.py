@@ -50,6 +50,31 @@ class AutoML:
     def model(self) -> nn.Module:
         return self.trainer.model
 
+    def _generate_plots(self, train_losses, train_accuracies, val_losses, val_accuracies):
+        epochs = range(1, len(train_losses) + 1)
+        
+        plt.figure(figsize=(12, 4))
+        
+        plt.subplot(1, 2, 1)
+        plt.plot(epochs, train_losses, label='Training loss')
+        plt.plot(epochs, val_losses, label='Validation loss')
+        plt.title('Training and Validation Loss')
+        plt.xlabel('Epochs')
+        plt.ylabel('Loss')
+        plt.legend()
+        
+        plt.subplot(1, 2, 2)
+        plt.plot(epochs, train_accuracies, label='Training accuracy')
+        plt.plot(epochs, val_accuracies, label='Validation accuracy')
+        plt.title('Training and Validation Accuracy')
+        plt.xlabel('Epochs')
+        plt.ylabel('Accuracy')
+        plt.legend()
+        
+        plt.tight_layout()
+        plt.savefig('training_validation_plots.png')
+        plt.show()
+        
     def run_pipeline(
         self,
         epochs: int,
@@ -116,6 +141,8 @@ class AutoML:
 
         end = time()
 
+        self._generate_plots(train_losses, train_accuracies, val_losses, val_accuracies)
+        
         return {
             "loss": val_losses[-1],
             "cost": end - start,
