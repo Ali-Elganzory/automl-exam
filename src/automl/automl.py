@@ -49,31 +49,6 @@ class AutoML:
     @property
     def model(self) -> nn.Module:
         return self.trainer.model
-
-    def _generate_plots(self, train_losses, train_accuracies, val_losses, val_accuracies):
-        epochs = range(1, len(train_losses) + 1)
-        
-        plt.figure(figsize=(12, 4))
-        
-        plt.subplot(1, 2, 1)
-        plt.plot(epochs, train_losses, label='Training loss')
-        plt.plot(epochs, val_losses, label='Validation loss')
-        plt.title('Training and Validation Loss')
-        plt.xlabel('Epochs')
-        plt.ylabel('Loss')
-        plt.legend()
-        
-        plt.subplot(1, 2, 2)
-        plt.plot(epochs, train_accuracies, label='Training accuracy')
-        plt.plot(epochs, val_accuracies, label='Validation accuracy')
-        plt.title('Training and Validation Accuracy')
-        plt.xlabel('Epochs')
-        plt.ylabel('Accuracy')
-        plt.legend()
-        
-        plt.tight_layout()
-        plt.savefig('training_validation_plots.png')
-        plt.show()
         
     def run_pipeline(
         self,
@@ -92,7 +67,11 @@ class AutoML:
         pipeline_directory: Path | None = None,
         previous_pipeline_directory: Path | None = None,
         results_file: str | None = None,
+        all_run_performances: list = None,
     ) -> None:
+        if all_run_performances is None:
+            all_run_performances = []
+            
         if isinstance(optimizer, str):
             optimizer = Optimizer(optimizer)
         if isinstance(lr_scheduler, str):
@@ -141,7 +120,8 @@ class AutoML:
 
         end = time()
 
-        self._generate_plots(train_losses, train_accuracies, val_losses, val_accuracies)
+        val_loss, val_accuracy, _ = self.trainer.eval(self.dataloaders.val)
+        all_run_performances.append(val_accuracy)
         
         return {
             "loss": val_losses[-1],
@@ -154,30 +134,35 @@ class AutoML:
                 "train_time": end - start,
                 "cost": epochs - start_epoch,
             },
+            "all_run_performances": all_run_performances
         }
 
-    def fit(self, budget: int) -> None:
-        neps.run(
-            lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
-                pipeline_directory=pipeline_directory,
-                previous_pipeline_directory=previous_pipeline_directory,
-                **{
-                    **kwargs,
-                    "lr_scheduler": LR_Scheduler.step,
-                    "scheduler_step_every_epoch": False,
-                    "loss_fn": LossFn.cross_entropy,
-                    "device": "cuda:0",
-                    "output_device": "cuda:0",
-                    "results_file": None,
-                },
-            ),
-            root_directory="./results/" + self.dataset_class.__name__,
-            pipeline_space="./pipeline_space.yaml",
-            searcher="priorband_bo",
-            max_cost_total=budget,
-            post_run_summary=True,
-            overwrite_working_directory=True,
-        )
+    def fit(self, budget: int, num_runs: int = 5) -> None:
+        all_run_performances = []
+        for _ in range(num_runs):
+            neps.run(
+                lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
+                    pipeline_directory=pipeline_directory,
+                    previous_pipeline_directory=previous_pipeline_directory,
+                    **{
+                        **kwargs,
+                        "lr_scheduler": LR_Scheduler.step,
+                        "scheduler_step_every_epoch": False,
+                        "loss_fn": LossFn.cross_entropy,
+                        "device": "cuda:0",
+                        "output_device": "cuda:0",
+                        "results_file": None,
+                    },
+                ),
+                root_directory="./results/" + self.dataset_class.__name__,
+                pipeline_space="./pipeline_space.yaml",
+                searcher="priorband_bo",
+                max_cost_total=budget,
+                post_run_summary=True,
+                overwrite_working_directory=True,
+            )
+            
+            self._generate_plots(all_run_performances)
 
     def predict(self) -> Tuple[float, float, np.ndarray]:
         loss, accuracy, preds = self.trainer.eval(
@@ -189,3 +174,25 @@ class AutoML:
         df = pd.DataFrame(predictions, columns=["Prediction"])
         df.to_csv(output_file, index=False)
         return loss, accuracy, predictions
+        
+def _generate_plots(self, all_run_performances):
+        num_iterations = len(all_run_performances[0])
+        iterations = range(1, num_iterations + 1)
+
+        all_run_performances = np.array(all_run_performances)
+
+        mean_performance = np.mean(all_run_performances, axis=0)
+        std_performance = np.std(all_run_performances, axis=0)
+
+        plt.figure(figsize=(10, 6))
+        for run in all_run_performances:
+            plt.plot(iterations, run, alpha=0.3)
+        plt.plot(iterations, mean_performance, label='Mean Incumbent Performance')
+        plt.fill_between(iterations, mean_performance - std_performance, mean_performance + std_performance, alpha=0.2)
+        plt.title('Incumbent Performance Over Time')
+        plt.xlabel('Iterations')
+        plt.ylabel('Performance')
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig('incumbent_performance_over_time.png')
+        plt.show()
