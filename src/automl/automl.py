@@ -157,8 +157,4 @@ class AutoML:
             self.dataloaders.test,
             return_predictions=True,
         )
-        predictions = preds.cpu().numpy()
-        
-        df = pd.DataFrame(predictions, columns=["Prediction"])
-        df.to_csv(output_file, index=False)
-        return loss, accuracy, predictions
+        return loss, accuracy, preds.cpu().numpy()
