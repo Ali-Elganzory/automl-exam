@@ -17,7 +17,6 @@ from typer import Typer, Option
 from automl.data import Dataset
 from automl.automl import AutoML
 from automl.trainer import (
-    Trainer,
     Optimizer,
     LR_Scheduler,
     LossFn,
@@ -68,42 +67,35 @@ def auto(
     else:
         set_log_level(Level.WARNING)
 
+    # AutoML pipeline
     print(f"Fitting dataset {dataset.name}")
-
     automl = AutoML(
         dataset.factory,
         seed=seed,
     )
-    automl.fit(budget=budget)
-    # _, accuracy, test_preds = automl.predict()
+    best_config = automl.fit(budget=budget)
+    print(f"Best configuration: {best_config}")
 
-    # # Write the predictions of X_test to disk
-    # # This will be used by github classrooms to get a performance
-    # # on the test set.
-    # print("Writing predictions to disk")
-    # with output_path.open("wb") as f:
-    #     np.save(f, test_preds)
+    # Train a model with the best configuration, and save it
+    train(
+        dataset=dataset,
+        seed=seed,
+        epochs=3,
+        **(best_config.pop("epochs") and best_config),
+    )
 
-    # In case of running on the test data, also add the predictions.npy
-    # to the correct location for autoevaluation.
+    # Predict on the test set
     if dataset == "skin_cancer":
+        test_preds = automl.predict()
         test_output_path = Path("data/exam_dataset/predictions.npy")
         test_output_path.parent.mkdir(parents=True, exist_ok=True)
         with test_output_path.open("wb") as f:
             np.save(f, test_preds)
 
-    # check if test_labels has missing data
-    if True:
-        print(f"Accuracy on test set: {accuracy:.4f}")
     else:
-        # This is the setting for the exam dataset, you will not have access to the labels
-        print(f"No test split for dataset '{dataset}'")
-    # # check if test_labels has missing data
-    # if True:
-    #     print(f"Accuracy on test set: {accuracy:.4f}")
-    # else:
-    #     # This is the setting for the exam dataset, you will not have access to the labels
-    #     print(f"No test split for dataset '{dataset}'")
+        loss, accuracy = automl.evaluate()
+        print(f"Test Loss: {loss}")
+        print(f"Test Accuracy: {accuracy}")
 
 
 @app.command(
@@ -134,7 +126,7 @@ def train(
             help="The optimizer to use.",
         ),
     ] = Optimizer.adamw.value,
-    lr: Annotated[
+    learning_rate: Annotated[
         float,
         Option(
             help="The learning rate.",
@@ -157,7 +149,7 @@ def train(
         Option(
             help="The scheduler step size.",
         ),
-    ] = 1000,
+    ] = 1,
     scheduler_gamma: Annotated[
         float,
         Option(
@@ -169,7 +161,7 @@ def train(
         Option(
             help="Whether to step the scheduler every epoch.",
         ),
-    ] = False,
+    ] = True,
     loss_fn: Annotated[
         LossFn,
         Option(
@@ -213,7 +205,8 @@ def train(
         seed=seed,
     )
 
-    pipeline_directory = Path(f"results/{dataset.name}_Train")
+    pipeline_directory = Path(f"./results/{dataset.factory.__name__}_Train")
+
     if not pipeline_directory.exists():
         pipeline_directory.mkdir(parents=True)
 
@@ -222,7 +215,7 @@ def train(
         epochs=epochs,
         batch_size=batch_size,
         optimizer=optimizer,
-        lr=lr,
+        lr=learning_rate,
         weight_decay=weight_decay,
         lr_scheduler=lr_scheduler,
         scheduler_step_size=scheduler_step_size,
@@ -233,6 +226,8 @@ def train(
         output_device=output_device,
         results_file=pipeline_directory / "results.csv",
     )
+
+    automl.trainer.save_model(pipeline_directory / "model.pth")
 
     print(f"Results: {results}")
 

@@ -5,7 +5,7 @@ AutoML class for vision classification tasks.
 from __future__ import annotations
 from time import time
 from pathlib import Path
-from typing import Tuple, Type
+from typing import Tuple, Type, Dict, Union
 
 import neps
 import torch
@@ -129,32 +129,44 @@ class AutoML:
             },
         }
 
-    def fit(self, budget: int) -> None:
-        neps.run(
-            lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
-                pipeline_directory=pipeline_directory,
-                previous_pipeline_directory=previous_pipeline_directory,
-                **{
-                    **kwargs,
-                    "lr_scheduler": LR_Scheduler.step,
-                    "scheduler_step_every_epoch": False,
-                    "loss_fn": LossFn.cross_entropy,
-                    "device": "cuda:0",
-                    "output_device": "cuda:0",
-                    "results_file": None,
-                },
-            ),
-            root_directory="./results/" + self.dataset_class.__name__,
-            pipeline_space="./pipeline_space.yaml",
-            searcher="priorband_bo",
-            max_cost_total=budget,
-            post_run_summary=True,
-            overwrite_working_directory=True,
-        )
+    def fit(self, budget: int) -> Dict[str, Union[float, str]]:
+        """
+        Run the AutoML pipeline, optimizing for the given budget.
 
-    def predict(self) -> Tuple[float, float, np.ndarray]:
-        loss, accuracy, preds = self.trainer.eval(
-            self.dataloaders.test,
-            return_predictions=True,
-        )
-        return loss, accuracy, preds.cpu().numpy()
+        Args:
+            budget: The maximum time to spend on the optimization.
+
+        Returns:
+            A dictionary containing the best configuration found by the optimizer.
+        """
+        root_directory = "./results/" + self.dataset_class.__name__
+
+        # neps.run(
+        #     lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
+        #         pipeline_directory=pipeline_directory,
+        #         previous_pipeline_directory=previous_pipeline_directory,
+        #         **{
+        #             **kwargs,
+        #             "lr_scheduler": LR_Scheduler.step,
+        #             "scheduler_step_every_epoch": False,
+        #             "loss_fn": LossFn.cross_entropy,
+        #             "device": "cuda:0",
+        #             "output_device": "cuda:0",
+        #             "results_file": None,
+        #         },
+        #     ),
+        #     root_directory=root_directory,
+        #     pipeline_space="./pipeline_space.yaml",
+        #     searcher="priorband_bo",
+        #     max_cost_total=budget,
+        #     post_run_summary=True,
+        #     overwrite_working_directory=True,
+        # )
+
+        return neps.get_summary_dict(root_directory)["best_config"]
+
+    def evaluate(self) -> Tuple[float, float]:
+        return self.trainer.eval(self.dataloaders.test)
+
+    def predict(self) -> np.ndarray:
+        return self.trainer.predict(self.dataloaders.test).cpu().numpy()

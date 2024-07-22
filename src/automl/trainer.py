@@ -191,7 +191,7 @@ class Trainer:
             if DISTRIBUTED:
                 TorchDistributed.barrier()
 
-            val_loss, val_accuracy, _ = self.eval(val_loader, epoch, epochs)
+            val_loss, val_accuracy = self.eval(val_loader, epoch, epochs)
 
             if DISTRIBUTED:
                 TorchDistributed.barrier()
@@ -265,16 +265,12 @@ class Trainer:
         data_loader: DataLoader,
         epoch: int = None,
         epochs: int = None,
-        return_predictions: bool = False,
-    ) -> Tuple[float, float, torch.Tensor | None]:
+    ) -> Tuple[float, float]:
         with torch.no_grad():
             self.model.eval()
 
             cumulative_loss = 0.0
             cumulative_accuracy = 0.0
-
-            if return_predictions:
-                all_predictions = torch.tensor([], device=self.device)
 
             for data, target in tqdm.tqdm(
                 data_loader,
@@ -285,22 +281,25 @@ class Trainer:
                 ),
                 position=RANK,
             ):
-                loss, accuracy, predictions = self.eval_step(
-                    data, target, return_predictions
-                )
+                loss, accuracy, predictions = self.eval_step(data, target)
                 cumulative_loss += loss
                 cumulative_accuracy += accuracy
-
-                if return_predictions:
-                    all_predictions = torch.cat([all_predictions, predictions])
 
             self.model.train()
 
             return (
                 cumulative_loss / len(data_loader),
                 cumulative_accuracy / len(data_loader),
-                predictions if return_predictions else None,
             )
+
+    @torch.inference_mode()
+    def predict(self, data_loader: DataLoader) -> torch.Tensor:
+        predictions = []
+        for data, _ in tqdm.tqdm(data_loader, desc="Predict", position=RANK):
+            data = data.to(self.device)
+            output = self.model(data)
+            predictions.append(output.argmax(dim=1))
+        return torch.cat(predictions)
 
     def save(self, path: str):
         if not MAIN_NODE:
@@ -322,3 +321,14 @@ class Trainer:
         self.optimizer.load_state_dict(checkpoint["optimizer"])
         self.lr_scheduler.load_state_dict(checkpoint["lr_scheduler"])
         self.epochs_already_trained = checkpoint["epochs_already_trained"]
+
+    def save_model(self, path: str):
+        if not MAIN_NODE:
+            return
+
+        torch.save(self.model.state_dict(), path)
+
+    def load_model(self, path: str):
+        self.model.load_state_dict(torch.load(path, map_location=self.device))
+        self.model.to(self.device)
+        self.model.train()

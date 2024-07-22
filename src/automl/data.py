@@ -210,6 +210,7 @@ class Dataset(Enum):
     FASHION = "fashion"
     FLOWERS = "flowers"
     EMOTIONS = "emotions"
+    SKIN_CANCER = "skin_cancer"
 
     @property
     def factory(self) -> Type[BaseVisionDataset]:
@@ -217,6 +218,7 @@ class Dataset(Enum):
             Dataset.FASHION: FashionDataset,
             Dataset.FLOWERS: FlowersDataset,
             Dataset.EMOTIONS: EmotionsDataset,
+            Dataset.SKIN_CANCER: SkinCancerDataset,
         }[self]
 
 
