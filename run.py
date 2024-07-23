@@ -14,14 +14,14 @@ from typing import Annotated
 import numpy as np
 from typer import Typer, Option
 
-from automl.data import Dataset
+from automl.dataset import Dataset
 from automl.automl import AutoML
 from automl.trainer import (
     Optimizer,
     LR_Scheduler,
     LossFn,
 )
-from automl.utils import set_log_level, Level, log as print
+from automl.logging import set_log_level, LogLevel
 
 
 app = Typer()
@@ -63,28 +63,20 @@ def auto(
     ] = False,
 ):
     if not quiet:
-        set_log_level(Level.INFO)
+        set_log_level(LogLevel.INFO)
     else:
-        set_log_level(Level.WARNING)
+        set_log_level(LogLevel.WARNING)
 
-    # AutoML pipeline
-    print(f"Fitting dataset {dataset.name}")
+    # Create AutoML pipeline
     automl = AutoML(
         dataset.factory,
         seed=seed,
     )
-    best_config = automl.fit(budget=budget)
-    print(f"Best configuration: {best_config}")
 
-    # Train a model with the best configuration, and save it
-    train(
-        dataset=dataset,
-        seed=seed,
-        epochs=3,
-        **(best_config.pop("epochs") and best_config),
-    )
-
-    # Predict on the test set
+    # Run the pipeline
+    automl.fit(budget=budget)
+    
+    # Predict on the test set, if it doesn't have labels (skin_cancer dataset)
     if dataset == "skin_cancer":
         test_preds = automl.predict()
         test_output_path = Path("data/exam_dataset/predictions.npy")
@@ -92,6 +84,7 @@ def auto(
         with test_output_path.open("wb") as f:
             np.save(f, test_preds)
 
+    # Else, evaluate the model on the test set
     else:
         loss, accuracy = automl.evaluate()
         print(f"Test Loss: {loss}")
@@ -149,37 +142,25 @@ def train(
         Option(
             help="The scheduler step size.",
         ),
-    ] = 1,
+    ] = 1000,
+    scheduler_step_every_epoch: Annotated[
+        bool,
+        Option(
+            help="Whether to step the scheduler every epoch.",
+        ),
+    ] = False,
     scheduler_gamma: Annotated[
         float,
         Option(
             help="The scheduler gamma.",
         ),
     ] = 0.1,
-    scheduler_step_every_epoch: Annotated[
-        bool,
-        Option(
-            help="Whether to step the scheduler every epoch.",
-        ),
-    ] = True,
     loss_fn: Annotated[
         LossFn,
         Option(
             help="The loss function.",
         ),
     ] = LossFn.cross_entropy.value,
-    device: Annotated[
-        str,
-        Option(
-            help="The device to use.",
-        ),
-    ] = "cuda:0",
-    output_device: Annotated[
-        str,
-        Option(
-            help="The output device to use.",
-        ),
-    ] = "cuda:0",
     seed: Annotated[
         int,
         Option(
@@ -194,9 +175,9 @@ def train(
     ] = False,
 ):
     if not quiet:
-        set_log_level(Level.INFO)
+        set_log_level(LogLevel.INFO)
     else:
-        set_log_level(Level.WARNING)
+        set_log_level(LogLevel.WARNING)
 
     print(f"Training on dataset {dataset.name}")
 
@@ -222,8 +203,6 @@ def train(
         scheduler_gamma=scheduler_gamma,
         schedular_step_every_epoch=scheduler_step_every_epoch,
         loss_fn=loss_fn,
-        device=device,
-        output_device=output_device,
         results_file=pipeline_directory / "results.csv",
     )
 

@@ -11,14 +11,12 @@ import neps
 import torch
 import random
 import numpy as np
-from torch import nn
 from torchvision.transforms.v2 import RandomChoice, AugMix, TrivialAugmentWide
 
-from automl.model import ResNet50
+from automl.model import Models, Model
+from automl.dataset import DataLoaders, BaseVisionDataset
 from automl.trainer import Trainer, Optimizer, LR_Scheduler, LossFn
 
-from automl.utils import log as print
-from automl.data import DataLoaders, BaseVisionDataset
 
 
 class AutoML:
@@ -46,10 +44,6 @@ class AutoML:
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
 
-    @property
-    def model(self) -> nn.Module:
-        return self.trainer.model
-
     def run_pipeline(
         self,
         epochs: int,
@@ -62,8 +56,6 @@ class AutoML:
         scheduler_gamma: float,
         schedular_step_every_epoch: bool,
         loss_fn: str | LossFn,
-        device: str | None = None,
-        output_device: str | None = None,
         pipeline_directory: Path | None = None,
         previous_pipeline_directory: Path | None = None,
         results_file: str | None = None,
@@ -75,20 +67,23 @@ class AutoML:
         if isinstance(loss_fn, str):
             loss_fn = LossFn(loss_fn)
 
+        # Default model
+        model = Models.ConvNet.factory(self.dataset_class.num_classes)
+
         start = time()
 
+        # Dataset
         self.dataloaders = DataLoaders(
             batch_size=batch_size,
             num_workers=8,
             augmentations=self.augmentations,
-            transform=ResNet50.transform,
+            transform=model.transform,
             dataset_class=self.dataset_class,
         )
 
+        # Trainer
         self.trainer = Trainer(
-            model=ResNet50(self.dataset_class.num_classes),
-            device=torch.device(device) if device else None,
-            output_device=torch.device(output_device) if output_device else None,
+            model=model,
             optimizer=optimizer,
             lr=lr,
             weight_decay=weight_decay,
@@ -100,17 +95,20 @@ class AutoML:
             results_file=results_file,
         )
 
+        # Resume training if previous pipeline exists
         if previous_pipeline_directory and previous_pipeline_directory.exists():
             self.trainer.load(previous_pipeline_directory / "checkpoint.pth")
 
         start_epoch = self.trainer.epochs_already_trained
 
+        # Train
         train_losses, train_accuracies, val_losses, val_accuracies = self.trainer.train(
             self.dataloaders.train,
             self.dataloaders.val,
             epochs=epochs,
         )
 
+        # Save checkpoint
         if pipeline_directory and pipeline_directory.exists():
             self.trainer.save(pipeline_directory / "checkpoint.pth")
 
@@ -141,29 +139,43 @@ class AutoML:
         """
         root_directory = "./results/" + self.dataset_class.__name__
 
-        # neps.run(
-        #     lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
-        #         pipeline_directory=pipeline_directory,
-        #         previous_pipeline_directory=previous_pipeline_directory,
-        #         **{
-        #             **kwargs,
-        #             "lr_scheduler": LR_Scheduler.step,
-        #             "scheduler_step_every_epoch": False,
-        #             "loss_fn": LossFn.cross_entropy,
-        #             "device": "cuda:0",
-        #             "output_device": "cuda:0",
-        #             "results_file": None,
-        #         },
-        #     ),
-        #     root_directory=root_directory,
-        #     pipeline_space="./pipeline_space.yaml",
-        #     searcher="priorband_bo",
-        #     max_cost_total=budget,
-        #     post_run_summary=True,
-        #     overwrite_working_directory=True,
-        # )
+        # HPO
+        print(f"Running AutoML pipeline on dataset {self.dataset_class.__name__}")
+        neps.run(
+            lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
+                pipeline_directory=pipeline_directory,
+                previous_pipeline_directory=previous_pipeline_directory,
+                **{
+                    **kwargs,
+                    "lr_scheduler": LR_Scheduler.step,
+                    "loss_fn": LossFn.cross_entropy,
+                    "results_file": None,
+                },
+            ),
+            root_directory=root_directory,
+            pipeline_space="./pipeline_space.yaml",
+            searcher="priorband_bo",
+            max_cost_total=budget,
+            post_run_summary=True,
+            overwrite_working_directory=True,
+        )
 
-        return neps.get_summary_dict(root_directory)["best_config"]
+        # Load best configuration
+        best_config = neps.get_summary_dict(root_directory)["best_config"]
+        print("-" * 80)
+        print(f"Best configuration: {best_config}")
+        print("-" * 80)
+
+        # Train with best configuration
+        results = self.run_pipeline(
+            pipeline_directory=None,
+            previous_pipeline_directory=None,
+            epochs=3,
+            **(best_config.pop("epochs") and best_config),
+        )
+        print("-" * 80)
+        print(f"Results: {results}")
+        print("-" * 80)
 
     def evaluate(self) -> Tuple[float, float]:
         return self.trainer.eval(self.dataloaders.test)

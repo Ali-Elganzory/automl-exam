@@ -1,5 +1,7 @@
+from time import time
 from enum import Enum
-from typing import Tuple, Type
+from pathlib import Path
+from typing import Tuple, Type, List, Union
 
 import tqdm
 import torch
@@ -7,7 +9,8 @@ from torch import nn, optim
 from torch.utils.data import DataLoader
 from torch import distributed as TorchDistributed
 
-from automl.utils import log as print, MAIN_NODE, RANK, DISTRIBUTED, log_prefix
+from automl.model import Model
+from automl import distributed as dist
 
 
 class Optimizer(Enum):
@@ -62,23 +65,21 @@ LOSS_FNS = {
 class Trainer:
     def __init__(
         self,
-        model: nn.Module,
-        optimizer: (
-            optim.Optimizer | Type[optim.Optimizer] | Optimizer
-        ) = Optimizer.adamw,
+        model: Model,
+        optimizer: Union[
+            optim.Optimizer, Type[optim.Optimizer], Optimizer
+        ] = Optimizer.adamw,
         lr: float = 1e-3,
         weight_decay: float = 1e-2,
-        lr_scheduler: (
-            optim.lr_scheduler._LRScheduler
-            | Type[optim.lr_scheduler._LRScheduler]
-            | LR_Scheduler
-        ) = LR_Scheduler.step,
+        lr_scheduler: Union[
+            optim.lr_scheduler._LRScheduler,
+            Type[optim.lr_scheduler._LRScheduler],
+            LR_Scheduler,
+        ] = LR_Scheduler.step,
         scheduler_step_size: int = 1000,
         scheduler_gamma: float = 0.1,
         scheduler_step_every_epoch: bool = False,
-        loss_fn: nn.Module | Type[nn.Module] | LossFn = LossFn.cross_entropy,
-        device: torch.device = None,
-        output_device: torch.device = None,
+        loss_fn: Union[nn.Module, Type[nn.Module], LossFn] = LossFn.cross_entropy,
         results_file: str = None,
     ):
         self.model = model
@@ -90,13 +91,19 @@ class Trainer:
         self.scheduler_gamma = scheduler_gamma
         self.scheduler_step_every_epoch = scheduler_step_every_epoch
         self.loss_fn = loss_fn
-        self.device = device
-        self.output_device = output_device if output_device else device
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.output_device = self.device
         self.results_file = results_file
 
         self.epochs_already_trained: int = 0
 
         self.model.to(self.device)
+        if dist.is_enabled():
+            self.model = nn.parallel.DistributedDataParallel(
+                self.model,
+                device_ids=[dist.get_local_rank()],
+                output_device=dist.get_local_rank(),
+            )
         self.model.train()
 
         if not isinstance(self.optimizer, optim.Optimizer):
@@ -123,7 +130,7 @@ class Trainer:
 
     @property
     def pb_desc_template(self):
-        return f"{log_prefix()} " + "Epoch {}/{} - {}"
+        return "Epoch {}/{} - {}"
 
     def train_step(
         self, data: torch.Tensor, target: torch.Tensor
@@ -152,7 +159,6 @@ class Trainer:
         for data, target in tqdm.tqdm(
             data_loader,
             desc=self.pb_desc_template.format(epoch, epochs, "Train"),
-            position=RANK,
         ):
             loss, accuracy = self.train_step(data, target)
             cumulative_loss += loss
@@ -170,7 +176,7 @@ class Trainer:
         train_loader: DataLoader,
         val_loader: DataLoader,
         epochs: int,
-    ) -> Tuple[list[float], list[float], list[float], list[float]]:
+    ) -> Tuple[List[float], List[float], List[float], List[float], float]:
         """Train the model.
 
         Args:
@@ -179,8 +185,10 @@ class Trainer:
             epochs (int): The number of epochs to train for.
 
         Returns:
-            float: The time taken to train the model in seconds.
+            Tuple[List[float], List[float], List[float], List[float], float]: The training losses, training accuracies, validation losses, validation accuracies, and the time taken to train.
         """
+        start_time = time()
+
         losses, accuracies = [], []
         val_losses, val_accuracies = [], []
 
@@ -188,19 +196,20 @@ class Trainer:
             train_loss, train_accuracy = self.train_epoch(train_loader, epoch, epochs)
             self.epochs_already_trained = epochs
 
-            if DISTRIBUTED:
+            if dist.is_enabled():
                 TorchDistributed.barrier()
 
-            val_loss, val_accuracy = self.eval(val_loader, epoch, epochs)
+            val_loss, val_accuracy, _ = self.eval(val_loader, epoch, epochs)
 
-            if DISTRIBUTED:
+            if dist.is_enabled():
                 TorchDistributed.barrier()
                 print(
                     f"Epoch {epoch}/{epochs} - "
                     f"Train Loss: {train_loss:.4f}, "
                     f"Train Accuracy: {train_accuracy:.4f}, "
                     f"Val Loss: {val_loss:.4f}, "
-                    f"Val Accuracy: {val_accuracy:.4f}"
+                    f"Val Accuracy: {val_accuracy:.4f}",
+                    force=True,
                 )
                 metrics = torch.tensor(
                     [train_loss, train_accuracy, val_loss, val_accuracy],
@@ -211,25 +220,25 @@ class Trainer:
                 train_loss, train_accuracy, val_loss, val_accuracy = metrics.tolist()
                 TorchDistributed.barrier()
 
-            if MAIN_NODE:
-                print(
-                    f"Epoch {epoch}/{epochs} (Overall Values) - "
-                    f"Train Loss: {train_loss:.4f}, "
-                    f"Train Accuracy: {train_accuracy:.4f}, "
-                    f"Val Loss: {val_loss:.4f}, "
-                    f"Val Accuracy: {val_accuracy:.4f}"
-                )
-                print("-" * 80, no_prefix=True)
+            print(
+                f"Epoch {epoch}/{epochs} (Overall Values) - "
+                f"Train Loss: {train_loss:.4f}, "
+                f"Train Accuracy: {train_accuracy:.4f}, "
+                f"Val Loss: {val_loss:.4f}, "
+                f"Val Accuracy: {val_accuracy:.4f}"
+            )
+            print("-" * 80)
 
+            if dist.is_main_process():
                 losses.append(train_loss)
                 accuracies.append(train_accuracy)
                 val_losses.append(val_loss)
                 val_accuracies.append(val_accuracy)
 
-            if TorchDistributed.is_initialized():
+            if dist.is_enabled():
                 TorchDistributed.barrier()
 
-        if self.results_file is not None and MAIN_NODE:
+        if self.results_file is not None and dist.is_main_process():
             data = {
                 "epoch": range(1, epochs + 1),
                 "train_loss": losses,
@@ -244,14 +253,14 @@ class Trainer:
                         f"{data['epoch'][i]},{data['train_loss'][i]},{data['train_accuracy'][i]},{data['val_loss'][i]},{data['val_accuracy'][i]}\n"
                     )
 
-        return losses, accuracies, val_losses, val_accuracies
+        return losses, accuracies, val_losses, val_accuracies, time() - start_time
 
     def eval_step(
         self,
         data: torch.Tensor,
         target: torch.Tensor,
         return_predictions: bool = False,
-    ) -> Tuple[float, float, torch.Tensor | None]:
+    ) -> Tuple[float, float, Union[torch.Tensor, None]]:
         data, target = data.to(self.device), target.to(self.output_device)
         output = self.model(data)
         loss = self.loss_fn(output, target)
@@ -265,45 +274,88 @@ class Trainer:
         data_loader: DataLoader,
         epoch: int = None,
         epochs: int = None,
-    ) -> Tuple[float, float]:
+        return_predictions: bool = False,
+    ) -> Tuple[float, float, Union[torch.Tensor, None]]:
         with torch.no_grad():
             self.model.eval()
 
             cumulative_loss = 0.0
             cumulative_accuracy = 0.0
 
+            if return_predictions:
+                all_predictions = torch.tensor([], device=self.device)
+
             for data, target in tqdm.tqdm(
                 data_loader,
                 desc=(
                     self.pb_desc_template.format(epoch, epochs, "Val")
                     if epoch is not None and epochs is not None
-                    else f"{log_prefix()} " + "Val"
+                    else "Val"
                 ),
-                position=RANK,
             ):
-                loss, accuracy, predictions = self.eval_step(data, target)
+                loss, accuracy, predictions = self.eval_step(
+                    data, target, return_predictions
+                )
                 cumulative_loss += loss
                 cumulative_accuracy += accuracy
+
+                if return_predictions:
+                    all_predictions = torch.cat([all_predictions, predictions])
 
             self.model.train()
 
             return (
                 cumulative_loss / len(data_loader),
                 cumulative_accuracy / len(data_loader),
+                predictions if return_predictions else None,
             )
 
-    @torch.inference_mode()
-    def predict(self, data_loader: DataLoader) -> torch.Tensor:
-        predictions = []
-        for data, _ in tqdm.tqdm(data_loader, desc="Predict", position=RANK):
-            data = data.to(self.device)
-            output = self.model(data)
-            predictions.append(output.argmax(dim=1))
-        return torch.cat(predictions)
+    def predict(self, x: Union[torch.Tensor, DataLoader]) -> torch.Tensor:
+        with torch.no_grad():
+            self.model.eval()
 
-    def save(self, path: str):
-        if not MAIN_NODE:
+            all_predictions = self.model.predict(x)
+
+            if dist.is_enabled():
+                TorchDistributed.barrier()
+                # Gather the size of local predictions
+                size = torch.tensor([all_predictions.size(0)], device=self.device)
+                sizes = [
+                    torch.zeros_like(size)
+                    for _ in range(TorchDistributed.get_world_size())
+                ]
+                TorchDistributed.all_gather(sizes, size)
+                # Gather all predictions
+                local_predictions = all_predictions
+                all_predictions = [
+                    torch.zeros(s.item(), device=self.device) for s in sizes
+                ]
+                TorchDistributed.all_gather(all_predictions, local_predictions)
+                all_predictions = torch.cat(all_predictions)
+                TorchDistributed.barrier()
+
+            self.model.train()
+
+            return all_predictions.type(torch.int32)
+
+    @property
+    def _inner_model(self) -> Model:
+        return (
+            self.model.module
+            if isinstance(self.model, nn.parallel.DistributedDataParallel)
+            else self.model
+        )
+
+    @property
+    def _model_name(self) -> str:
+        return self._inner_model.__class__.__name__
+
+    def save(self, path: Union[str, Path, None] = None):
+        if not dist.is_main_process():
             return
+
+        path = Path(path or f"checkpoints/{self._model_name}.pt")
+        path.parent.mkdir(parents=True, exist_ok=True)
 
         torch.save(
             {
@@ -315,20 +367,33 @@ class Trainer:
             path,
         )
 
-    def load(self, path: str):
+    def load(self, path: Union[str, Path, None] = None):
+        path = Path(path or f"checkpoints/{self._model_name}.pt")
+
+        if not path.exists():
+            raise FileNotFoundError(f"File {path} does not exist")
+
         checkpoint = torch.load(path, map_location=self.device)
         self.model.load_state_dict(checkpoint["model"])
         self.optimizer.load_state_dict(checkpoint["optimizer"])
         self.lr_scheduler.load_state_dict(checkpoint["lr_scheduler"])
         self.epochs_already_trained = checkpoint["epochs_already_trained"]
 
-    def save_model(self, path: str):
-        if not MAIN_NODE:
+    def save_model(self, path: Union[str, Path, None] = None):
+        if not dist.is_main_process():
             return
 
-        torch.save(self.model.state_dict(), path)
+        path = Path(path or f"models/{self._model_name}.pt")
+        path.parent.mkdir(parents=True, exist_ok=True)
 
-    def load_model(self, path: str):
-        self.model.load_state_dict(torch.load(path, map_location=self.device))
-        self.model.to(self.device)
-        self.model.train()
+        self._inner_model.save(path)
+
+    def load_model(self, path: Union[str, Path, None] = None):
+        print("load_model", force=True)
+        path = Path(path or f"models/{self._model_name}.pt")
+
+        if not path.exists():
+            raise FileNotFoundError(f"File {path} does not exist")
+
+        state_dict = torch.load(path, map_location=self.device)
+        self._inner_model.load_state_dict(state_dict)
