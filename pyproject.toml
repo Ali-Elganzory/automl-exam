@@ -11,6 +11,8 @@ dependencies = [
   "IPython",
   "tqdm",
   "typer",
+  "matplotlib",
+  "neural-pipeline-search",
 ]
 requires-python = ">=3.8"
 authors = [{ name = "user", email = "user@user.com" }]
