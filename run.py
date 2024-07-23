@@ -43,12 +43,6 @@ def auto(
             help="The budget of the pipeline in seconds.",
         ),
     ] = 300,
-    output_path: Annotated[
-        Path,
-        Option(
-            help="The path to save the predictions to.",
-        ),
-    ] = Path("predictions.npy"),
     seed: Annotated[
         int,
         Option(
