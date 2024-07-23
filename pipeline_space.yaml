@@ -41,11 +41,6 @@ scheduler_step_size:
   default: 1000
   default_confidence: medium
 
-scheduler_step_every_epoch:
-  type: bool
-  default: false
-  default_confidence: medium
-
 scheduler_gamma:
   type: float
   lower: 0.01

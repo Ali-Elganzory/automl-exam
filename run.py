@@ -86,6 +86,7 @@ def auto(
 
     # Else, evaluate the model on the test set
     else:
+        print("Evaluating model on test set.")
         loss, accuracy = automl.evaluate()
         print(f"Test Loss: {loss}")
         print(f"Test Accuracy: {accuracy}")
@@ -196,7 +197,7 @@ def train(
         epochs=epochs,
         batch_size=batch_size,
         optimizer=optimizer,
-        lr=learning_rate,
+        learning_rate=learning_rate,
         weight_decay=weight_decay,
         lr_scheduler=lr_scheduler,
         scheduler_step_size=scheduler_step_size,

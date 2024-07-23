@@ -13,7 +13,7 @@ import random
 import numpy as np
 from torchvision.transforms.v2 import RandomChoice, AugMix, TrivialAugmentWide
 
-from automl.model import Models, Model
+from automl.model import Models
 from automl.dataset import DataLoaders, BaseVisionDataset
 from automl.trainer import Trainer, Optimizer, LR_Scheduler, LossFn
 
@@ -49,7 +49,7 @@ class AutoML:
         epochs: int,
         batch_size: int,
         optimizer: str | Optimizer,
-        lr: float,
+        learning_rate: float,
         weight_decay: float,
         lr_scheduler: str | LR_Scheduler,
         scheduler_step_size: int,
@@ -68,14 +68,14 @@ class AutoML:
             loss_fn = LossFn(loss_fn)
 
         # Default model
-        model = Models.ConvNet.factory(self.dataset_class.num_classes)
+        model = Models.ResNet50.factory(self.dataset_class.num_classes)
 
         start = time()
 
         # Dataset
         self.dataloaders = DataLoaders(
             batch_size=batch_size,
-            num_workers=8,
+            num_workers=16,
             augmentations=self.augmentations,
             transform=model.transform,
             dataset_class=self.dataset_class,
@@ -85,7 +85,7 @@ class AutoML:
         self.trainer = Trainer(
             model=model,
             optimizer=optimizer,
-            lr=lr,
+            lr=learning_rate,
             weight_decay=weight_decay,
             lr_scheduler=lr_scheduler,
             scheduler_step_size=scheduler_step_size,
@@ -102,7 +102,7 @@ class AutoML:
         start_epoch = self.trainer.epochs_already_trained
 
         # Train
-        train_losses, train_accuracies, val_losses, val_accuracies = self.trainer.train(
+        train_losses, train_accuracies, val_losses, val_accuracies, _ = self.trainer.train(
             self.dataloaders.train,
             self.dataloaders.val,
             epochs=epochs,
@@ -149,6 +149,7 @@ class AutoML:
                     **kwargs,
                     "lr_scheduler": LR_Scheduler.step,
                     "loss_fn": LossFn.cross_entropy,
+                    "schedular_step_every_epoch": False,
                     "results_file": None,
                 },
             ),
@@ -167,10 +168,14 @@ class AutoML:
         print("-" * 80)
 
         # Train with best configuration
+        print(f"Training with best configuration (final model)")
         results = self.run_pipeline(
             pipeline_directory=None,
             previous_pipeline_directory=None,
             epochs=3,
+            lr_scheduler=LR_Scheduler.step,
+            schedular_step_every_epoch=False,
+            loss_fn=LossFn.cross_entropy,
             **(best_config.pop("epochs") and best_config),
         )
         print("-" * 80)
@@ -178,7 +183,8 @@ class AutoML:
         print("-" * 80)
 
     def evaluate(self) -> Tuple[float, float]:
-        return self.trainer.eval(self.dataloaders.test)
+        loss, accuracy, _ = self.trainer.eval(self.dataloaders.test)
+        return loss, accuracy
 
     def predict(self) -> np.ndarray:
         return self.trainer.predict(self.dataloaders.test).cpu().numpy()
