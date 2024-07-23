@@ -144,6 +144,7 @@ class AutoML:
 
         # HPO
         print(f"Running AutoML pipeline on dataset {self.dataset_class.__name__}")
+        start = time()
         neps.run(
             lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
                 pipeline_directory=pipeline_directory,
@@ -163,6 +164,9 @@ class AutoML:
             post_run_summary=True,
             overwrite_working_directory=True,
         )
+        end = time()
+        with open(f"{root_directory}/time.txt", "w") as f:
+            f.write(str(end - start))
 
         # Load best configuration
         best_config = neps.get_summary_dict(root_directory)["best_config"]
@@ -175,7 +179,7 @@ class AutoML:
         results = self.run_pipeline(
             pipeline_directory=None,
             previous_pipeline_directory=None,
-            epochs=3,
+            epochs=100,
             lr_scheduler=LR_Scheduler.step,
             schedular_step_every_epoch=False,
             loss_fn=LossFn.cross_entropy,

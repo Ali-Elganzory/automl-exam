@@ -1,6 +1,6 @@
 epochs:
   type: int
-  lower: 2
+  lower: 3
   upper: 30
   is_fidelity: true
 
