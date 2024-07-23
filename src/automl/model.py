@@ -7,8 +7,7 @@ import torch
 from torch import nn
 from tqdm import tqdm
 from torch.utils.data import DataLoader
-from torchvision.models import ResNet50_Weights
-from torchvision.models.resnet import ResNet, Bottleneck
+from torchvision.models import ResNet50_Weights, resnet50
 
 
 class Models(Enum):
@@ -102,10 +101,24 @@ class ConvNet(Model):
         return x
 
 
-class ResNet50(ResNet, Model):
+class ResNet50(Model):
     transform = ResNet50_Weights.IMAGENET1K_V2.transforms()
 
     def __init__(self, num_classes: int):
-        super(ResNet50, self).__init__(
-            Bottleneck, [3, 4, 6, 3], num_classes=num_classes
+        super(ResNet50, self).__init__()
+
+        self.resnet = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2)
+        self.head = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(2048, num_classes),
         )
+
+        # Freeze the backbone
+        for param in self.resnet.parameters():
+            param.requires_grad = False
+
+        # Replace the head
+        self.resnet.fc = self.head
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.resnet(x)

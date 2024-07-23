@@ -121,7 +121,7 @@ class AutoML:
                 "train_losses": train_losses,
                 "train_accuracies": train_accuracies,
                 "val_losses": val_losses,
-                "val_accuracy": val_accuracies,
+                "val_accuracies": val_accuracies,
                 "train_time": end - start,
                 "cost": epochs - start_epoch,
             },
@@ -137,7 +137,10 @@ class AutoML:
         Returns:
             A dictionary containing the best configuration found by the optimizer.
         """
-        root_directory = "./results/" + self.dataset_class.__name__
+        root_directory = "./results/" \
+            + f"benchmark={self.dataset_class.__name__.replace('Dataset', '')}/" \
+            + f"algorithm=PriorBand-BO/" \
+            + f"seed={self.seed}/"
 
         # HPO
         print(f"Running AutoML pipeline on dataset {self.dataset_class.__name__}")
@@ -176,11 +179,15 @@ class AutoML:
             lr_scheduler=LR_Scheduler.step,
             schedular_step_every_epoch=False,
             loss_fn=LossFn.cross_entropy,
+            results_file=f"./results/{self.dataset_class.__name__.replace('Dataset', '')}_results.csv",
             **(best_config.pop("epochs") and best_config),
         )
         print("-" * 80)
         print(f"Results: {results}")
         print("-" * 80)
+
+        # Save the model
+        self.trainer.save_model(f"./results/{self.dataset_class.__name__.replace('Dataset', '')}_model.pth")
 
     def evaluate(self) -> Tuple[float, float]:
         loss, accuracy, _ = self.trainer.eval(self.dataloaders.test)
