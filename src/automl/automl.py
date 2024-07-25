@@ -58,7 +58,7 @@ class AutoML:
         pipeline_directory: Path | None = None,
         previous_pipeline_directory: Path | None = None,
         results_file: str | None = None,
-    ) -> None:
+    ) -> Dict[str, any]:
         if isinstance(optimizer, str):
             optimizer = Optimizer(optimizer)
         if isinstance(lr_scheduler, str):
