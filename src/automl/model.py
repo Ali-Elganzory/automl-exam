@@ -7,6 +7,7 @@ import torch
 from torch import nn
 from tqdm import tqdm
 from torch.utils.data import DataLoader
+from torchvision.transforms import v2 as transforms
 from torchvision.models import ResNet50_Weights, resnet50
 
 
@@ -102,7 +103,12 @@ class ConvNet(Model):
 
 
 class ResNet50(Model):
-    transform = ResNet50_Weights.IMAGENET1K_V2.transforms()
+    transform = transforms.Compose(
+        [
+            lambda x: x.convert("RGB"),
+            ResNet50_Weights.IMAGENET1K_V2.transforms(),
+        ]
+    )
 
     def __init__(self, num_classes: int):
         super(ResNet50, self).__init__()

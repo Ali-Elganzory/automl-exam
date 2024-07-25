@@ -18,7 +18,6 @@ from automl.dataset import DataLoaders, BaseVisionDataset
 from automl.trainer import Trainer, Optimizer, LR_Scheduler, LossFn
 
 
-
 class AutoML:
     augmentations = RandomChoice(
         [
@@ -102,10 +101,12 @@ class AutoML:
         start_epoch = self.trainer.epochs_already_trained
 
         # Train
-        train_losses, train_accuracies, val_losses, val_accuracies, _ = self.trainer.train(
-            self.dataloaders.train,
-            self.dataloaders.val,
-            epochs=epochs,
+        train_losses, train_accuracies, val_losses, val_accuracies, _ = (
+            self.trainer.train(
+                self.dataloaders.train,
+                self.dataloaders.val,
+                epochs=epochs,
+            )
         )
 
         # Save checkpoint
@@ -137,10 +138,12 @@ class AutoML:
         Returns:
             A dictionary containing the best configuration found by the optimizer.
         """
-        root_directory = "./results/" \
-            + f"benchmark={self.dataset_class.__name__.replace('Dataset', '')}/" \
-            + f"algorithm=PriorBand-BO/" \
+        root_directory = (
+            "./results/"
+            + f"benchmark={self.dataset_class.__name__.replace('Dataset', '')}/"
+            + f"algorithm=PriorBand-BO/"
             + f"seed={self.seed}/"
+        )
 
         # HPO
         print(f"Running AutoML pipeline on dataset {self.dataset_class.__name__}")
@@ -183,7 +186,7 @@ class AutoML:
             lr_scheduler=LR_Scheduler.step,
             schedular_step_every_epoch=False,
             loss_fn=LossFn.cross_entropy,
-            results_file=f"./results/{self.dataset_class.__name__.replace('Dataset', '')}_results.csv",
+            results_file=f"{root_directory}best_config_results.csv",
             **(best_config.pop("epochs") and best_config),
         )
         print("-" * 80)
@@ -191,7 +194,7 @@ class AutoML:
         print("-" * 80)
 
         # Save the model
-        self.trainer.save_model(f"./results/{self.dataset_class.__name__.replace('Dataset', '')}_model.pth")
+        self.trainer.save_model(f"{root_directory}best_config_model.pth")
 
     def evaluate(self) -> Tuple[float, float]:
         loss, accuracy, _ = self.trainer.eval(self.dataloaders.test)
