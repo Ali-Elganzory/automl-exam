@@ -171,5 +171,5 @@ data/*
 # Uncomment this for adding a submission
 *.npy
 
-results/**/results
+results/**/results/**/*.pth
 results/**/.seed_state
