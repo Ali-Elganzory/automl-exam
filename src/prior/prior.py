@@ -109,7 +109,7 @@ def update_config(
         ] = Confidence.MEDIUM.value,
 ):
     update_yaml_file(
-        yaml_file=Path("test.yaml"),
+        yaml_file=Path("pipeline_space.yaml"),
         batch_size=batch_size,
         batch_size_confidence=batch_size_confidence,
         optimizer=optimizer,
