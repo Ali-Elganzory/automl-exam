@@ -8,22 +8,65 @@ from pathlib import Path
 import numpy as np
 
 import neps
+import pandas as pd
+from neps.utils.types import _ConfigResultForStats
 
 
 def process_seed(
-    *,
-    path: str | Path,
-    seed: str | int | None,
-    key_to_extract: str | None = None,
-    consider_continuations: bool = False,
-    n_workers: int = 1,
+        *,
+        path: str | Path,
+        seed: str | int | None,
+        key_to_extract: str | None = None,
+        consider_continuations: bool = False,
+        n_workers: int = 1,
 ) -> tuple[list[float], list[float], float]:
     """Reads and processes data per seed."""
     path = Path(path)
     if seed is not None:
-        path = path / str(seed)
+        path = path / str(seed) / "summary_csv" / "config_data.csv"
 
-    stats, _ = neps.status(path, print_summary=False)
+    df = pd.read_csv(path)
+    records = df.to_dict(orient='records')
+
+    def nest_result_fields(record):
+        nested_record = {}
+        nested_record['config_id'] = record['config_id']
+        nested_record['status'] = record['status']
+        nested_record['config'] = {
+            'batch_size': record['config.batch_size'],
+            'epochs': record['config.epochs'],
+            'learning_rate': record['config.learning_rate'],
+            'optimizer': record['config.optimizer'],
+            'scheduler_gamma': record['config.scheduler_gamma'],
+            'scheduler_step_size': record['config.scheduler_step_size'],
+            'weight_decay': record['config.weight_decay']
+        }
+        nested_record['metadata'] = {
+            'account_for_cost': record['metadata.account_for_cost'],
+            'eval_cost': record['metadata.eval_cost'],
+            'max': record['metadata.max'],
+            'time_end': record['metadata.time_end'],
+            'time_sampled': record['metadata.time_sampled'],
+            'used': record['metadata.used']
+        }
+        nested_record['result'] = {
+            'cost': record['result.cost'],
+            'loss': record['result.loss'],
+            'info_dict': {
+                'cost': record['result.info_dict.cost'],
+                'train_accuracies': record['result.info_dict.train_accuracies'],
+                'train_losses': record['result.info_dict.train_losses'],
+                'train_time': record['result.info_dict.train_time'],
+                'val_accuracies': record['result.info_dict.val_accuracies'],
+                'val_losses': record['result.info_dict.val_losses']
+            }
+        }
+        return _ConfigResultForStats(id=record['config_id'], config=nested_record['config'],
+                                     result=nested_record['result'], metadata=nested_record['metadata'])
+
+    nested_records = {record['config_id']: nest_result_fields(record) for record in records}
+    print(nested_records)
+    stats = nested_records
     sorted_stats = sorted(sorted(stats.items()), key=lambda x: len(x[0]))
     stats = OrderedDict(sorted_stats)
 
