@@ -1,0 +1,12 @@
+Loss: 1.18047297000885
+Config ID: 0_0
+Config: {'batch_size': 64, 'epochs': 3, 'learning_rate': 0.001, 'optimizer': 'adamw', 'scheduler_gamma': 0.1, 'scheduler_step_size': 1000, 'weight_decay': 0.01}
+-------------------------------------------------------------------------------
+Loss: 1.173895031821971
+Config ID: 43_2
+Config: {'batch_size': 119, 'epochs': 30, 'learning_rate': 0.0040974507480738475, 'optimizer': 'adamw', 'scheduler_gamma': 0.2021627119466273, 'scheduler_step_size': 257, 'weight_decay': 0.004917211923283858}
+-------------------------------------------------------------------------------
+Loss: 1.1738437647913016
+Config ID: 199_0
+Config: {'batch_size': 114, 'epochs': 3, 'learning_rate': 0.004628749069547758, 'optimizer': 'adamw', 'scheduler_gamma': 0.26001183372163433, 'scheduler_step_size': 189, 'weight_decay': 2.7178312827429718e-05}
+-------------------------------------------------------------------------------

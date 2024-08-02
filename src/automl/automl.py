@@ -55,6 +55,7 @@ class AutoML:
         scheduler_gamma: float,
         schedular_step_every_epoch: bool,
         loss_fn: str | LossFn,
+        model: Models,
         pipeline_directory: Path | None = None,
         previous_pipeline_directory: Path | None = None,
         results_file: str | None = None,
@@ -67,7 +68,7 @@ class AutoML:
             loss_fn = LossFn(loss_fn)
 
         # Default model
-        model = Models.ResNet50.factory(self.dataset_class.num_classes)
+        model = model.factory(self.dataset_class.num_classes)
 
         start = time()
 

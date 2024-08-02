@@ -123,6 +123,10 @@ class ResNet50(Model):
         for param in self.resnet.parameters():
             param.requires_grad = False
 
+        # Unfreeze the last layer
+        for param in self.resnet.layer4.parameters():
+            param.requires_grad = True
+
         # Replace the head
         self.resnet.fc = self.head
 

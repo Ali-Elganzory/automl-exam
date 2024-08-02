@@ -14,6 +14,7 @@ from typing import Annotated
 import numpy as np
 from typer import Typer, Option
 
+from automl.model import Models
 from automl.dataset import Dataset
 from automl.automl import AutoML
 from automl.trainer import (
@@ -69,7 +70,7 @@ def auto(
 
     # Run the pipeline
     automl.fit(budget=budget)
-    
+
     # Predict on the test set, if it doesn't have labels (skin_cancer dataset)
     if dataset == "skin_cancer":
         test_preds = automl.predict()
@@ -96,6 +97,12 @@ def train(
             help="The dataset to train on.",
         ),
     ],
+    model: Annotated[
+        Models,
+        Option(
+            help="The model to train.",
+        ),
+    ] = Models.ResNet50.value,
     epochs: Annotated[
         int,
         Option(
@@ -188,6 +195,7 @@ def train(
 
     results = automl.run_pipeline(
         pipeline_directory=pipeline_directory,
+        model=model,
         epochs=epochs,
         batch_size=batch_size,
         optimizer=optimizer,
