@@ -69,10 +69,13 @@ def plot_data(benchmark_dfs, baselines, output_path):
 if __name__ == "__main__":
     base_path = '../../results/'
     output_path = Path(base_path) / "incumbent_train_acc_plot.png"
-    # TODO add other benchmarks, and their baselines
-    benchmarks = [Benchmark.FASHION.value]
+    # TODO make probabilistic once we have other runs
+    benchmarks = [Benchmark.FASHION.value, Benchmark.FLOWERS.value, Benchmark.EMOTIONS.value]
     baselines = {
-        Benchmark.FASHION.value: 0.88
+        Benchmark.FASHION.value: 0.88,
+        Benchmark.EMOTIONS.value: 0.4,
+        Benchmark.FLOWERS.value: 0.55,
+        Benchmark.SKIN_CANCER.value: 0.71
     }
 
     csv_files = gather_csv_files(base_path, benchmarks)

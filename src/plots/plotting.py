@@ -102,7 +102,7 @@ def _plot_incumbent(
     if xlabel is not None:
         ax.set_xlabel(xlabel, fontsize=10, color=(0, 0, 0, 0.69))
     if ylabel is not None:
-        ax.set_ylabel("Validation Error", fontsize=10, color=(0, 0, 0, 0.69))
+        ax.set_ylabel(ylabel, fontsize=10, color=(0, 0, 0, 0.69))
     if log_x:
         ax.set_xscale("log")  # type: ignore
     if log_y:
