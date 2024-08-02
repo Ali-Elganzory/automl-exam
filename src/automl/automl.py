@@ -59,6 +59,7 @@ class AutoML:
         pipeline_directory: Path | None = None,
         previous_pipeline_directory: Path | None = None,
         results_file: str | None = None,
+        save_best_to: str | None = None,
     ) -> Dict[str, any]:
         if isinstance(optimizer, str):
             optimizer = Optimizer(optimizer)
@@ -75,7 +76,7 @@ class AutoML:
         # Dataset
         self.dataloaders = DataLoaders(
             batch_size=batch_size,
-            num_workers=16,
+            num_workers=8,
             augmentations=self.augmentations,
             transform=model.transform,
             dataset_class=self.dataset_class,
@@ -93,6 +94,7 @@ class AutoML:
             scheduler_step_every_epoch=schedular_step_every_epoch,
             loss_fn=loss_fn,
             results_file=results_file,
+            save_best_to=save_best_to,
         )
 
         # Resume training if previous pipeline exists
@@ -188,18 +190,9 @@ class AutoML:
             schedular_step_every_epoch=False,
             loss_fn=LossFn.cross_entropy,
             results_file=f"{root_directory}best_config_results.csv",
-            **(best_config.pop("epochs") and best_config),
+            save_best_to=f"{root_directory}best_config_model.pth"
+            ** (best_config.pop("epochs") and best_config),
         )
         print("-" * 80)
         print(f"Results: {results}")
         print("-" * 80)
-
-        # Save the model
-        self.trainer.save_model(f"{root_directory}best_config_model.pth")
-
-    def evaluate(self) -> Tuple[float, float]:
-        loss, accuracy, _ = self.trainer.eval(self.dataloaders.test)
-        return loss, accuracy
-
-    def predict(self) -> np.ndarray:
-        return self.trainer.predict(self.dataloaders.test).cpu().numpy()

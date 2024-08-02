@@ -15,12 +15,13 @@ import numpy as np
 from typer import Typer, Option
 
 from automl.model import Models
-from automl.dataset import Dataset
+from automl.dataset import Datasets, DataLoaders
 from automl.automl import AutoML
 from automl.trainer import (
     Optimizer,
     LR_Scheduler,
     LossFn,
+    Trainer,
 )
 from automl.logging import set_log_level, LogLevel
 
@@ -33,7 +34,7 @@ app = Typer()
 )
 def auto(
     dataset: Annotated[
-        Dataset,
+        Datasets,
         Option(
             help="The dataset to run on.",
         ),
@@ -71,28 +72,13 @@ def auto(
     # Run the pipeline
     automl.fit(budget=budget)
 
-    # Predict on the test set, if it doesn't have labels (skin_cancer dataset)
-    if dataset == "skin_cancer":
-        test_preds = automl.predict()
-        test_output_path = Path("data/exam_dataset/predictions.npy")
-        test_output_path.parent.mkdir(parents=True, exist_ok=True)
-        with test_output_path.open("wb") as f:
-            np.save(f, test_preds)
-
-    # Else, evaluate the model on the test set
-    else:
-        print("Evaluating model on test set.")
-        loss, accuracy = automl.evaluate()
-        print(f"Test Loss: {loss}")
-        print(f"Test Accuracy: {accuracy}")
-
 
 @app.command(
     help="Train a model on a dataset.",
 )
 def train(
     dataset: Annotated[
-        Dataset,
+        Datasets,
         Option(
             help="The dataset to train on.",
         ),
@@ -212,6 +198,133 @@ def train(
     automl.trainer.save_model(pipeline_directory / "model.pth")
 
     print(f"Results: {results}")
+
+
+@app.command(
+    help="Evaluate a model on a dataset.",
+)
+def evaluate(
+    dataset: Annotated[
+        Datasets,
+        Option(
+            help="The dataset to evaluate on.",
+        ),
+    ],
+    model_path: Annotated[
+        Path,
+        Option(
+            help="The path to the model to evaluate.",
+        ),
+    ],
+    model: Annotated[
+        Models,
+        Option(
+            help="The model to evaluate.",
+        ),
+    ] = Models.ResNet50.value,
+    quiet: Annotated[
+        bool,
+        Option(
+            help="Whether to log only warnings and errors.",
+        ),
+    ] = False,
+):
+    if not quiet:
+        set_log_level(LogLevel.INFO)
+    else:
+        set_log_level(LogLevel.WARNING)
+
+    print(f"Evaluating on dataset {dataset.name}")
+
+    # Dataset
+    dataloaders = DataLoaders(
+        dataset_class=dataset.factory,
+        transform=model.factory.transform,
+        num_workers=8,
+    )
+
+    # Trainer
+    trainer = Trainer(
+        model.factory(dataset.factory.num_classes),
+    )
+
+    # Load model
+    trainer.load_model(model_path)
+
+    # Evaluate
+    loss, accuracy, _ = trainer.eval(
+        dataloaders.test,
+    )
+
+    print(f"Test Loss: {loss}")
+    print(f"Test Accuracy: {accuracy}")
+
+
+@app.command(
+    help="Predict on a dataset.",
+)
+def predict(
+    dataset: Annotated[
+        Datasets,
+        Option(
+            help="The dataset to predict on.",
+        ),
+    ],
+    model_path: Annotated[
+        Path,
+        Option(
+            help="The path to the model to predict with.",
+        ),
+    ],
+    predictions_path: Annotated[
+        Path,
+        Option(
+            help="The path to save the predictions.",
+        ),
+    ] = Path("./predictions.npy"),
+    model: Annotated[
+        Models,
+        Option(
+            help="The model to predict with.",
+        ),
+    ] = Models.ResNet50.value,
+    quiet: Annotated[
+        bool,
+        Option(
+            help="Whether to log only warnings and errors.",
+        ),
+    ] = False,
+):
+    if not quiet:
+        set_log_level(LogLevel.INFO)
+    else:
+        set_log_level(LogLevel.WARNING)
+
+    print(f"Predicting on dataset {dataset.name}")
+
+    # Dataset
+    dataloaders = DataLoaders(
+        dataset_class=dataset.factory,
+        transform=model.factory.transform,
+        num_workers=8,
+    )
+
+    # Trainer
+    trainer = Trainer(
+        model.factory(dataset.factory.num_classes),
+    )
+
+    # Load model
+    trainer.load_model(model_path)
+
+    # Predict
+    predictions = trainer.predict(
+        dataloaders.test,
+    )
+
+    # Save predictions
+    with predictions_path.open("wb") as f:
+        np.save(f, predictions.cpu().numpy())
 
 
 if __name__ == "__main__":
