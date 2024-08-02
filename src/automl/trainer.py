@@ -176,6 +176,7 @@ class Trainer:
         train_loader: DataLoader,
         val_loader: DataLoader,
         epochs: int,
+        save_best_to: Union[str, Path, None] = None,
     ) -> Tuple[List[float], List[float], List[float], List[float], float]:
         """Train the model.
 
@@ -192,6 +193,8 @@ class Trainer:
         losses, accuracies = [], []
         val_losses, val_accuracies = [], []
 
+        best_val_loss = float("inf")
+
         for epoch in range(self.epochs_already_trained + 1, epochs + 1):
             train_loss, train_accuracy = self.train_epoch(train_loader, epoch, epochs)
             self.epochs_already_trained = epochs
@@ -200,6 +203,11 @@ class Trainer:
                 TorchDistributed.barrier()
 
             val_loss, val_accuracy, _ = self.eval(val_loader, epoch, epochs)
+
+            if val_loss < best_val_loss:
+                best_val_loss = val_loss
+                if save_best_to is not None:
+                    self.save_model(save_best_to)
 
             if dist.is_enabled():
                 TorchDistributed.barrier()

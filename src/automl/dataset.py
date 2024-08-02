@@ -9,9 +9,9 @@ from typing import Any, Callable, Optional, Tuple, Union, Type
 import torch
 import PIL.Image
 import pandas as pd
-from torch.utils.data import DataLoader
 from torchvision.transforms.v2 import Compose
 from torchvision.datasets import VisionDataset
+from torch.utils.data import DataLoader, Dataset
 from torch import distributed as TorchDistributed
 from torch.utils.data.sampler import WeightedRandomSampler
 from torch.utils.data import random_split, Subset as TorchSubset
@@ -206,7 +206,7 @@ class SkinCancerDataset(BaseVisionDataset):
     num_classes = 7
 
 
-class Dataset(Enum):
+class Datasets(Enum):
     FASHION = "fashion"
     FLOWERS = "flowers"
     EMOTIONS = "emotions"
@@ -215,10 +215,10 @@ class Dataset(Enum):
     @property
     def factory(self) -> Type[BaseVisionDataset]:
         return {
-            Dataset.FASHION: FashionDataset,
-            Dataset.FLOWERS: FlowersDataset,
-            Dataset.EMOTIONS: EmotionsDataset,
-            Dataset.SKIN_CANCER: SkinCancerDataset,
+            Datasets.FASHION: FashionDataset,
+            Datasets.FLOWERS: FlowersDataset,
+            Datasets.EMOTIONS: EmotionsDataset,
+            Datasets.SKIN_CANCER: SkinCancerDataset,
         }[self]
 
 
@@ -254,40 +254,68 @@ class Subset:
         return len(self.indices)
 
 
+class DatasetWrapper(Dataset):
+    def __init__(
+        self,
+        dataset: Datasets,
+        transform: Optional[Callable] = None,
+        target_transform: Optional[Callable] = None,
+    ):
+        self.dataset = dataset
+        self.transform = transform
+        self.target_transform = target_transform
+
+    def __len__(self):
+        return len(self.dataset)
+
+    def __getitem__(self, idx):
+        image, label = self.dataset[idx]
+
+        if self.transform:
+            image = self.transform(image)
+
+        if self.target_transform:
+            label = self.target_transform(label)
+
+        return image, label
+
+
 class DataLoaders:
     def __init__(
         self,
-        batch_size: int,
+        batch_size: int = 64,
         num_workers: int = 0,
         augmentations: Optional[Callable] = None,
         transform: Optional[Callable] = None,
         target_transform: Optional[Callable] = None,
         dataset_class: Type[BaseVisionDataset] = None,
     ):
-        self.full_train_dataset = dataset_class(
+        self.train_val_dataset = dataset_class(
             root="./data",
             split="train",
-            transform=(
-                Compose([augmentations, transform]) if augmentations else transform
-            ),
-            target_transform=target_transform,
             download=True,
         )
 
         val_split = 0.2
-        train_size = int((1 - val_split) * len(self.full_train_dataset))
-        val_size = len(self.full_train_dataset) - train_size
+        train_size = int((1 - val_split) * len(self.train_val_dataset))
+        val_size = len(self.train_val_dataset) - train_size
 
         train_dataset, val_dataset = random_split(
-            self.full_train_dataset, [train_size, val_size]
+            self.train_val_dataset, [train_size, val_size]
         )
         train_dataset, val_dataset = Subset(train_dataset), Subset(val_dataset)
 
-        if transform and not augmentations:
-            val_dataset.dataset.transform = transform
+        train_dataset = DatasetWrapper(
+            train_dataset,
+            transform=Compose([augmentations, transform]),
+            target_transform=target_transform,
+        )
+        val_dataset = DatasetWrapper(
+            val_dataset, transform=transform, target_transform=target_transform
+        )
 
         sampler = WeightedRandomSampler(
-            weights=train_dataset.weights,
+            weights=train_dataset.dataset.weights,
             num_samples=len(train_dataset),
             replacement=True,
         )

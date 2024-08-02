@@ -175,4 +175,4 @@ results/**/results
 results/**/.seed_state
 results/**/.decision_lock
 results/**/.csv_lock
-
+results/**/*.pth
