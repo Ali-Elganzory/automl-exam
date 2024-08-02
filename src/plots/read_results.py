@@ -65,7 +65,6 @@ def process_seed(
                                      result=nested_record['result'], metadata=nested_record['metadata'])
 
     nested_records = {record['config_id']: nest_result_fields(record) for record in records}
-    print(nested_records)
     stats = nested_records
     sorted_stats = sorted(sorted(stats.items()), key=lambda x: len(x[0]))
     stats = OrderedDict(sorted_stats)
