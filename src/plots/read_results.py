@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections import OrderedDict
 from pathlib import Path
-
+import ast
 import numpy as np
 
 import neps
@@ -19,7 +19,7 @@ def process_seed(
         key_to_extract: str | None = None,
         consider_continuations: bool = False,
         n_workers: int = 1,
-) -> tuple[list[float], list[float], float]:
+) -> tuple[list[float], list[float], float, list[float]]:
     """Reads and processes data per seed."""
     path = Path(path)
     if seed is not None:
@@ -65,7 +65,6 @@ def process_seed(
                                      result=nested_record['result'], metadata=nested_record['metadata'])
 
     nested_records = {record['config_id']: nest_result_fields(record) for record in records}
-    print(nested_records)
     stats = nested_records
     sorted_stats = sorted(sorted(stats.items()), key=lambda x: len(x[0]))
     stats = OrderedDict(sorted_stats)
@@ -90,6 +89,7 @@ def process_seed(
         return 1.0
 
     losses = []
+    accuracies = []
     costs = []
 
     for config_id, config_result in stats.items():
@@ -108,6 +108,8 @@ def process_seed(
         # TODO(eddiebergman): Assumes it never crashed and there's a loss available,
         # not fixing now but it should be addressed
         losses.append(config_result.result["loss"])  # type: ignore
+        accuracy = ast.literal_eval(config_result.result["info_dict"]["val_accuracies"])
+        accuracies.append(accuracy[-1])
         costs.append(config_cost)
 
-    return list(np.minimum.accumulate(losses)), costs, max_cost
+    return list(np.minimum.accumulate(losses)), costs, max_cost, list(np.maximum.accumulate(accuracies))

@@ -8,6 +8,7 @@ from typing import Any
 import matplotlib.axes
 import matplotlib.figure
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -50,8 +51,8 @@ def _set_general_plot_style() -> None:
 
 
 def _get_fig_and_axs(
-    nrows: int = 1,
-    ncols: int = 1,
+        nrows: int = 1,
+        ncols: int = 1,
 ) -> tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
     _set_general_plot_style()
 
@@ -70,18 +71,18 @@ def _get_fig_and_axs(
 
 
 def _plot_incumbent(
-    ax: matplotlib.axes.Axes,
-    x: list | np.ndarray,
-    y: list | np.ndarray,
-    *,
-    scale_x: float | None,
-    xlabel: str | None = None,
-    ylabel: str | None = None,
-    title: str | None = None,
-    log_x: bool = False,
-    log_y: bool = False,
-    x_range: tuple | None = None,
-    **plotting_kwargs: Any,
+        ax: matplotlib.axes.Axes,
+        x: list | np.ndarray,
+        y: list | np.ndarray,
+        *,
+        scale_x: float | None,
+        xlabel: str | None = None,
+        ylabel: str | None = None,
+        title: str | None = None,
+        log_x: bool = False,
+        log_y: bool = False,
+        x_range: tuple | None = None,
+        **plotting_kwargs: Any,
 ) -> None:
     df = _interpolate_time(incumbents=y, costs=x, x_range=x_range, scale_x=scale_x)
     df = _df_to_x_range(df, x_range=x_range)
@@ -90,7 +91,6 @@ def _plot_incumbent(
     y_mean = df.mean(axis=1).to_numpy()  # type: ignore
     ddof = 0 if len(df.columns) == 1 else 1
     std_error = stats.sem(df.values, axis=1, ddof=ddof)
-
     ax.plot(x, y_mean, linestyle="-", linewidth=0.7, **plotting_kwargs)
 
     ax.fill_between(x, y_mean - std_error, y_mean + std_error, alpha=0.2)
@@ -98,11 +98,11 @@ def _plot_incumbent(
     ax.set_xlim(auto=True)
 
     if title is not None:
-        ax.set_title(title, fontsize=20)
+        ax.set_title(title, fontsize=10)
     if xlabel is not None:
-        ax.set_xlabel(xlabel, fontsize=18, color=(0, 0, 0, 0.69))
+        ax.set_xlabel(xlabel, fontsize=10, color=(0, 0, 0, 0.69))
     if ylabel is not None:
-        ax.set_ylabel(ylabel, fontsize=18, color=(0, 0, 0, 0.69))
+        ax.set_ylabel(ylabel, fontsize=10, color=(0, 0, 0, 0.69))
     if log_x:
         ax.set_xscale("log")  # type: ignore
     if log_y:
@@ -112,15 +112,17 @@ def _plot_incumbent(
     ax.set_ylim(auto=True)
 
     # Black with some alpha
-    ax.tick_params(axis="both", which="major", labelsize=18, labelcolor=(0, 0, 0, 0.69))
+    ax.tick_params(axis="both", which="major", labelsize=10, labelcolor=(0, 0, 0, 0.69))
     ax.grid(visible=True, which="both", ls="-", alpha=0.8)
+
+    ax.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2f'))
 
 
 def _interpolate_time(
-    incumbents: list | np.ndarray,
-    costs: list | np.ndarray,
-    x_range: tuple | None = None,
-    scale_x: float | None = None,
+        incumbents: list | np.ndarray,
+        costs: list | np.ndarray,
+        x_range: tuple | None = None,
+        scale_x: float | None = None,
 ) -> pd.DataFrame:
     if isinstance(incumbents, list):
         incumbents = np.array(incumbents)
@@ -165,12 +167,12 @@ def _df_to_x_range(df: pd.DataFrame, x_range: tuple | None = None) -> pd.DataFra
 
 
 def _set_legend(
-    fig: matplotlib.figure.Figure,
-    axs: matplotlib.axes.Axes,
-    benchmarks: list[str],
-    algorithms: list[str],
-    nrows: int,
-    ncols: int,
+        fig: matplotlib.figure.Figure,
+        axs: matplotlib.axes.Axes,
+        benchmarks: list[str],
+        algorithms: list[str],
+        nrows: int,
+        ncols: int,
 ) -> None:
     bbox_y_mapping = {
         1: -0.22,
@@ -199,11 +201,11 @@ def _set_legend(
 
 
 def _save_fig(
-    fig: matplotlib.figure.Figure,
-    output_dir: Path | str,
-    filename: str = "incumbent_trajectory",
-    extension: str = "png",
-    dpi: int = 100,
+        fig: matplotlib.figure.Figure,
+        output_dir: Path | str,
+        filename: str = "incumbent_trajectory",
+        extension: str = "png",
+        dpi: int = 100,
 ) -> None:
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)

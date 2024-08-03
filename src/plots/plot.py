@@ -68,6 +68,12 @@ def plot(  # noqa: C901, PLR0913
     nrows = np.ceil(len(benchmarks) / ncols).astype(int)
 
     fig, axs = _get_fig_and_axs(nrows=nrows, ncols=ncols)
+    acc, acc_axs = _get_fig_and_axs(nrows=nrows, ncols=ncols)
+
+    fig_wrapper = {
+        "val": (fig, axs),
+        "acc": (acc, acc_axs)
+    }
 
     base_path = Path(root_directory)
 
@@ -96,10 +102,11 @@ def plot(  # noqa: C901, PLR0913
                 _path = None
 
             incumbents = []
+            accuracies = []
             costs = []
             max_costs = []
             for seed in seeds:
-                incumbent, cost, max_cost = process_seed(
+                incumbent, cost, max_cost, incumbent_accuracy = process_seed(
                     path=_path if _path is not None else base_path,
                     seed=seed,
                     key_to_extract=key_to_extract,
@@ -107,39 +114,40 @@ def plot(  # noqa: C901, PLR0913
                     n_workers=n_workers,
                 )
                 incumbents.append(incumbent)
+                accuracies.append(incumbent_accuracy)
                 costs.append(cost)
                 max_costs.append(max_cost)
 
             is_last_row = benchmark_idx >= (nrows - 1) * ncols
             is_first_column = benchmark_idx % ncols == 0
             xlabel = "Evaluations" if key_to_extract is None else key_to_extract.upper()
-            _plot_incumbent(
-                ax=_map_axs(
-                    axs,
-                    benchmark_idx,
-                    len(benchmarks),
-                    ncols,
-                ),
-                x=costs,
-                y=incumbents,
-                scale_x=max(max_costs) if key_to_extract == "fidelity" else None,
-                title=benchmark if scientific_mode else None,
-                xlabel=xlabel if is_last_row else None,
-                ylabel="Best error" if is_first_column else None,
-                log_x=log_x,
-                log_y=log_y,
-                x_range=x_range,
-                label=algorithm,
-            )
+            for name, (fig, axs) in fig_wrapper.items():
+                _plot_incumbent(
+                    ax=_map_axs(
+                        axs,
+                        benchmark_idx,
+                        len(benchmarks),
+                        ncols,
+                    ),
+                    x=costs,
+                    y=incumbents if name == "val" else accuracies,
+                    scale_x=max(max_costs) if key_to_extract == "fidelity" else None,
+                    title=benchmark if scientific_mode else None,
+                    xlabel=xlabel if is_last_row else None,
+                    ylabel="Validation Error" if name == "val" else "Accuracy",
+                    log_x=log_x,
+                    log_y=log_y,
+                    x_range=x_range,
+                    label=algorithm,
+                )
 
-    if scientific_mode:
-        _set_legend(
-            fig,
-            axs,
-            benchmarks=benchmarks,
-            algorithms=algorithms,
-            nrows=nrows,
-            ncols=ncols,
-        )
-    _save_fig(fig, output_dir=base_path, filename=filename, extension=extension, dpi=dpi)
-    logger.info(f"Saved to '{base_path}/{filename}.{extension}'")
+                if scientific_mode:
+                    _set_legend(
+                        fig,
+                        axs,
+                        benchmarks=benchmarks,
+                        algorithms=algorithms,
+                        nrows=nrows,
+                        ncols=ncols,
+                    )
+                _save_fig(fig, output_dir=base_path, filename=filename + "_" + name, extension=extension, dpi=dpi)
