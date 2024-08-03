@@ -311,7 +311,14 @@ class DataLoaders:
             target_transform=target_transform,
         )
         val_dataset = DatasetWrapper(
-            val_dataset, transform=transform, target_transform=target_transform
+            val_dataset,
+            transform=transform,
+            target_transform=target_transform,
+        )
+        train_dataset = DatasetWrapper(
+            train_dataset,
+            transform=Compose([augmentations, transform]),
+            target_transform=target_transform,
         )
 
         sampler = WeightedRandomSampler(
@@ -328,6 +335,12 @@ class DataLoaders:
         self.val = DataLoader(
             val_dataset,
             shuffle=False,
+            batch_size=batch_size,
+            num_workers=num_workers,
+        )
+        self.train_val = DataLoader(
+            train_dataset,
+            sampler=sampler,
             batch_size=batch_size,
             num_workers=num_workers,
         )

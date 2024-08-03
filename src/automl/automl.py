@@ -55,11 +55,12 @@ class AutoML:
         scheduler_gamma: float,
         schedular_step_every_epoch: bool,
         loss_fn: str | LossFn,
-        model: Models,
+        model: Models = Models.ResNet50,
         pipeline_directory: Path | None = None,
         previous_pipeline_directory: Path | None = None,
         results_file: str | None = None,
         save_best_to: str | None = None,
+        all_data: bool = False,
     ) -> Dict[str, any]:
         if isinstance(optimizer, str):
             optimizer = Optimizer(optimizer)
@@ -94,7 +95,6 @@ class AutoML:
             scheduler_step_every_epoch=schedular_step_every_epoch,
             loss_fn=loss_fn,
             results_file=results_file,
-            save_best_to=save_best_to,
         )
 
         # Resume training if previous pipeline exists
@@ -106,9 +106,10 @@ class AutoML:
         # Train
         train_losses, train_accuracies, val_losses, val_accuracies, _ = (
             self.trainer.train(
-                self.dataloaders.train,
+                self.dataloaders.train if not all_data else self.dataloaders.train_val,
                 self.dataloaders.val,
                 epochs=epochs,
+                save_best_to=save_best_to,
             )
         )
 
@@ -181,7 +182,7 @@ class AutoML:
         print("-" * 80)
 
         # Train with best configuration
-        print(f"Training with best configuration (final model)")
+        print(f"Training with best configuration")
         results = self.run_pipeline(
             pipeline_directory=None,
             previous_pipeline_directory=None,
@@ -190,8 +191,24 @@ class AutoML:
             schedular_step_every_epoch=False,
             loss_fn=LossFn.cross_entropy,
             results_file=f"{root_directory}best_config_results.csv",
-            save_best_to=f"{root_directory}best_config_model.pth"
-            ** (best_config.pop("epochs") and best_config),
+            **(best_config.pop("epochs") and best_config),
+        )
+        print("-" * 80)
+        print(f"Results: {results}")
+        print("-" * 80)
+
+        print(
+            f"Training with best configuration on both training and validation data (final model)"
+        )
+        results = self.run_pipeline(
+            pipeline_directory=None,
+            previous_pipeline_directory=None,
+            epochs=100,
+            lr_scheduler=LR_Scheduler.step,
+            schedular_step_every_epoch=False,
+            loss_fn=LossFn.cross_entropy,
+            save_best_to=f"{root_directory}best_config_model.pth",
+            **(best_config.pop("epochs") and best_config),
         )
         print("-" * 80)
         print(f"Results: {results}")

@@ -65,6 +65,8 @@ class ConvNet(Model):
     def __init__(self, num_classes: int):
         super(ConvNet, self).__init__()
 
+        self.num_classes = num_classes
+
         self.relu = nn.ReLU()
         self.pool = nn.MaxPool2d(2, 2)
         self.conv1 = nn.Conv2d(3, 32, 3)
@@ -112,6 +114,8 @@ class ResNet50(Model):
 
     def __init__(self, num_classes: int):
         super(ResNet50, self).__init__()
+
+        self.num_classes = num_classes
 
         self.resnet = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2)
         self.head = nn.Sequential(

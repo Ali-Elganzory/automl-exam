@@ -8,6 +8,7 @@ to a file, which we will grade using github classrooms!
 """
 
 from __future__ import annotations
+import json
 from pathlib import Path
 from typing import Annotated
 
@@ -252,12 +253,27 @@ def evaluate(
     trainer.load_model(model_path)
 
     # Evaluate
-    loss, accuracy, _ = trainer.eval(
+    loss, accuracy, f1, confusion_matrix, _ = trainer.eval(
         dataloaders.test,
     )
 
-    print(f"Test Loss: {loss}")
-    print(f"Test Accuracy: {accuracy}")
+    print(f"Loss: {loss}")
+    print(f"Accuracy: {accuracy}")
+    print(f"F1: {f1}")
+    trainer.print_confusion_matrix(confusion_matrix)
+
+    # Save results
+    results = {
+        "loss": loss,
+        "accuracy": accuracy,
+        "f1": f1,
+        "confusion_matrix": confusion_matrix,
+    }
+
+    results_path = model_path.with_suffix(".json")
+
+    with results_path.open("w") as f:
+        json.dump(results, f)
 
 
 @app.command(

@@ -1,7 +1,7 @@
 epochs:
   type: int
   lower: 3
-  upper: 30
+  upper: 20
   is_fidelity: true
 
 batch_size:

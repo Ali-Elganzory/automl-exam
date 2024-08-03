@@ -58,7 +58,9 @@ class LossFn(Enum):
 
 
 LOSS_FNS = {
-    LossFn.cross_entropy: nn.CrossEntropyLoss,
+    LossFn.cross_entropy: lambda: lambda x, y, weight=None: nn.CrossEntropyLoss(weight)(
+        x, y
+    ),
 }
 
 
@@ -133,12 +135,32 @@ class Trainer:
         return "Epoch {}/{} - {}"
 
     def train_step(
-        self, data: torch.Tensor, target: torch.Tensor
+        self,
+        data: torch.Tensor,
+        target: torch.Tensor,
     ) -> Tuple[float, float]:
         self.optimizer.zero_grad()
         data, target = data.to(self.device), target.to(self.output_device)
         output = self.model(data)
-        loss = self.loss_fn(output, target)
+
+        labels = list(range(self.model.num_classes))
+        loss_weight = (
+            None
+            if labels is None
+            else torch.tensor(
+                data.size(0) * data.size(2) * data.size(3),
+                device=self.device,
+            )
+            / (
+                torch.tensor(
+                    list(map(lambda label: (target == label).sum(), labels)),
+                    device=self.device,
+                )
+                + 1e-6
+            )
+        )
+
+        loss = self.loss_fn(output, target, loss_weight)
         loss.backward()
         self.optimizer.step()
         if not self.scheduler_step_every_epoch:
@@ -192,6 +214,7 @@ class Trainer:
 
         losses, accuracies = [], []
         val_losses, val_accuracies = [], []
+        f1s = []
 
         best_val_loss = float("inf")
 
@@ -202,7 +225,9 @@ class Trainer:
             if dist.is_enabled():
                 TorchDistributed.barrier()
 
-            val_loss, val_accuracy, _ = self.eval(val_loader, epoch, epochs)
+            val_loss, val_accuracy, f1, confusion_matrix, _ = self.eval(
+                val_loader, epoch, epochs
+            )
 
             if val_loss < best_val_loss:
                 best_val_loss = val_loss
@@ -217,15 +242,18 @@ class Trainer:
                     f"Train Accuracy: {train_accuracy:.4f}, "
                     f"Val Loss: {val_loss:.4f}, "
                     f"Val Accuracy: {val_accuracy:.4f}",
+                    f"F1 Score: {f1:.4f}",
                     force=True,
                 )
                 metrics = torch.tensor(
-                    [train_loss, train_accuracy, val_loss, val_accuracy],
+                    [train_loss, train_accuracy, val_loss, val_accuracy, f1],
                     device=self.device,
                 )
                 TorchDistributed.all_reduce(metrics)
                 metrics /= TorchDistributed.get_world_size()
-                train_loss, train_accuracy, val_loss, val_accuracy = metrics.tolist()
+                train_loss, train_accuracy, val_loss, val_accuracy, f1 = (
+                    metrics.tolist()
+                )
                 TorchDistributed.barrier()
 
             print(
@@ -233,8 +261,12 @@ class Trainer:
                 f"Train Loss: {train_loss:.4f}, "
                 f"Train Accuracy: {train_accuracy:.4f}, "
                 f"Val Loss: {val_loss:.4f}, "
-                f"Val Accuracy: {val_accuracy:.4f}"
+                f"Val Accuracy: {val_accuracy:.4f}, "
+                f"F1 Score: {f1:.4f}",
             )
+
+            self.print_confusion_matrix(confusion_matrix)
+
             print("-" * 80)
 
             if dist.is_main_process():
@@ -242,6 +274,7 @@ class Trainer:
                 accuracies.append(train_accuracy)
                 val_losses.append(val_loss)
                 val_accuracies.append(val_accuracy)
+                f1s.append(f1)
 
             if dist.is_enabled():
                 TorchDistributed.barrier()
@@ -253,12 +286,13 @@ class Trainer:
                 "train_accuracy": accuracies,
                 "val_loss": val_losses,
                 "val_accuracy": val_accuracies,
+                "f1": f1s,
             }
             with open(self.results_file, "w") as f:
                 f.write("epoch,train_loss,train_accuracy,val_loss,val_accuracy\n")
                 for i in range(epochs):
                     f.write(
-                        f"{data['epoch'][i]},{data['train_loss'][i]},{data['train_accuracy'][i]},{data['val_loss'][i]},{data['val_accuracy'][i]}\n"
+                        f"{data['epoch'][i]},{data['train_loss'][i]},{data['train_accuracy'][i]},{data['val_loss'][i]},{data['val_accuracy'][i]},{data['f1'][i]}\n"
                     )
 
         return losses, accuracies, val_losses, val_accuracies, time() - start_time
@@ -283,12 +317,20 @@ class Trainer:
         epoch: int = None,
         epochs: int = None,
         return_predictions: bool = False,
-    ) -> Tuple[float, float, Union[torch.Tensor, None]]:
+    ) -> Tuple[float, float, float, torch.Tensor, Union[torch.Tensor, None]]:
         with torch.no_grad():
             self.model.eval()
 
             cumulative_loss = 0.0
             cumulative_accuracy = 0.0
+
+            num_classes = self._inner_model.num_classes
+            confusion_matrix = torch.zeros(
+                num_classes,
+                num_classes,
+                device=self.device,
+                dtype=torch.int32,
+            )
 
             if return_predictions:
                 all_predictions = torch.tensor([], device=self.device)
@@ -301,11 +343,31 @@ class Trainer:
                     else "Val"
                 ),
             ):
-                loss, accuracy, predictions = self.eval_step(
-                    data, target, return_predictions
-                )
+                loss, accuracy, predictions = self.eval_step(data, target, True)
                 cumulative_loss += loss
                 cumulative_accuracy += accuracy
+
+                # Calculate confusion matrix
+                confusion_matrix += torch.bincount(
+                    torch.flatten(target.to(self.device) * num_classes + predictions),
+                    minlength=num_classes**2,
+                ).reshape(num_classes, num_classes)
+
+                # Normalize confusion matrix
+                confusion_matrix = (
+                    confusion_matrix.float()
+                    / confusion_matrix.sum(dim=1, keepdim=True).clamp(min=1e-6)
+                ).round(decimals=2)
+
+                # Calculate F1 Score
+                precision = confusion_matrix.diag() / confusion_matrix.sum(dim=0).clamp(
+                    min=1e-6
+                )
+                recall = confusion_matrix.diag() / confusion_matrix.sum(dim=1).clamp(
+                    min=1e-6
+                )
+                f1 = 2 * (precision * recall) / (precision + recall).clamp(min=1e-6)
+                f1 = f1.mean()
 
                 if return_predictions:
                     all_predictions = torch.cat([all_predictions, predictions])
@@ -315,6 +377,8 @@ class Trainer:
             return (
                 cumulative_loss / len(data_loader),
                 cumulative_accuracy / len(data_loader),
+                f1.item(),
+                confusion_matrix,
                 predictions if return_predictions else None,
             )
 
@@ -405,3 +469,14 @@ class Trainer:
 
         state_dict = torch.load(path, map_location=self.device)
         self._inner_model.load_state_dict(state_dict)
+
+    def print_confusion_matrix(self, confusion_matrix: torch.Tensor):
+        confusion_matrix_string = f"Confusion Matrix:\n"
+        bg_color_code = lambda score: f"\033[48;2;0;{255 - int(score * 255)};0m"
+        for i in range(confusion_matrix.size(0)):
+            for j in range(confusion_matrix.size(1)):
+                confusion_matrix_string += (
+                    bg_color_code(confusion_matrix[i, i]) if i == j else "\033[0m"
+                ) + f"{confusion_matrix[i, j]:.2f} "
+            confusion_matrix_string += "\033[0m\n"
+        print(confusion_matrix_string, end="")
