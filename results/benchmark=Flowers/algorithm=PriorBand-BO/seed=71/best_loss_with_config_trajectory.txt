@@ -1,0 +1,32 @@
+Loss: 0.1667262138798833
+Config ID: 0_0
+Config: {'batch_size': 64, 'epochs': 6, 'learning_rate': 0.001, 'optimizer': 'adamw', 'scheduler_gamma': 0.1, 'scheduler_step_size': 1000, 'weight_decay': 0.01}
+-------------------------------------------------------------------------------
+Loss: 0.1461583963036537
+Config ID: 1_0
+Config: {'batch_size': 46, 'epochs': 6, 'learning_rate': 0.0003488117481864944, 'optimizer': 'adamw', 'scheduler_gamma': 0.48888266597008156, 'scheduler_step_size': 971, 'weight_decay': 0.00020115397673325884}
+-------------------------------------------------------------------------------
+Loss: 0.0842326823854819
+Config ID: 1_1
+Config: {'batch_size': 46, 'epochs': 20, 'learning_rate': 0.0003488117481864944, 'optimizer': 'adamw', 'scheduler_gamma': 0.48888266597008156, 'scheduler_step_size': 971, 'weight_decay': 0.00020115397673325884}
+-------------------------------------------------------------------------------
+Loss: 0.07986134383827448
+Config ID: 18_1
+Config: {'batch_size': 96, 'epochs': 20, 'learning_rate': 0.004625412099167554, 'optimizer': 'adamw', 'scheduler_gamma': 0.014098563161829454, 'scheduler_step_size': 540, 'weight_decay': 0.00045550772176670463}
+-------------------------------------------------------------------------------
+Loss: 0.0729801899406084
+Config ID: 23_1
+Config: {'batch_size': 18, 'epochs': 20, 'learning_rate': 0.002564067568938726, 'optimizer': 'adamw', 'scheduler_gamma': 0.5466234096107664, 'scheduler_step_size': 1328, 'weight_decay': 0.08136133050126655}
+-------------------------------------------------------------------------------
+Loss: 0.05656115191504796
+Config ID: 28_1
+Config: {'batch_size': 17, 'epochs': 20, 'learning_rate': 0.0010373441566587393, 'optimizer': 'adamw', 'scheduler_gamma': 0.42483022255440933, 'scheduler_step_size': 781, 'weight_decay': 0.01240798694247764}
+-------------------------------------------------------------------------------
+Loss: 0.042353116889087786
+Config ID: 36_1
+Config: {'batch_size': 31, 'epochs': 20, 'learning_rate': 0.000520667234844295, 'optimizer': 'adamw', 'scheduler_gamma': 0.25783088505711044, 'scheduler_step_size': 1147, 'weight_decay': 0.09289234637358144}
+-------------------------------------------------------------------------------
+Loss: 0.03769133649329261
+Config ID: 169_1
+Config: {'batch_size': 20, 'epochs': 20, 'learning_rate': 0.009789736082685636, 'optimizer': 'adamw', 'scheduler_gamma': 0.8209535599630035, 'scheduler_step_size': 415, 'weight_decay': 8.720849927544459e-05}
+-------------------------------------------------------------------------------

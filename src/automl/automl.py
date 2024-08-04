@@ -172,7 +172,7 @@ class AutoML:
             overwrite_working_directory=True,
         )
         end = time()
-        with open(f"{root_directory}/time.txt", "w") as f:
+        with open(f"{root_directory}time.txt", "w") as f:
             f.write(str(end - start))
 
         # Load best configuration

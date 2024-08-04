@@ -15,23 +15,23 @@ def command_factory(
 commands = [
     command_factory(
         Datasets.FASHION,
-        71,
+        93,
     ),
     command_factory(
         Datasets.FLOWERS,
-        71,
+        93,
     ),
     command_factory(
         Datasets.EMOTIONS,
-        71,
+        93,
     ),
-    command_factory(
-        Datasets.SKIN_CANCER,
-        71,
-    ),
+    # command_factory(
+    #     Datasets.SKIN_CANCER,
+    #     93,
+    # ),
 ]
 
-gpu_available = [True, True, True, True]
+gpu_available = [True, True, True, False]
 
 
 def run_command(command: str, gpu_id: int):

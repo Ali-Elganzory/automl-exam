@@ -1,0 +1,1392 @@
+Loss: 0.6450103114951741
+Config ID: 0_0
+Config: {'batch_size': 64, 'epochs': 6, 'learning_rate': 0.001, 'optimizer': 'adamw', 'scheduler_gamma': 0.1, 'scheduler_step_size': 1000, 'weight_decay': 0.01}
+-------------------------------------------------------------------------------
+Loss: 0.5470555842884125
+Config ID: 1_0
+Config: {'batch_size': 46, 'epochs': 6, 'learning_rate': 0.0003488117481864944, 'optimizer': 'adamw', 'scheduler_gamma': 0.48888266597008156, 'scheduler_step_size': 971, 'weight_decay': 0.00020115397673325884}
+-------------------------------------------------------------------------------
+Loss: 0.7517292339068192
+Config ID: 2_0
+Config: {'batch_size': 111, 'epochs': 6, 'learning_rate': 0.006759700987802615, 'optimizer': 'adamw', 'scheduler_gamma': 0.15660361170905585, 'scheduler_step_size': 1139, 'weight_decay': 0.014578285833852943}
+-------------------------------------------------------------------------------
+Loss: 0.49484612029646674
+Config ID: 1_1
+Config: {'batch_size': 46, 'epochs': 20, 'learning_rate': 0.0003488117481864944, 'optimizer': 'adamw', 'scheduler_gamma': 0.48888266597008156, 'scheduler_step_size': 971, 'weight_decay': 0.00020115397673325884}
+-------------------------------------------------------------------------------
+Loss: 0.5478272542760179
+Config ID: 3_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 0.0045116369496072135, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.8693927388013251, 'scheduler_step_size': 437, 'weight_decay': 8.808498249433969e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5112109892070293
+Config ID: 4_1
+Config: {'batch_size': 73, 'epochs': 20, 'learning_rate': 0.0002212506508325972, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.4209864081307127, 'scheduler_step_size': 848, 'weight_decay': 0.01221490535506199}
+-------------------------------------------------------------------------------
+Loss: 0.6523696684068249
+Config ID: 5_0
+Config: {'batch_size': 46, 'epochs': 6, 'learning_rate': 3.743042314733292e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.7892791032269983, 'scheduler_step_size': 852, 'weight_decay': 2.6152667459001114e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5549955168558706
+Config ID: 6_0
+Config: {'batch_size': 46, 'epochs': 6, 'learning_rate': 0.0003488117481864944, 'optimizer': 'adam', 'scheduler_gamma': 0.48888266597008156, 'scheduler_step_size': 971, 'weight_decay': 0.00024140579846806146}
+-------------------------------------------------------------------------------
+Loss: 0.8632032928928253
+Config ID: 7_0
+Config: {'batch_size': 46, 'epochs': 6, 'learning_rate': 1.691283187565213e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.48888266597008156, 'scheduler_step_size': 1226, 'weight_decay': 0.006414700673714646}
+-------------------------------------------------------------------------------
+Loss: 0.4681801381971567
+Config ID: 6_1
+Config: {'batch_size': 46, 'epochs': 20, 'learning_rate': 0.0003488117481864944, 'optimizer': 'adam', 'scheduler_gamma': 0.48888266597008156, 'scheduler_step_size': 971, 'weight_decay': 0.00024140579846806146}
+-------------------------------------------------------------------------------
+Loss: 0.6825151053212938
+Config ID: 8_1
+Config: {'batch_size': 34, 'epochs': 20, 'learning_rate': 0.00903908799605622, 'optimizer': 'adam', 'scheduler_gamma': 0.7923193840248158, 'scheduler_step_size': 1395, 'weight_decay': 1.0518199108950796e-05}
+-------------------------------------------------------------------------------
+Loss: 0.506732031282398
+Config ID: 9_1
+Config: {'batch_size': 46, 'epochs': 20, 'learning_rate': 0.00017574308210459365, 'optimizer': 'adam', 'scheduler_gamma': 0.48888266597008156, 'scheduler_step_size': 1034, 'weight_decay': 6.288729569380041e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5877130946942738
+Config ID: 10_0
+Config: {'batch_size': 103, 'epochs': 6, 'learning_rate': 0.0036974025134314335, 'optimizer': 'adamw', 'scheduler_gamma': 0.35857679038033924, 'scheduler_step_size': 971, 'weight_decay': 0.0033504441586756375}
+-------------------------------------------------------------------------------
+Loss: 1.863551025207226
+Config ID: 11_0
+Config: {'batch_size': 56, 'epochs': 6, 'learning_rate': 3.055419258618374e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.9163134477493668, 'scheduler_step_size': 1497, 'weight_decay': 0.00787005956336956}
+-------------------------------------------------------------------------------
+Loss: 1.5490614970525105
+Config ID: 12_0
+Config: {'batch_size': 95, 'epochs': 6, 'learning_rate': 5.483876143791148e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.8005912784229312, 'scheduler_step_size': 730, 'weight_decay': 0.001964234113620468}
+-------------------------------------------------------------------------------
+Loss: 0.5195940222058978
+Config ID: 10_1
+Config: {'batch_size': 103, 'epochs': 20, 'learning_rate': 0.0036974025134314335, 'optimizer': 'adamw', 'scheduler_gamma': 0.35857679038033924, 'scheduler_step_size': 971, 'weight_decay': 0.0033504441586756375}
+-------------------------------------------------------------------------------
+Loss: 0.529387397898568
+Config ID: 13_1
+Config: {'batch_size': 80, 'epochs': 20, 'learning_rate': 7.608649927463114e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.033066899018053236, 'scheduler_step_size': 857, 'weight_decay': 0.026604214498351597}
+-------------------------------------------------------------------------------
+Loss: 1.8530336459477743
+Config ID: 14_1
+Config: {'batch_size': 96, 'epochs': 20, 'learning_rate': 9.722045059503431e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.376263247845643, 'scheduler_step_size': 511, 'weight_decay': 0.011560104388245455}
+-------------------------------------------------------------------------------
+Loss: 0.7164043592872904
+Config ID: 15_0
+Config: {'batch_size': 21, 'epochs': 6, 'learning_rate': 0.0012907227176991087, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.25636029775662406, 'scheduler_step_size': 1031, 'weight_decay': 0.0011809680060233354}
+-------------------------------------------------------------------------------
+Loss: 0.7924577179882262
+Config ID: 16_0
+Config: {'batch_size': 79, 'epochs': 6, 'learning_rate': 0.0003539227968660735, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.25833757896678616, 'scheduler_step_size': 1008, 'weight_decay': 0.0004054770529034717}
+-------------------------------------------------------------------------------
+Loss: 7293.856572690217
+Config ID: 17_0
+Config: {'batch_size': 63, 'epochs': 6, 'learning_rate': 0.022628356488716958, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.42991015358245604, 'scheduler_step_size': 901, 'weight_decay': 0.0010030489736099373}
+-------------------------------------------------------------------------------
+Loss: 0.5231305877886602
+Config ID: 15_1
+Config: {'batch_size': 21, 'epochs': 20, 'learning_rate': 0.0012907227176991087, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.25636029775662406, 'scheduler_step_size': 1031, 'weight_decay': 0.0011809680060233354}
+-------------------------------------------------------------------------------
+Loss: 1.7506693488842733
+Config ID: 18_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 0.004493598597008734, 'optimizer': 'sgd', 'scheduler_gamma': 0.6232079635120878, 'scheduler_step_size': 54, 'weight_decay': 0.0028770830388766184}
+-------------------------------------------------------------------------------
+Loss: 1.4321846059850745
+Config ID: 19_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 0.004552257298968654, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.9230387583354113, 'scheduler_step_size': 1358, 'weight_decay': 0.000263737083050566}
+-------------------------------------------------------------------------------
+Loss: 0.9876785278320312
+Config ID: 20_0
+Config: {'batch_size': 111, 'epochs': 6, 'learning_rate': 0.02561030685009671, 'optimizer': 'adam', 'scheduler_gamma': 0.8532343999762458, 'scheduler_step_size': 317, 'weight_decay': 0.0037831147478997783}
+-------------------------------------------------------------------------------
+Loss: 1.2387942801351133
+Config ID: 21_0
+Config: {'batch_size': 63, 'epochs': 6, 'learning_rate': 0.052839120171474616, 'optimizer': 'sgd', 'scheduler_gamma': 0.8985282603167041, 'scheduler_step_size': 1417, 'weight_decay': 0.056519664036465515}
+-------------------------------------------------------------------------------
+Loss: 1.243196754619993
+Config ID: 22_0
+Config: {'batch_size': 50, 'epochs': 6, 'learning_rate': 0.0005086568025608264, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.13206600509253416, 'scheduler_step_size': 746, 'weight_decay': 0.0023261758039097168}
+-------------------------------------------------------------------------------
+Loss: 1.3315717807182899
+Config ID: 20_1
+Config: {'batch_size': 111, 'epochs': 20, 'learning_rate': 0.02561030685009671, 'optimizer': 'adam', 'scheduler_gamma': 0.8532343999762458, 'scheduler_step_size': 317, 'weight_decay': 0.0037831147478997783}
+-------------------------------------------------------------------------------
+Loss: 0.7540755608807439
+Config ID: 23_1
+Config: {'batch_size': 62, 'epochs': 20, 'learning_rate': 1.1465161643979595e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.417455526192456, 'scheduler_step_size': 1085, 'weight_decay': 0.00020577974075187126}
+-------------------------------------------------------------------------------
+Loss: 1.332615978008992
+Config ID: 24_1
+Config: {'batch_size': 38, 'epochs': 20, 'learning_rate': 0.0006843562955059154, 'optimizer': 'sgd', 'scheduler_gamma': 0.8525176707087613, 'scheduler_step_size': 1402, 'weight_decay': 0.00010413865436871675}
+-------------------------------------------------------------------------------
+Loss: 0.8634158256700484
+Config ID: 25_0
+Config: {'batch_size': 24, 'epochs': 6, 'learning_rate': 1.5373708023010294e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.6272164334007869, 'scheduler_step_size': 1250, 'weight_decay': 0.0022867329027991975}
+-------------------------------------------------------------------------------
+Loss: 0.5123162956541063
+Config ID: 26_0
+Config: {'batch_size': 20, 'epochs': 6, 'learning_rate': 0.00029378623869462525, 'optimizer': 'adamw', 'scheduler_gamma': 0.9232207872155762, 'scheduler_step_size': 77, 'weight_decay': 0.08948685729816258}
+-------------------------------------------------------------------------------
+Loss: 0.7144769251398329
+Config ID: 27_0
+Config: {'batch_size': 40, 'epochs': 6, 'learning_rate': 9.638830130513999e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.06826322679848205, 'scheduler_step_size': 914, 'weight_decay': 1.8196840580652874e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5058410949218022
+Config ID: 26_1
+Config: {'batch_size': 20, 'epochs': 20, 'learning_rate': 0.00029378623869462525, 'optimizer': 'adamw', 'scheduler_gamma': 0.9232207872155762, 'scheduler_step_size': 77, 'weight_decay': 0.08948685729816258}
+-------------------------------------------------------------------------------
+Loss: 1.8624200293650994
+Config ID: 28_1
+Config: {'batch_size': 27, 'epochs': 20, 'learning_rate': 0.00033216920494680166, 'optimizer': 'sgd', 'scheduler_gamma': 0.6153542060737566, 'scheduler_step_size': 192, 'weight_decay': 0.04846160339844472}
+-------------------------------------------------------------------------------
+Loss: 0.5551968105586178
+Config ID: 29_1
+Config: {'batch_size': 17, 'epochs': 20, 'learning_rate': 0.0005696199158350537, 'optimizer': 'adam', 'scheduler_gamma': 0.5883644494032811, 'scheduler_step_size': 324, 'weight_decay': 0.00516123280912168}
+-------------------------------------------------------------------------------
+Loss: 0.6547656939961971
+Config ID: 30_0
+Config: {'batch_size': 18, 'epochs': 6, 'learning_rate': 0.00024380481921120497, 'optimizer': 'adamw', 'scheduler_gamma': 0.1940558963280664, 'scheduler_step_size': 620, 'weight_decay': 0.00028443504734186256}
+-------------------------------------------------------------------------------
+Loss: 1.7984189766424674
+Config ID: 31_0
+Config: {'batch_size': 26, 'epochs': 6, 'learning_rate': 0.04523274803571584, 'optimizer': 'adam', 'scheduler_gamma': 0.39019555355422114, 'scheduler_step_size': 908, 'weight_decay': 0.0688848823516736}
+-------------------------------------------------------------------------------
+Loss: 0.8279210719905916
+Config ID: 32_0
+Config: {'batch_size': 23, 'epochs': 6, 'learning_rate': 0.06243533831842019, 'optimizer': 'adam', 'scheduler_gamma': 0.6325967563736746, 'scheduler_step_size': 88, 'weight_decay': 0.011576894986887284}
+-------------------------------------------------------------------------------
+Loss: 0.5848760251433421
+Config ID: 30_1
+Config: {'batch_size': 18, 'epochs': 20, 'learning_rate': 0.00024380481921120497, 'optimizer': 'adamw', 'scheduler_gamma': 0.1940558963280664, 'scheduler_step_size': 620, 'weight_decay': 0.00028443504734186256}
+-------------------------------------------------------------------------------
+Loss: 1.5705165068308513
+Config ID: 33_1
+Config: {'batch_size': 100, 'epochs': 20, 'learning_rate': 0.002489931106201266, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.4392356105535867, 'scheduler_step_size': 451, 'weight_decay': 0.09880764500981436}
+-------------------------------------------------------------------------------
+Loss: 0.5071015640789148
+Config ID: 34_1
+Config: {'batch_size': 29, 'epochs': 20, 'learning_rate': 0.00024208958129293465, 'optimizer': 'adamw', 'scheduler_gamma': 0.79297500081571, 'scheduler_step_size': 336, 'weight_decay': 0.003154514156835464}
+-------------------------------------------------------------------------------
+Loss: 1.8351520944814212
+Config ID: 35_0
+Config: {'batch_size': 23, 'epochs': 6, 'learning_rate': 0.0005923784326146065, 'optimizer': 'sgd', 'scheduler_gamma': 0.015096484447998538, 'scheduler_step_size': 580, 'weight_decay': 0.05174600662385163}
+-------------------------------------------------------------------------------
+Loss: 0.6092826306819916
+Config ID: 36_0
+Config: {'batch_size': 98, 'epochs': 6, 'learning_rate': 0.00017910058627103748, 'optimizer': 'adamw', 'scheduler_gamma': 0.41051080305106, 'scheduler_step_size': 141, 'weight_decay': 0.005885585485008019}
+-------------------------------------------------------------------------------
+Loss: 0.8779013954986961
+Config ID: 37_0
+Config: {'batch_size': 24, 'epochs': 6, 'learning_rate': 1.698462210956704e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.5906211984362247, 'scheduler_step_size': 754, 'weight_decay': 0.004431089075730033}
+-------------------------------------------------------------------------------
+Loss: 0.5768004775047302
+Config ID: 36_1
+Config: {'batch_size': 98, 'epochs': 20, 'learning_rate': 0.00017910058627103748, 'optimizer': 'adamw', 'scheduler_gamma': 0.41051080305106, 'scheduler_step_size': 141, 'weight_decay': 0.005885585485008019}
+-------------------------------------------------------------------------------
+Loss: 1.8600348967772264
+Config ID: 38_1
+Config: {'batch_size': 27, 'epochs': 20, 'learning_rate': 3.227400733008094e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.3497573144785926, 'scheduler_step_size': 402, 'weight_decay': 0.0006955276596162219}
+-------------------------------------------------------------------------------
+Loss: 0.49440344558188726
+Config ID: 39_1
+Config: {'batch_size': 28, 'epochs': 20, 'learning_rate': 0.0004237263737431061, 'optimizer': 'adam', 'scheduler_gamma': 0.6678513042139115, 'scheduler_step_size': 1086, 'weight_decay': 0.00016950724641609443}
+-------------------------------------------------------------------------------
+Loss: 0.5823239035466138
+Config ID: 40_0
+Config: {'batch_size': 84, 'epochs': 6, 'learning_rate': 0.000947007634415289, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.6352932797581238, 'scheduler_step_size': 966, 'weight_decay': 0.0002805447522191828}
+-------------------------------------------------------------------------------
+Loss: 1.871289866726573
+Config ID: 41_0
+Config: {'batch_size': 35, 'epochs': 6, 'learning_rate': 5.193426558308457e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.9556211608680716, 'scheduler_step_size': 990, 'weight_decay': 9.159221467859142e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8665025117920666
+Config ID: 42_0
+Config: {'batch_size': 35, 'epochs': 6, 'learning_rate': 2.018804305127374e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.2543981725509445, 'scheduler_step_size': 487, 'weight_decay': 9.562638419344406e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5592865523170022
+Config ID: 40_1
+Config: {'batch_size': 84, 'epochs': 20, 'learning_rate': 0.000947007634415289, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.6352932797581238, 'scheduler_step_size': 966, 'weight_decay': 0.0002805447522191828}
+-------------------------------------------------------------------------------
+Loss: 1.862092141447396
+Config ID: 43_1
+Config: {'batch_size': 50, 'epochs': 20, 'learning_rate': 6.71810088171323e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.19772074702928374, 'scheduler_step_size': 448, 'weight_decay': 0.00016742437125193124}
+-------------------------------------------------------------------------------
+Loss: 0.8358821864239872
+Config ID: 44_1
+Config: {'batch_size': 22, 'epochs': 20, 'learning_rate': 7.226986620182115e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.9305951884799315, 'scheduler_step_size': 536, 'weight_decay': 0.0014847061352895841}
+-------------------------------------------------------------------------------
+Loss: 1.8476910779350681
+Config ID: 45_0
+Config: {'batch_size': 76, 'epochs': 6, 'learning_rate': 2.0217622314898784e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.4053355342866434, 'scheduler_step_size': 298, 'weight_decay': 5.7236545079937504e-05}
+-------------------------------------------------------------------------------
+Loss: 1.7599067941625068
+Config ID: 46_0
+Config: {'batch_size': 30, 'epochs': 6, 'learning_rate': 0.0009461075143225906, 'optimizer': 'sgd', 'scheduler_gamma': 0.16557747745906107, 'scheduler_step_size': 480, 'weight_decay': 0.001198965959331165}
+-------------------------------------------------------------------------------
+Loss: 0.6041770549648899
+Config ID: 47_0
+Config: {'batch_size': 24, 'epochs': 6, 'learning_rate': 7.743623281815239e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.06966062789447244, 'scheduler_step_size': 1435, 'weight_decay': 4.86725961010344e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5654756987814681
+Config ID: 47_1
+Config: {'batch_size': 24, 'epochs': 20, 'learning_rate': 7.743623281815239e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.06966062789447244, 'scheduler_step_size': 1435, 'weight_decay': 4.86725961010344e-05}
+-------------------------------------------------------------------------------
+Loss: 1.412951983511448
+Config ID: 48_1
+Config: {'batch_size': 88, 'epochs': 20, 'learning_rate': 0.0011976771857207793, 'optimizer': 'sgd', 'scheduler_gamma': 0.3320325378307179, 'scheduler_step_size': 1457, 'weight_decay': 0.027896695041455012}
+-------------------------------------------------------------------------------
+Loss: 5741344.791666667
+Config ID: 49_1
+Config: {'batch_size': 124, 'epochs': 20, 'learning_rate': 0.07153927912227186, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.9293307077362748, 'scheduler_step_size': 965, 'weight_decay': 0.0011669140295806463}
+-------------------------------------------------------------------------------
+Loss: 1.6994155557067305
+Config ID: 50_0
+Config: {'batch_size': 52, 'epochs': 6, 'learning_rate': 2.3653206843270065e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.9663966105252602, 'scheduler_step_size': 480, 'weight_decay': 0.053933793604133896}
+-------------------------------------------------------------------------------
+Loss: 1.8469652086496353
+Config ID: 51_0
+Config: {'batch_size': 60, 'epochs': 6, 'learning_rate': 1.3414309217754517e-06, 'optimizer': 'sgd', 'scheduler_gamma': 0.41854089759845564, 'scheduler_step_size': 1354, 'weight_decay': 0.01065676965981153}
+-------------------------------------------------------------------------------
+Loss: 0.5539271794259548
+Config ID: 52_0
+Config: {'batch_size': 51, 'epochs': 6, 'learning_rate': 0.001359746327651719, 'optimizer': 'adam', 'scheduler_gamma': 0.5784063171837033, 'scheduler_step_size': 57, 'weight_decay': 0.0018350926814731038}
+-------------------------------------------------------------------------------
+Loss: 0.5282851681113243
+Config ID: 52_1
+Config: {'batch_size': 51, 'epochs': 20, 'learning_rate': 0.001359746327651719, 'optimizer': 'adam', 'scheduler_gamma': 0.5784063171837033, 'scheduler_step_size': 57, 'weight_decay': 0.0018350926814731038}
+-------------------------------------------------------------------------------
+Loss: 1.865437238988742
+Config ID: 53_1
+Config: {'batch_size': 20, 'epochs': 20, 'learning_rate': 5.677632154638166e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.03501189922608469, 'scheduler_step_size': 388, 'weight_decay': 0.00012350099773174254}
+-------------------------------------------------------------------------------
+Loss: 6.194831121535528
+Config ID: 54_1
+Config: {'batch_size': 67, 'epochs': 20, 'learning_rate': 0.009516398259031719, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.7840884000575623, 'scheduler_step_size': 1377, 'weight_decay': 0.0004404257774074067}
+-------------------------------------------------------------------------------
+Loss: 1.2997898753867092
+Config ID: 55_0
+Config: {'batch_size': 17, 'epochs': 6, 'learning_rate': 0.001262503650834403, 'optimizer': 'sgd', 'scheduler_gamma': 0.8624009491368267, 'scheduler_step_size': 1084, 'weight_decay': 0.0001197044442016626}
+-------------------------------------------------------------------------------
+Loss: 5.079181472460429
+Config ID: 56_0
+Config: {'batch_size': 48, 'epochs': 6, 'learning_rate': 0.0024903788719270853, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.880945772869996, 'scheduler_step_size': 367, 'weight_decay': 0.0350991501234856}
+-------------------------------------------------------------------------------
+Loss: 0.804655331940878
+Config ID: 57_0
+Config: {'batch_size': 34, 'epochs': 6, 'learning_rate': 0.0008612381595403657, 'optimizer': 'adam', 'scheduler_gamma': 0.17345423025160567, 'scheduler_step_size': 789, 'weight_decay': 0.03534392770095505}
+-------------------------------------------------------------------------------
+Loss: 0.5910301009813944
+Config ID: 57_1
+Config: {'batch_size': 34, 'epochs': 20, 'learning_rate': 0.0008612381595403657, 'optimizer': 'adam', 'scheduler_gamma': 0.17345423025160567, 'scheduler_step_size': 789, 'weight_decay': 0.03534392770095505}
+-------------------------------------------------------------------------------
+Loss: 1.855727227958473
+Config ID: 58_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 1.2986292287753925e-06, 'optimizer': 'sgd', 'scheduler_gamma': 0.3632116170385882, 'scheduler_step_size': 385, 'weight_decay': 0.00044183764502446027}
+-------------------------------------------------------------------------------
+Loss: 0.6901901476085186
+Config ID: 59_1
+Config: {'batch_size': 89, 'epochs': 20, 'learning_rate': 6.546833074273904e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.12059882069056542, 'scheduler_step_size': 176, 'weight_decay': 0.0017520333679247253}
+-------------------------------------------------------------------------------
+Loss: 0.6668954382340113
+Config ID: 60_0
+Config: {'batch_size': 48, 'epochs': 6, 'learning_rate': 4.4049289830121306e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.7554956313137751, 'scheduler_step_size': 522, 'weight_decay': 2.4052879020174347e-05}
+-------------------------------------------------------------------------------
+Loss: 0.6237138437813726
+Config ID: 61_0
+Config: {'batch_size': 49, 'epochs': 6, 'learning_rate': 0.00014687171122718213, 'optimizer': 'adam', 'scheduler_gamma': 0.24579954238106627, 'scheduler_step_size': 842, 'weight_decay': 0.00020512594323425132}
+-------------------------------------------------------------------------------
+Loss: 0.6987538074071591
+Config ID: 62_0
+Config: {'batch_size': 55, 'epochs': 6, 'learning_rate': 0.00018221582277546321, 'optimizer': 'adam', 'scheduler_gamma': 0.3343012116659693, 'scheduler_step_size': 1228, 'weight_decay': 0.014873746420983958}
+-------------------------------------------------------------------------------
+Loss: 0.48768084727484606
+Config ID: 61_1
+Config: {'batch_size': 49, 'epochs': 20, 'learning_rate': 0.00014687171122718213, 'optimizer': 'adam', 'scheduler_gamma': 0.24579954238106627, 'scheduler_step_size': 842, 'weight_decay': 0.00020512594323425132}
+-------------------------------------------------------------------------------
+Loss: 0.5492188039828431
+Config ID: 63_1
+Config: {'batch_size': 32, 'epochs': 20, 'learning_rate': 0.04635603073762555, 'optimizer': 'adamw', 'scheduler_gamma': 0.5344162672218811, 'scheduler_step_size': 518, 'weight_decay': 0.00011565334775337553}
+-------------------------------------------------------------------------------
+Loss: 1.8368662242536191
+Config ID: 64_1
+Config: {'batch_size': 52, 'epochs': 20, 'learning_rate': 2.512971999600479e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.30521447459238027, 'scheduler_step_size': 41, 'weight_decay': 0.00012543772332144478}
+-------------------------------------------------------------------------------
+Loss: 1.8216316363085872
+Config ID: 65_0
+Config: {'batch_size': 31, 'epochs': 6, 'learning_rate': 1.3002076253642054e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.939113874029647, 'scheduler_step_size': 49, 'weight_decay': 0.007226090028534711}
+-------------------------------------------------------------------------------
+Loss: 1.1193257172902424
+Config ID: 66_0
+Config: {'batch_size': 122, 'epochs': 6, 'learning_rate': 9.491145947718267e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.02697254280462403, 'scheduler_step_size': 1449, 'weight_decay': 0.001708447427700103}
+-------------------------------------------------------------------------------
+Loss: 0.7087419242598116
+Config ID: 67_0
+Config: {'batch_size': 22, 'epochs': 6, 'learning_rate': 0.0031220674347709945, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.17682249871516467, 'scheduler_step_size': 587, 'weight_decay': 0.002375253130723869}
+-------------------------------------------------------------------------------
+Loss: 0.6193114863708615
+Config ID: 67_1
+Config: {'batch_size': 22, 'epochs': 20, 'learning_rate': 0.0031220674347709945, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.17682249871516467, 'scheduler_step_size': 587, 'weight_decay': 0.002375253130723869}
+-------------------------------------------------------------------------------
+Loss: 1.3287918430859926
+Config ID: 68_1
+Config: {'batch_size': 23, 'epochs': 20, 'learning_rate': 0.008444745867117472, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.686030996189169, 'scheduler_step_size': 4, 'weight_decay': 0.05896609588872505}
+-------------------------------------------------------------------------------
+Loss: 0.586683453562168
+Config ID: 69_1
+Config: {'batch_size': 18, 'epochs': 20, 'learning_rate': 2.6867671119210954e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.615900099762184, 'scheduler_step_size': 1054, 'weight_decay': 0.030484862221929615}
+-------------------------------------------------------------------------------
+Loss: 1.848631689423009
+Config ID: 70_0
+Config: {'batch_size': 75, 'epochs': 6, 'learning_rate': 1.259968183925608e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.7635089435878605, 'scheduler_step_size': 116, 'weight_decay': 0.02254274345591667}
+-------------------------------------------------------------------------------
+Loss: 1.7986590036979089
+Config ID: 71_0
+Config: {'batch_size': 113, 'epochs': 6, 'learning_rate': 1.6539826930547276e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.3948305104013839, 'scheduler_step_size': 353, 'weight_decay': 0.067076543583509}
+-------------------------------------------------------------------------------
+Loss: 0.7024125936441123
+Config ID: 72_0
+Config: {'batch_size': 22, 'epochs': 6, 'learning_rate': 0.0031483408946210004, 'optimizer': 'adamw', 'scheduler_gamma': 0.988056772133559, 'scheduler_step_size': 610, 'weight_decay': 4.051147939848977e-05}
+-------------------------------------------------------------------------------
+Loss: 0.7222822280600667
+Config ID: 72_1
+Config: {'batch_size': 22, 'epochs': 20, 'learning_rate': 0.0031483408946210004, 'optimizer': 'adamw', 'scheduler_gamma': 0.988056772133559, 'scheduler_step_size': 610, 'weight_decay': 4.051147939848977e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5716781799609845
+Config ID: 73_1
+Config: {'batch_size': 108, 'epochs': 20, 'learning_rate': 3.403825242315916e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.4883388493842985, 'scheduler_step_size': 747, 'weight_decay': 0.03827553012430164}
+-------------------------------------------------------------------------------
+Loss: 1.0630582647120699
+Config ID: 74_1
+Config: {'batch_size': 30, 'epochs': 20, 'learning_rate': 0.037345730428021126, 'optimizer': 'adam', 'scheduler_gamma': 0.9726653961446792, 'scheduler_step_size': 1498, 'weight_decay': 0.00045680076309535344}
+-------------------------------------------------------------------------------
+Loss: 0.8574414529970714
+Config ID: 75_0
+Config: {'batch_size': 51, 'epochs': 6, 'learning_rate': 1.66852708117721e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.4831638147553324, 'scheduler_step_size': 1132, 'weight_decay': 2.239068320803066e-05}
+-------------------------------------------------------------------------------
+Loss: 0.6103625684045255
+Config ID: 76_0
+Config: {'batch_size': 22, 'epochs': 6, 'learning_rate': 6.0157491188317925e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.7182843663869128, 'scheduler_step_size': 1317, 'weight_decay': 0.0004637175136993341}
+-------------------------------------------------------------------------------
+Loss: 0.7419161903324412
+Config ID: 77_0
+Config: {'batch_size': 21, 'epochs': 6, 'learning_rate': 0.0014863100462495405, 'optimizer': 'adam', 'scheduler_gamma': 0.8821804422377375, 'scheduler_step_size': 467, 'weight_decay': 0.00054998829035281}
+-------------------------------------------------------------------------------
+Loss: 0.5308070920873433
+Config ID: 76_1
+Config: {'batch_size': 22, 'epochs': 20, 'learning_rate': 6.0157491188317925e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.7182843663869128, 'scheduler_step_size': 1317, 'weight_decay': 0.0004637175136993341}
+-------------------------------------------------------------------------------
+Loss: 0.4852326847612858
+Config ID: 78_1
+Config: {'batch_size': 45, 'epochs': 20, 'learning_rate': 0.0020807425018215713, 'optimizer': 'adam', 'scheduler_gamma': 0.31109757287263595, 'scheduler_step_size': 1130, 'weight_decay': 6.138971298258256e-05}
+-------------------------------------------------------------------------------
+Loss: 1.0751910640133753
+Config ID: 79_1
+Config: {'batch_size': 78, 'epochs': 20, 'learning_rate': 0.0032361807099222776, 'optimizer': 'sgd', 'scheduler_gamma': 0.2757129998941327, 'scheduler_step_size': 1132, 'weight_decay': 6.72383400110841e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5455186928019804
+Config ID: 80_0
+Config: {'batch_size': 85, 'epochs': 6, 'learning_rate': 0.0003125206020227458, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.5871158446905419, 'scheduler_step_size': 604, 'weight_decay': 3.850478019861968e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8486494551534238
+Config ID: 81_0
+Config: {'batch_size': 62, 'epochs': 6, 'learning_rate': 2.3286651225676304e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.4073727483110793, 'scheduler_step_size': 485, 'weight_decay': 0.00012071128729438028}
+-------------------------------------------------------------------------------
+Loss: 1.7059368054072062
+Config ID: 82_0
+Config: {'batch_size': 96, 'epochs': 6, 'learning_rate': 2.5378310591038956e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.8533944076037782, 'scheduler_step_size': 351, 'weight_decay': 0.003392888095343128}
+-------------------------------------------------------------------------------
+Loss: 0.5560555966461406
+Config ID: 80_1
+Config: {'batch_size': 85, 'epochs': 20, 'learning_rate': 0.0003125206020227458, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.5871158446905419, 'scheduler_step_size': 604, 'weight_decay': 3.850478019861968e-05}
+-------------------------------------------------------------------------------
+Loss: 1.844936215600302
+Config ID: 83_1
+Config: {'batch_size': 33, 'epochs': 20, 'learning_rate': 2.946399359626652e-06, 'optimizer': 'sgd', 'scheduler_gamma': 0.18037132645739112, 'scheduler_step_size': 977, 'weight_decay': 2.6842793317814982e-05}
+-------------------------------------------------------------------------------
+Loss: 1.7491146005801301
+Config ID: 84_1
+Config: {'batch_size': 21, 'epochs': 20, 'learning_rate': 0.0011529338068001567, 'optimizer': 'sgd', 'scheduler_gamma': 0.20536145380195328, 'scheduler_step_size': 413, 'weight_decay': 0.018173396169036148}
+-------------------------------------------------------------------------------
+Loss: 7.950706715279437
+Config ID: 85_0
+Config: {'batch_size': 30, 'epochs': 6, 'learning_rate': 0.03793280761075204, 'optimizer': 'adam', 'scheduler_gamma': 0.08642956859867909, 'scheduler_step_size': 1386, 'weight_decay': 5.974282947773077e-05}
+-------------------------------------------------------------------------------
+Loss: 1.0366557343252774
+Config ID: 86_0
+Config: {'batch_size': 50, 'epochs': 6, 'learning_rate': 0.0007380816587552875, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.7008217109759103, 'scheduler_step_size': 1048, 'weight_decay': 0.0005799118082521966}
+-------------------------------------------------------------------------------
+Loss: 39.21834659576416
+Config ID: 87_0
+Config: {'batch_size': 93, 'epochs': 6, 'learning_rate': 0.06483893833135328, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.4753187368143599, 'scheduler_step_size': 1448, 'weight_decay': 0.00042394508494015366}
+-------------------------------------------------------------------------------
+Loss: 0.5186847395681101
+Config ID: 86_1
+Config: {'batch_size': 50, 'epochs': 20, 'learning_rate': 0.0007380816587552875, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.7008217109759103, 'scheduler_step_size': 1048, 'weight_decay': 0.0005799118082521966}
+-------------------------------------------------------------------------------
+Loss: 1.7431318011938357
+Config ID: 88_1
+Config: {'batch_size': 28, 'epochs': 20, 'learning_rate': 1.7871209852562755e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.1813211128008213, 'scheduler_step_size': 712, 'weight_decay': 7.616408907730393e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8497257188514427
+Config ID: 89_1
+Config: {'batch_size': 53, 'epochs': 20, 'learning_rate': 1.2947952188144914e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.9288988642973591, 'scheduler_step_size': 1165, 'weight_decay': 0.0041731855753899235}
+-------------------------------------------------------------------------------
+Loss: 0.5473985735859189
+Config ID: 90_0
+Config: {'batch_size': 34, 'epochs': 6, 'learning_rate': 0.0008463740619108371, 'optimizer': 'adamw', 'scheduler_gamma': 0.3764658515586836, 'scheduler_step_size': 658, 'weight_decay': 0.019746946086687516}
+-------------------------------------------------------------------------------
+Loss: 1.8587772765675106
+Config ID: 91_0
+Config: {'batch_size': 19, 'epochs': 6, 'learning_rate': 3.7420269501095413e-06, 'optimizer': 'sgd', 'scheduler_gamma': 0.7535236542349216, 'scheduler_step_size': 827, 'weight_decay': 5.0714883011057796e-05}
+-------------------------------------------------------------------------------
+Loss: 0.6224135091262204
+Config ID: 92_0
+Config: {'batch_size': 51, 'epochs': 6, 'learning_rate': 0.0011555774062115458, 'optimizer': 'adamw', 'scheduler_gamma': 0.4202121436514221, 'scheduler_step_size': 1281, 'weight_decay': 0.08715340408477963}
+-------------------------------------------------------------------------------
+Loss: 0.4951913104880424
+Config ID: 90_1
+Config: {'batch_size': 34, 'epochs': 20, 'learning_rate': 0.0008463740619108371, 'optimizer': 'adamw', 'scheduler_gamma': 0.3764658515586836, 'scheduler_step_size': 658, 'weight_decay': 0.019746946086687516}
+-------------------------------------------------------------------------------
+Loss: 0.5665842249569758
+Config ID: 93_1
+Config: {'batch_size': 20, 'epochs': 20, 'learning_rate': 5.939050995235395e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.9273086765087001, 'scheduler_step_size': 175, 'weight_decay': 0.0034515340851529338}
+-------------------------------------------------------------------------------
+Loss: 0.7343621632537326
+Config ID: 94_1
+Config: {'batch_size': 38, 'epochs': 20, 'learning_rate': 9.507507745297822e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.8909450866393389, 'scheduler_step_size': 1407, 'weight_decay': 0.00010240459378194174}
+-------------------------------------------------------------------------------
+Loss: 0.9849852052601901
+Config ID: 95_0
+Config: {'batch_size': 32, 'epochs': 6, 'learning_rate': 1.0315712294466333e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.7069581738010395, 'scheduler_step_size': 1273, 'weight_decay': 0.0009954852237151544}
+-------------------------------------------------------------------------------
+Loss: 1.6202793946632972
+Config ID: 96_0
+Config: {'batch_size': 116, 'epochs': 6, 'learning_rate': 4.496150730362284e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.7432342482554728, 'scheduler_step_size': 866, 'weight_decay': 0.012244963643546207}
+-------------------------------------------------------------------------------
+Loss: 1.7610233686339687
+Config ID: 97_0
+Config: {'batch_size': 20, 'epochs': 6, 'learning_rate': 1.6979215251646883e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.47698375305178603, 'scheduler_step_size': 872, 'weight_decay': 0.0006605039478158138}
+-------------------------------------------------------------------------------
+Loss: 0.6751882034269246
+Config ID: 95_1
+Config: {'batch_size': 32, 'epochs': 20, 'learning_rate': 1.0315712294466333e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.7069581738010395, 'scheduler_step_size': 1273, 'weight_decay': 0.0009954852237151544}
+-------------------------------------------------------------------------------
+Loss: 0.5252686799301401
+Config ID: 98_1
+Config: {'batch_size': 31, 'epochs': 20, 'learning_rate': 0.00013178415217801617, 'optimizer': 'adam', 'scheduler_gamma': 0.6715729142994686, 'scheduler_step_size': 1088, 'weight_decay': 0.0375916683007855}
+-------------------------------------------------------------------------------
+Loss: 0.4769977355996768
+Config ID: 99_1
+Config: {'batch_size': 60, 'epochs': 20, 'learning_rate': 0.011331762041303865, 'optimizer': 'adam', 'scheduler_gamma': 0.6147421566453571, 'scheduler_step_size': 373, 'weight_decay': 7.520563615135082e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5436037369072437
+Config ID: 100_0
+Config: {'batch_size': 60, 'epochs': 6, 'learning_rate': 0.0015605966873019446, 'optimizer': 'adam', 'scheduler_gamma': 0.5932160906181664, 'scheduler_step_size': 122, 'weight_decay': 3.0991239794776024e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8327871188521385
+Config ID: 101_0
+Config: {'batch_size': 89, 'epochs': 6, 'learning_rate': 5.938152960037722e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.39616044312960136, 'scheduler_step_size': 38, 'weight_decay': 3.726213389281052e-05}
+-------------------------------------------------------------------------------
+Loss: 1.1139865837446072
+Config ID: 102_0
+Config: {'batch_size': 35, 'epochs': 6, 'learning_rate': 1.015497590044915e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.8142352953394913, 'scheduler_step_size': 1285, 'weight_decay': 0.03287715241869864}
+-------------------------------------------------------------------------------
+Loss: 0.5053693472097317
+Config ID: 100_1
+Config: {'batch_size': 60, 'epochs': 20, 'learning_rate': 0.0015605966873019446, 'optimizer': 'adam', 'scheduler_gamma': 0.5932160906181664, 'scheduler_step_size': 122, 'weight_decay': 3.0991239794776024e-05}
+-------------------------------------------------------------------------------
+Loss: 1.7739045091650703
+Config ID: 103_1
+Config: {'batch_size': 16, 'epochs': 20, 'learning_rate': 1.144393918335421e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.42394566154727964, 'scheduler_step_size': 1073, 'weight_decay': 0.0001254764038497236}
+-------------------------------------------------------------------------------
+Loss: 0.7053980078246143
+Config ID: 104_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 0.011193169196386743, 'optimizer': 'adam', 'scheduler_gamma': 0.773172614298621, 'scheduler_step_size': 399, 'weight_decay': 0.004758492056360145}
+-------------------------------------------------------------------------------
+Loss: 1.8580817729234695
+Config ID: 105_0
+Config: {'batch_size': 22, 'epochs': 6, 'learning_rate': 1.1820473273338514e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.8304353574337074, 'scheduler_step_size': 10, 'weight_decay': 0.09088526543574792}
+-------------------------------------------------------------------------------
+Loss: 0.7063151431771425
+Config ID: 106_0
+Config: {'batch_size': 27, 'epochs': 6, 'learning_rate': 2.547974488355376e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.7858436801067528, 'scheduler_step_size': 1318, 'weight_decay': 3.643724030305878e-05}
+-------------------------------------------------------------------------------
+Loss: 1.0989769650133032
+Config ID: 107_0
+Config: {'batch_size': 37, 'epochs': 6, 'learning_rate': 9.897783449767125e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.2452737064826409, 'scheduler_step_size': 588, 'weight_decay': 5.2124306341743074e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5695785960325828
+Config ID: 106_1
+Config: {'batch_size': 27, 'epochs': 20, 'learning_rate': 2.547974488355376e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.7858436801067528, 'scheduler_step_size': 1318, 'weight_decay': 3.643724030305878e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8555028602188708
+Config ID: 108_1
+Config: {'batch_size': 28, 'epochs': 20, 'learning_rate': 6.808425479475874e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.6586146748120852, 'scheduler_step_size': 15, 'weight_decay': 3.6357600779101006e-05}
+-------------------------------------------------------------------------------
+Loss: 1.033912056304039
+Config ID: 109_1
+Config: {'batch_size': 30, 'epochs': 20, 'learning_rate': 4.82401892493235e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.5423334626955139, 'scheduler_step_size': 1163, 'weight_decay': 8.406358351134956e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8294049024581909
+Config ID: 110_0
+Config: {'batch_size': 48, 'epochs': 6, 'learning_rate': 1.2746274873843318e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.7117562022192266, 'scheduler_step_size': 62, 'weight_decay': 0.0016717343363047814}
+-------------------------------------------------------------------------------
+Loss: 1.845563375032865
+Config ID: 111_0
+Config: {'batch_size': 109, 'epochs': 6, 'learning_rate': 1.865549020195129e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.7333698476029541, 'scheduler_step_size': 720, 'weight_decay': 0.001679708602637378}
+-------------------------------------------------------------------------------
+Loss: 0.5378986475989223
+Config ID: 112_0
+Config: {'batch_size': 44, 'epochs': 6, 'learning_rate': 0.00022947427000345034, 'optimizer': 'adamw', 'scheduler_gamma': 0.7024882665106946, 'scheduler_step_size': 1141, 'weight_decay': 0.007513389903205356}
+-------------------------------------------------------------------------------
+Loss: 0.564386845100671
+Config ID: 112_1
+Config: {'batch_size': 44, 'epochs': 20, 'learning_rate': 0.00022947427000345034, 'optimizer': 'adamw', 'scheduler_gamma': 0.7024882665106946, 'scheduler_step_size': 1141, 'weight_decay': 0.007513389903205356}
+-------------------------------------------------------------------------------
+Loss: 0.5826586118111243
+Config ID: 113_1
+Config: {'batch_size': 110, 'epochs': 20, 'learning_rate': 3.474500963195516e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.9493663702011045, 'scheduler_step_size': 1174, 'weight_decay': 0.0007922664492642939}
+-------------------------------------------------------------------------------
+Loss: 0.5789105219500406
+Config ID: 114_1
+Config: {'batch_size': 41, 'epochs': 20, 'learning_rate': 0.016505793151008502, 'optimizer': 'adam', 'scheduler_gamma': 0.6817380562175557, 'scheduler_step_size': 524, 'weight_decay': 0.001914636795708521}
+-------------------------------------------------------------------------------
+Loss: 0.7683493567582889
+Config ID: 115_0
+Config: {'batch_size': 18, 'epochs': 6, 'learning_rate': 0.01810421468729423, 'optimizer': 'sgd', 'scheduler_gamma': 0.9663952954023269, 'scheduler_step_size': 267, 'weight_decay': 7.777706888666754e-05}
+-------------------------------------------------------------------------------
+Loss: 0.6275241135035531
+Config ID: 116_0
+Config: {'batch_size': 24, 'epochs': 6, 'learning_rate': 0.001108535720166816, 'optimizer': 'adam', 'scheduler_gamma': 0.9558584976284528, 'scheduler_step_size': 483, 'weight_decay': 8.994677686920011e-05}
+-------------------------------------------------------------------------------
+Loss: 0.749883113485394
+Config ID: 117_0
+Config: {'batch_size': 43, 'epochs': 6, 'learning_rate': 0.02762520525729459, 'optimizer': 'sgd', 'scheduler_gamma': 0.6464707605405207, 'scheduler_step_size': 436, 'weight_decay': 0.0010613615999544056}
+-------------------------------------------------------------------------------
+Loss: 0.6474385420649739
+Config ID: 116_1
+Config: {'batch_size': 24, 'epochs': 20, 'learning_rate': 0.001108535720166816, 'optimizer': 'adam', 'scheduler_gamma': 0.9558584976284528, 'scheduler_step_size': 483, 'weight_decay': 8.994677686920011e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5761271395853588
+Config ID: 118_1
+Config: {'batch_size': 101, 'epochs': 20, 'learning_rate': 0.002567498002830531, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.48457549051989535, 'scheduler_step_size': 456, 'weight_decay': 0.0037006146151193397}
+-------------------------------------------------------------------------------
+Loss: 0.7819341637003117
+Config ID: 119_1
+Config: {'batch_size': 18, 'epochs': 20, 'learning_rate': 0.00033169911023459296, 'optimizer': 'adam', 'scheduler_gamma': 0.08277180278051924, 'scheduler_step_size': 575, 'weight_decay': 0.046525170183631136}
+-------------------------------------------------------------------------------
+Loss: 1.84564408659935
+Config ID: 120_0
+Config: {'batch_size': 121, 'epochs': 6, 'learning_rate': 1.1478668086692433e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.811746161930763, 'scheduler_step_size': 859, 'weight_decay': 6.075439624161289e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8620620440628568
+Config ID: 121_0
+Config: {'batch_size': 24, 'epochs': 6, 'learning_rate': 1.8588717196984326e-06, 'optimizer': 'sgd', 'scheduler_gamma': 0.1672064610610576, 'scheduler_step_size': 62, 'weight_decay': 2.096371652319881e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5758881188672165
+Config ID: 122_0
+Config: {'batch_size': 49, 'epochs': 6, 'learning_rate': 0.011175696415092693, 'optimizer': 'adamw', 'scheduler_gamma': 0.240846365124171, 'scheduler_step_size': 304, 'weight_decay': 0.07259554398670374}
+-------------------------------------------------------------------------------
+Loss: 0.5325351655483246
+Config ID: 122_1
+Config: {'batch_size': 49, 'epochs': 20, 'learning_rate': 0.011175696415092693, 'optimizer': 'adamw', 'scheduler_gamma': 0.240846365124171, 'scheduler_step_size': 304, 'weight_decay': 0.07259554398670374}
+-------------------------------------------------------------------------------
+Loss: 0.6617288825123809
+Config ID: 123_1
+Config: {'batch_size': 33, 'epochs': 20, 'learning_rate': 0.02530623413984904, 'optimizer': 'sgd', 'scheduler_gamma': 0.2597271459014886, 'scheduler_step_size': 750, 'weight_decay': 0.009096846937635848}
+-------------------------------------------------------------------------------
+Loss: 1.8498758406474674
+Config ID: 124_1
+Config: {'batch_size': 49, 'epochs': 20, 'learning_rate': 5.58971865915975e-06, 'optimizer': 'sgd', 'scheduler_gamma': 0.608349998637194, 'scheduler_step_size': 168, 'weight_decay': 0.00040735236269982003}
+-------------------------------------------------------------------------------
+Loss: 0.5694633910530492
+Config ID: 125_0
+Config: {'batch_size': 74, 'epochs': 6, 'learning_rate': 6.815560243086935e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.030129209559127318, 'scheduler_step_size': 702, 'weight_decay': 0.013292296472173839}
+-------------------------------------------------------------------------------
+Loss: 1.8485320643945173
+Config ID: 126_0
+Config: {'batch_size': 66, 'epochs': 6, 'learning_rate': 0.00029576945212224603, 'optimizer': 'sgd', 'scheduler_gamma': 0.03539007418648408, 'scheduler_step_size': 1007, 'weight_decay': 0.0013817650850406877}
+-------------------------------------------------------------------------------
+Loss: 0.5967311355329695
+Config ID: 127_0
+Config: {'batch_size': 34, 'epochs': 6, 'learning_rate': 7.919085895857513e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.4602702521803807, 'scheduler_step_size': 1223, 'weight_decay': 0.0029686703788375846}
+-------------------------------------------------------------------------------
+Loss: 0.5644223517493198
+Config ID: 125_1
+Config: {'batch_size': 74, 'epochs': 20, 'learning_rate': 6.815560243086935e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.030129209559127318, 'scheduler_step_size': 702, 'weight_decay': 0.013292296472173839}
+-------------------------------------------------------------------------------
+Loss: 1.8648006182450514
+Config ID: 128_1
+Config: {'batch_size': 27, 'epochs': 20, 'learning_rate': 2.4050002107812546e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.7716352148474236, 'scheduler_step_size': 1310, 'weight_decay': 0.002340870286269683}
+-------------------------------------------------------------------------------
+Loss: 0.8492976742893902
+Config ID: 129_1
+Config: {'batch_size': 21, 'epochs': 20, 'learning_rate': 3.8967903037791186e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.01867491504601773, 'scheduler_step_size': 602, 'weight_decay': 0.05776357952005508}
+-------------------------------------------------------------------------------
+Loss: 0.8122548841568361
+Config ID: 130_0
+Config: {'batch_size': 17, 'epochs': 6, 'learning_rate': 0.022647848292342575, 'optimizer': 'adam', 'scheduler_gamma': 0.18227919691114397, 'scheduler_step_size': 1166, 'weight_decay': 0.0013214356240784711}
+-------------------------------------------------------------------------------
+Loss: 1.0591924246400595
+Config ID: 131_0
+Config: {'batch_size': 44, 'epochs': 6, 'learning_rate': 1.0831407729515139e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.16357696147992568, 'scheduler_step_size': 632, 'weight_decay': 0.0006258480745619897}
+-------------------------------------------------------------------------------
+Loss: 0.6418514847755432
+Config ID: 132_0
+Config: {'batch_size': 101, 'epochs': 6, 'learning_rate': 0.00010517528297823997, 'optimizer': 'adam', 'scheduler_gamma': 0.20236594856389245, 'scheduler_step_size': 253, 'weight_decay': 4.4505818173734934e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5976131750004632
+Config ID: 132_1
+Config: {'batch_size': 101, 'epochs': 20, 'learning_rate': 0.00010517528297823997, 'optimizer': 'adam', 'scheduler_gamma': 0.20236594856389245, 'scheduler_step_size': 253, 'weight_decay': 4.4505818173734934e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5904648920824361
+Config ID: 133_1
+Config: {'batch_size': 33, 'epochs': 20, 'learning_rate': 0.004598106527153913, 'optimizer': 'adam', 'scheduler_gamma': 0.13216674013177002, 'scheduler_step_size': 471, 'weight_decay': 3.982378517540462e-05}
+-------------------------------------------------------------------------------
+Loss: 0.9180284380912781
+Config ID: 134_1
+Config: {'batch_size': 95, 'epochs': 20, 'learning_rate': 0.0022942039851638796, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.9462645910395114, 'scheduler_step_size': 518, 'weight_decay': 1.092866289068925e-05}
+-------------------------------------------------------------------------------
+Loss: 0.696155615706942
+Config ID: 135_0
+Config: {'batch_size': 21, 'epochs': 6, 'learning_rate': 0.00037558056751052586, 'optimizer': 'adamw', 'scheduler_gamma': 0.11400248578035595, 'scheduler_step_size': 258, 'weight_decay': 9.687552198841368e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8549467995762825
+Config ID: 136_0
+Config: {'batch_size': 44, 'epochs': 6, 'learning_rate': 8.115659479385615e-06, 'optimizer': 'sgd', 'scheduler_gamma': 0.5889279514551294, 'scheduler_step_size': 757, 'weight_decay': 0.00013808381967290081}
+-------------------------------------------------------------------------------
+Loss: 0.7110225156777434
+Config ID: 137_0
+Config: {'batch_size': 40, 'epochs': 6, 'learning_rate': 0.011108566791426244, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.38861755834964123, 'scheduler_step_size': 152, 'weight_decay': 0.0012779083857798789}
+-------------------------------------------------------------------------------
+Loss: 0.6563289098775209
+Config ID: 135_1
+Config: {'batch_size': 21, 'epochs': 20, 'learning_rate': 0.00037558056751052586, 'optimizer': 'adamw', 'scheduler_gamma': 0.11400248578035595, 'scheduler_step_size': 258, 'weight_decay': 9.687552198841368e-05}
+-------------------------------------------------------------------------------
+Loss: 0.47508988612212194
+Config ID: 138_1
+Config: {'batch_size': 35, 'epochs': 20, 'learning_rate': 0.0006178500365524748, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.3410751764229804, 'scheduler_step_size': 788, 'weight_decay': 8.966523131561207e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5517943842070443
+Config ID: 139_1
+Config: {'batch_size': 41, 'epochs': 20, 'learning_rate': 0.0356944229967751, 'optimizer': 'sgd', 'scheduler_gamma': 0.04566641476264345, 'scheduler_step_size': 1406, 'weight_decay': 0.000926464495105162}
+-------------------------------------------------------------------------------
+Loss: 0.6075603302854758
+Config ID: 140_0
+Config: {'batch_size': 27, 'epochs': 6, 'learning_rate': 0.0002030632448665716, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.9323848937515333, 'scheduler_step_size': 149, 'weight_decay': 0.024053297586676837}
+-------------------------------------------------------------------------------
+Loss: 0.5656531107474546
+Config ID: 141_0
+Config: {'batch_size': 23, 'epochs': 6, 'learning_rate': 0.0008629027021367115, 'optimizer': 'adam', 'scheduler_gamma': 0.7985901706378347, 'scheduler_step_size': 310, 'weight_decay': 0.0004544334399676064}
+-------------------------------------------------------------------------------
+Loss: 1.3964711295233831
+Config ID: 142_0
+Config: {'batch_size': 79, 'epochs': 6, 'learning_rate': 0.01094769785445896, 'optimizer': 'sgd', 'scheduler_gamma': 0.22272904161441956, 'scheduler_step_size': 111, 'weight_decay': 0.007906559697412746}
+-------------------------------------------------------------------------------
+Loss: 0.5076453748662941
+Config ID: 141_1
+Config: {'batch_size': 23, 'epochs': 20, 'learning_rate': 0.0008629027021367115, 'optimizer': 'adam', 'scheduler_gamma': 0.7985901706378347, 'scheduler_step_size': 310, 'weight_decay': 0.0004544334399676064}
+-------------------------------------------------------------------------------
+Loss: 0.4902666854587468
+Config ID: 143_1
+Config: {'batch_size': 16, 'epochs': 20, 'learning_rate': 0.00020242138224273182, 'optimizer': 'adamw', 'scheduler_gamma': 0.7669328000417835, 'scheduler_step_size': 654, 'weight_decay': 7.716963729649466e-05}
+-------------------------------------------------------------------------------
+Loss: 1.063103809952736
+Config ID: 144_1
+Config: {'batch_size': 89, 'epochs': 20, 'learning_rate': 0.012604445482263277, 'optimizer': 'sgd', 'scheduler_gamma': 0.48612696656351245, 'scheduler_step_size': 146, 'weight_decay': 0.0013593272493148323}
+-------------------------------------------------------------------------------
+Loss: 1.255491288644927
+Config ID: 145_0
+Config: {'batch_size': 51, 'epochs': 6, 'learning_rate': 5.900162420813122e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.05045587128568551, 'scheduler_step_size': 969, 'weight_decay': 0.006654093393050072}
+-------------------------------------------------------------------------------
+Loss: 1.846108401522917
+Config ID: 146_0
+Config: {'batch_size': 86, 'epochs': 6, 'learning_rate': 5.6234359346948935e-06, 'optimizer': 'sgd', 'scheduler_gamma': 0.3071970352116096, 'scheduler_step_size': 302, 'weight_decay': 0.0014427412421859826}
+-------------------------------------------------------------------------------
+Loss: 0.5941108249731966
+Config ID: 147_0
+Config: {'batch_size': 19, 'epochs': 6, 'learning_rate': 0.0001207636055712586, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.5477579834645127, 'scheduler_step_size': 1298, 'weight_decay': 0.0002715097800898446}
+-------------------------------------------------------------------------------
+Loss: 0.5502203851938248
+Config ID: 147_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 0.0001207636055712586, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.5477579834645127, 'scheduler_step_size': 1298, 'weight_decay': 0.0002715097800898446}
+-------------------------------------------------------------------------------
+Loss: 0.5024915604214919
+Config ID: 148_1
+Config: {'batch_size': 37, 'epochs': 20, 'learning_rate': 0.016684420219800024, 'optimizer': 'adamw', 'scheduler_gamma': 0.5252227763284305, 'scheduler_step_size': 830, 'weight_decay': 0.0008134633980307924}
+-------------------------------------------------------------------------------
+Loss: 0.6352281908731203
+Config ID: 149_1
+Config: {'batch_size': 38, 'epochs': 20, 'learning_rate': 9.144316752634459e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.9429302215926053, 'scheduler_step_size': 375, 'weight_decay': 0.0014354093088379634}
+-------------------------------------------------------------------------------
+Loss: 0.5986705465425908
+Config ID: 150_0
+Config: {'batch_size': 20, 'epochs': 6, 'learning_rate': 0.00842618620537483, 'optimizer': 'adamw', 'scheduler_gamma': 0.14948612092981511, 'scheduler_step_size': 786, 'weight_decay': 8.268698823337953e-05}
+-------------------------------------------------------------------------------
+Loss: 1.847385307153066
+Config ID: 151_0
+Config: {'batch_size': 79, 'epochs': 6, 'learning_rate': 2.1441974813433266e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.8642372958823435, 'scheduler_step_size': 247, 'weight_decay': 1.4700331112809134e-05}
+-------------------------------------------------------------------------------
+Loss: 1.142513344162389
+Config ID: 152_0
+Config: {'batch_size': 75, 'epochs': 6, 'learning_rate': 9.640920558628904e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.8397903583516685, 'scheduler_step_size': 1471, 'weight_decay': 0.00018728587208233116}
+-------------------------------------------------------------------------------
+Loss: 0.5655486902720491
+Config ID: 150_1
+Config: {'batch_size': 20, 'epochs': 20, 'learning_rate': 0.00842618620537483, 'optimizer': 'adamw', 'scheduler_gamma': 0.14948612092981511, 'scheduler_step_size': 786, 'weight_decay': 8.268698823337953e-05}
+-------------------------------------------------------------------------------
+Loss: 0.769165552268594
+Config ID: 153_1
+Config: {'batch_size': 24, 'epochs': 20, 'learning_rate': 0.010205190501604787, 'optimizer': 'sgd', 'scheduler_gamma': 0.34665644448408356, 'scheduler_step_size': 1052, 'weight_decay': 0.0004576386336541274}
+-------------------------------------------------------------------------------
+Loss: 0.5033613360789885
+Config ID: 154_1
+Config: {'batch_size': 17, 'epochs': 20, 'learning_rate': 0.00751036339396785, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.7934026900691636, 'scheduler_step_size': 436, 'weight_decay': 4.9374796033913244e-05}
+-------------------------------------------------------------------------------
+Loss: 1.7580736194338118
+Config ID: 155_0
+Config: {'batch_size': 107, 'epochs': 6, 'learning_rate': 0.001501751900491069, 'optimizer': 'sgd', 'scheduler_gamma': 0.21299986735614346, 'scheduler_step_size': 290, 'weight_decay': 0.008172981071567118}
+-------------------------------------------------------------------------------
+Loss: 1.862926029242002
+Config ID: 156_0
+Config: {'batch_size': 56, 'epochs': 6, 'learning_rate': 2.4712990621946726e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.015008335166628521, 'scheduler_step_size': 755, 'weight_decay': 0.002424466156090609}
+-------------------------------------------------------------------------------
+Loss: 0.5740420480569204
+Config ID: 157_0
+Config: {'batch_size': 48, 'epochs': 6, 'learning_rate': 0.002440525071517495, 'optimizer': 'adamw', 'scheduler_gamma': 0.8432273080281184, 'scheduler_step_size': 361, 'weight_decay': 6.726525622022954e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5338296186178922
+Config ID: 157_1
+Config: {'batch_size': 48, 'epochs': 20, 'learning_rate': 0.002440525071517495, 'optimizer': 'adamw', 'scheduler_gamma': 0.8432273080281184, 'scheduler_step_size': 361, 'weight_decay': 6.726525622022954e-05}
+-------------------------------------------------------------------------------
+Loss: 1.179479998700759
+Config ID: 158_1
+Config: {'batch_size': 83, 'epochs': 20, 'learning_rate': 3.2043828100686705e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.5551285341080331, 'scheduler_step_size': 1484, 'weight_decay': 0.00804530919520096}
+-------------------------------------------------------------------------------
+Loss: 0.5954071206294678
+Config ID: 159_1
+Config: {'batch_size': 16, 'epochs': 20, 'learning_rate': 0.00011864147648352621, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.09839679946429157, 'scheduler_step_size': 1396, 'weight_decay': 0.004985665215768951}
+-------------------------------------------------------------------------------
+Loss: 1.0048306534687679
+Config ID: 160_0
+Config: {'batch_size': 60, 'epochs': 6, 'learning_rate': 0.05416762264797852, 'optimizer': 'adam', 'scheduler_gamma': 0.38327606071839476, 'scheduler_step_size': 41, 'weight_decay': 0.052498875208236845}
+-------------------------------------------------------------------------------
+Loss: 1.239969155854649
+Config ID: 161_0
+Config: {'batch_size': 39, 'epochs': 6, 'learning_rate': 0.09158675880590564, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.388021009517681, 'scheduler_step_size': 684, 'weight_decay': 0.006036933876475643}
+-------------------------------------------------------------------------------
+Loss: 1.7702012713998556
+Config ID: 162_0
+Config: {'batch_size': 22, 'epochs': 6, 'learning_rate': 0.0004089095691835361, 'optimizer': 'sgd', 'scheduler_gamma': 0.5514288540402134, 'scheduler_step_size': 1009, 'weight_decay': 0.00012107902090832585}
+-------------------------------------------------------------------------------
+Loss: 0.9657571539282799
+Config ID: 160_1
+Config: {'batch_size': 60, 'epochs': 20, 'learning_rate': 0.05416762264797852, 'optimizer': 'adam', 'scheduler_gamma': 0.38327606071839476, 'scheduler_step_size': 41, 'weight_decay': 0.052498875208236845}
+-------------------------------------------------------------------------------
+Loss: 1.8689359683882107
+Config ID: 163_1
+Config: {'batch_size': 16, 'epochs': 20, 'learning_rate': 0.00011182159186286103, 'optimizer': 'sgd', 'scheduler_gamma': 0.0619653975859031, 'scheduler_step_size': 1405, 'weight_decay': 0.0001310605632100638}
+-------------------------------------------------------------------------------
+Loss: 1.8553412274310463
+Config ID: 164_1
+Config: {'batch_size': 75, 'epochs': 20, 'learning_rate': 8.370820352229496e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.7283647196100538, 'scheduler_step_size': 318, 'weight_decay': 0.010676904225908205}
+-------------------------------------------------------------------------------
+Loss: 1.7337254120243921
+Config ID: 165_0
+Config: {'batch_size': 40, 'epochs': 6, 'learning_rate': 2.643799295578892e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.15879421392899776, 'scheduler_step_size': 568, 'weight_decay': 0.0016530750814877076}
+-------------------------------------------------------------------------------
+Loss: 0.9280638595422109
+Config ID: 166_0
+Config: {'batch_size': 48, 'epochs': 6, 'learning_rate': 0.0006958067336948878, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.9201546113062483, 'scheduler_step_size': 1169, 'weight_decay': 0.05777619252267749}
+-------------------------------------------------------------------------------
+Loss: 1.0341009251002609
+Config ID: 167_0
+Config: {'batch_size': 49, 'epochs': 6, 'learning_rate': 0.011061250324358736, 'optimizer': 'sgd', 'scheduler_gamma': 0.34444617798025146, 'scheduler_step_size': 305, 'weight_decay': 1.750348389000462e-05}
+-------------------------------------------------------------------------------
+Loss: 4.401041889190674
+Config ID: 166_1
+Config: {'batch_size': 48, 'epochs': 20, 'learning_rate': 0.0006958067336948878, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.9201546113062483, 'scheduler_step_size': 1169, 'weight_decay': 0.05777619252267749}
+-------------------------------------------------------------------------------
+Loss: 0.8776709181921822
+Config ID: 168_1
+Config: {'batch_size': 107, 'epochs': 20, 'learning_rate': 0.089227974961728, 'optimizer': 'adam', 'scheduler_gamma': 0.13720942632248836, 'scheduler_step_size': 255, 'weight_decay': 0.034047287608096846}
+-------------------------------------------------------------------------------
+Loss: 1.8461905651622348
+Config ID: 169_1
+Config: {'batch_size': 82, 'epochs': 20, 'learning_rate': 0.0007578279341041828, 'optimizer': 'sgd', 'scheduler_gamma': 0.2381001907480384, 'scheduler_step_size': 18, 'weight_decay': 1.273471005049995e-05}
+-------------------------------------------------------------------------------
+Loss: 1.7694175646111772
+Config ID: 170_0
+Config: {'batch_size': 19, 'epochs': 6, 'learning_rate': 1.9898078690509266e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.5973541168173634, 'scheduler_step_size': 46, 'weight_decay': 0.0015593810603959928}
+-------------------------------------------------------------------------------
+Loss: 0.6335141383684598
+Config ID: 171_0
+Config: {'batch_size': 56, 'epochs': 6, 'learning_rate': 0.008898820708088145, 'optimizer': 'adamw', 'scheduler_gamma': 0.018767957901647193, 'scheduler_step_size': 406, 'weight_decay': 0.04022266868432631}
+-------------------------------------------------------------------------------
+Loss: 1.7791852185975259
+Config ID: 172_0
+Config: {'batch_size': 21, 'epochs': 6, 'learning_rate': 0.001259910693669671, 'optimizer': 'sgd', 'scheduler_gamma': 0.0998121302020158, 'scheduler_step_size': 411, 'weight_decay': 0.0019556764564145407}
+-------------------------------------------------------------------------------
+Loss: 0.5884879626906835
+Config ID: 171_1
+Config: {'batch_size': 56, 'epochs': 20, 'learning_rate': 0.008898820708088145, 'optimizer': 'adamw', 'scheduler_gamma': 0.018767957901647193, 'scheduler_step_size': 406, 'weight_decay': 0.04022266868432631}
+-------------------------------------------------------------------------------
+Loss: 0.8438602983951569
+Config ID: 173_1
+Config: {'batch_size': 48, 'epochs': 20, 'learning_rate': 0.004380649467732389, 'optimizer': 'sgd', 'scheduler_gamma': 0.9416849234686684, 'scheduler_step_size': 605, 'weight_decay': 1.6460809300070713e-05}
+-------------------------------------------------------------------------------
+Loss: 0.6348802100439541
+Config ID: 174_1
+Config: {'batch_size': 23, 'epochs': 20, 'learning_rate': 0.002486545964165574, 'optimizer': 'adam', 'scheduler_gamma': 0.18215822731020576, 'scheduler_step_size': 1328, 'weight_decay': 0.00936410197477141}
+-------------------------------------------------------------------------------
+Loss: 0.9861755357547239
+Config ID: 175_0
+Config: {'batch_size': 16, 'epochs': 6, 'learning_rate': 0.0008199786216445112, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.27008146124459625, 'scheduler_step_size': 54, 'weight_decay': 0.0004786739024678994}
+-------------------------------------------------------------------------------
+Loss: 1.8548785177144138
+Config ID: 176_0
+Config: {'batch_size': 16, 'epochs': 6, 'learning_rate': 2.6167522498990806e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.33586859781080114, 'scheduler_step_size': 55, 'weight_decay': 0.06297663028986938}
+-------------------------------------------------------------------------------
+Loss: 0.5774889753053063
+Config ID: 177_0
+Config: {'batch_size': 37, 'epochs': 6, 'learning_rate': 0.016567728516575717, 'optimizer': 'adam', 'scheduler_gamma': 0.5754276200811607, 'scheduler_step_size': 820, 'weight_decay': 0.0001007640912846881}
+-------------------------------------------------------------------------------
+Loss: 0.6136377543995255
+Config ID: 177_1
+Config: {'batch_size': 37, 'epochs': 20, 'learning_rate': 0.016567728516575717, 'optimizer': 'adam', 'scheduler_gamma': 0.5754276200811607, 'scheduler_step_size': 820, 'weight_decay': 0.0001007640912846881}
+-------------------------------------------------------------------------------
+Loss: 0.6148708934178118
+Config ID: 178_1
+Config: {'batch_size': 23, 'epochs': 20, 'learning_rate': 0.0023277160286736655, 'optimizer': 'adam', 'scheduler_gamma': 0.18700684607802448, 'scheduler_step_size': 1317, 'weight_decay': 0.0061332353071604255}
+-------------------------------------------------------------------------------
+Loss: 0.7407082484828101
+Config ID: 179_1
+Config: {'batch_size': 80, 'epochs': 20, 'learning_rate': 0.011227377051067819, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.11611167710504515, 'scheduler_step_size': 1355, 'weight_decay': 0.00245606147204198}
+-------------------------------------------------------------------------------
+Loss: 0.5625438143809637
+Config ID: 180_0
+Config: {'batch_size': 125, 'epochs': 6, 'learning_rate': 0.00016081256063069693, 'optimizer': 'adam', 'scheduler_gamma': 0.630491331794384, 'scheduler_step_size': 1461, 'weight_decay': 0.0002984827010812099}
+-------------------------------------------------------------------------------
+Loss: 0.5845026726332995
+Config ID: 181_0
+Config: {'batch_size': 27, 'epochs': 6, 'learning_rate': 0.00020286684102182803, 'optimizer': 'adamw', 'scheduler_gamma': 0.7791315448665799, 'scheduler_step_size': 158, 'weight_decay': 0.007365425932790481}
+-------------------------------------------------------------------------------
+Loss: 0.6210549116134644
+Config ID: 182_0
+Config: {'batch_size': 97, 'epochs': 6, 'learning_rate': 0.0001264558134274266, 'optimizer': 'adam', 'scheduler_gamma': 0.3907332792908181, 'scheduler_step_size': 625, 'weight_decay': 0.013352887243888981}
+-------------------------------------------------------------------------------
+Loss: 0.5988808597127596
+Config ID: 180_1
+Config: {'batch_size': 125, 'epochs': 20, 'learning_rate': 0.00016081256063069693, 'optimizer': 'adam', 'scheduler_gamma': 0.630491331794384, 'scheduler_step_size': 1461, 'weight_decay': 0.0002984827010812099}
+-------------------------------------------------------------------------------
+Loss: 0.5341044957167469
+Config ID: 183_1
+Config: {'batch_size': 22, 'epochs': 20, 'learning_rate': 0.0002180443041849408, 'optimizer': 'adam', 'scheduler_gamma': 0.6864842762357064, 'scheduler_step_size': 987, 'weight_decay': 0.0015087190791892198}
+-------------------------------------------------------------------------------
+Loss: 4.885876839811152
+Config ID: 184_1
+Config: {'batch_size': 16, 'epochs': 20, 'learning_rate': 0.029839203072658117, 'optimizer': 'adam', 'scheduler_gamma': 0.9450600366176632, 'scheduler_step_size': 1494, 'weight_decay': 0.01204686181821871}
+-------------------------------------------------------------------------------
+Loss: 1.77348762498775
+Config ID: 185_0
+Config: {'batch_size': 20, 'epochs': 6, 'learning_rate': 1.2492566153637472e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.7394621123229576, 'scheduler_step_size': 1238, 'weight_decay': 0.00020073890341815076}
+-------------------------------------------------------------------------------
+Loss: 1.588969574136249
+Config ID: 186_0
+Config: {'batch_size': 24, 'epochs': 6, 'learning_rate': 0.0161571235511255, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.6422812466964168, 'scheduler_step_size': 892, 'weight_decay': 0.05307390453562036}
+-------------------------------------------------------------------------------
+Loss: 0.6441280717651049
+Config ID: 187_0
+Config: {'batch_size': 34, 'epochs': 6, 'learning_rate': 8.105482490713155e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.27019138262762565, 'scheduler_step_size': 1226, 'weight_decay': 0.0018703414362298359}
+-------------------------------------------------------------------------------
+Loss: 0.5152668637179193
+Config ID: 187_1
+Config: {'batch_size': 34, 'epochs': 20, 'learning_rate': 8.105482490713155e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.27019138262762565, 'scheduler_step_size': 1226, 'weight_decay': 0.0018703414362298359}
+-------------------------------------------------------------------------------
+Loss: 1.7483171316293569
+Config ID: 188_1
+Config: {'batch_size': 55, 'epochs': 20, 'learning_rate': 0.0012623460663716626, 'optimizer': 'sgd', 'scheduler_gamma': 0.0163585681612734, 'scheduler_step_size': 417, 'weight_decay': 0.0899359957783281}
+-------------------------------------------------------------------------------
+Loss: 0.7882876281316081
+Config ID: 189_1
+Config: {'batch_size': 40, 'epochs': 20, 'learning_rate': 0.0006687722485798572, 'optimizer': 'adamw', 'scheduler_gamma': 0.059894902071102984, 'scheduler_step_size': 101, 'weight_decay': 3.39852573524501e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5871942384462607
+Config ID: 190_0
+Config: {'batch_size': 25, 'epochs': 6, 'learning_rate': 0.02666852365154659, 'optimizer': 'adamw', 'scheduler_gamma': 0.13848311311537004, 'scheduler_step_size': 1274, 'weight_decay': 0.018943804469626433}
+-------------------------------------------------------------------------------
+Loss: 0.7494075643745336
+Config ID: 191_0
+Config: {'batch_size': 32, 'epochs': 6, 'learning_rate': 0.014412116164662857, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.6344291366385189, 'scheduler_step_size': 55, 'weight_decay': 0.00020782263430207875}
+-------------------------------------------------------------------------------
+Loss: 0.9771370991416599
+Config ID: 192_0
+Config: {'batch_size': 62, 'epochs': 6, 'learning_rate': 0.07523232353878548, 'optimizer': 'sgd', 'scheduler_gamma': 0.7292411662516085, 'scheduler_step_size': 727, 'weight_decay': 0.0004707841991308056}
+-------------------------------------------------------------------------------
+Loss: 0.48332469555827084
+Config ID: 190_1
+Config: {'batch_size': 25, 'epochs': 20, 'learning_rate': 0.02666852365154659, 'optimizer': 'adamw', 'scheduler_gamma': 0.13848311311537004, 'scheduler_step_size': 1274, 'weight_decay': 0.018943804469626433}
+-------------------------------------------------------------------------------
+Loss: 0.6473878880045307
+Config ID: 193_1
+Config: {'batch_size': 21, 'epochs': 20, 'learning_rate': 0.0012720807109886222, 'optimizer': 'adamw', 'scheduler_gamma': 0.02067425360460211, 'scheduler_step_size': 1040, 'weight_decay': 2.7896860950786566e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5016959517855536
+Config ID: 194_1
+Config: {'batch_size': 32, 'epochs': 20, 'learning_rate': 0.08655957979481897, 'optimizer': 'sgd', 'scheduler_gamma': 0.8521134712103333, 'scheduler_step_size': 555, 'weight_decay': 2.6214147459727046e-05}
+-------------------------------------------------------------------------------
+Loss: 1.73079780737559
+Config ID: 195_0
+Config: {'batch_size': 69, 'epochs': 6, 'learning_rate': 0.001187664366807403, 'optimizer': 'sgd', 'scheduler_gamma': 0.3660234921777958, 'scheduler_step_size': 1061, 'weight_decay': 7.225155969362633e-05}
+-------------------------------------------------------------------------------
+Loss: 1.845362941424052
+Config ID: 196_0
+Config: {'batch_size': 124, 'epochs': 6, 'learning_rate': 1.0073016032257648e-06, 'optimizer': 'sgd', 'scheduler_gamma': 0.7509500551226244, 'scheduler_step_size': 295, 'weight_decay': 0.0008343122026869052}
+-------------------------------------------------------------------------------
+Loss: 0.8640259280800819
+Config ID: 197_0
+Config: {'batch_size': 59, 'epochs': 6, 'learning_rate': 0.05474719929553725, 'optimizer': 'adamw', 'scheduler_gamma': 0.39210894515369416, 'scheduler_step_size': 34, 'weight_decay': 0.00048618123106080555}
+-------------------------------------------------------------------------------
+Loss: 0.833573912580808
+Config ID: 197_1
+Config: {'batch_size': 59, 'epochs': 20, 'learning_rate': 0.05474719929553725, 'optimizer': 'adamw', 'scheduler_gamma': 0.39210894515369416, 'scheduler_step_size': 34, 'weight_decay': 0.00048618123106080555}
+-------------------------------------------------------------------------------
+Loss: 1.3028399654797145
+Config ID: 198_1
+Config: {'batch_size': 41, 'epochs': 20, 'learning_rate': 4.606201760904827e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.3325658609275909, 'scheduler_step_size': 639, 'weight_decay': 0.006159360490044838}
+-------------------------------------------------------------------------------
+Loss: 1.777929587944134
+Config ID: 199_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 7.170106660136903e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.46973107877824677, 'scheduler_step_size': 148, 'weight_decay': 0.00031928507198207724}
+-------------------------------------------------------------------------------
+Loss: 1.3671357780694962
+Config ID: 200_0
+Config: {'batch_size': 59, 'epochs': 6, 'learning_rate': 0.054064527869487185, 'optimizer': 'sgd', 'scheduler_gamma': 0.4165249773491347, 'scheduler_step_size': 21, 'weight_decay': 0.006921500931240672}
+-------------------------------------------------------------------------------
+Loss: 0.6034693320592245
+Config ID: 201_0
+Config: {'batch_size': 123, 'epochs': 6, 'learning_rate': 9.727266766902947e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.050355842897849064, 'scheduler_step_size': 1084, 'weight_decay': 1.0226300828103903e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5817872484525045
+Config ID: 202_0
+Config: {'batch_size': 69, 'epochs': 6, 'learning_rate': 0.00029046352036596237, 'optimizer': 'adam', 'scheduler_gamma': 0.29078442467672194, 'scheduler_step_size': 486, 'weight_decay': 1.94524026232669e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5145159608551434
+Config ID: 202_1
+Config: {'batch_size': 69, 'epochs': 20, 'learning_rate': 0.00029046352036596237, 'optimizer': 'adam', 'scheduler_gamma': 0.29078442467672194, 'scheduler_step_size': 486, 'weight_decay': 1.94524026232669e-05}
+-------------------------------------------------------------------------------
+Loss: 1.1521286004119449
+Config ID: 203_1
+Config: {'batch_size': 78, 'epochs': 20, 'learning_rate': 0.003674554881751986, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.7055752210560438, 'scheduler_step_size': 5, 'weight_decay': 4.980800327879645e-05}
+-------------------------------------------------------------------------------
+Loss: 0.572155473055318
+Config ID: 204_1
+Config: {'batch_size': 22, 'epochs': 20, 'learning_rate': 0.022625242890554943, 'optimizer': 'sgd', 'scheduler_gamma': 0.9721325156401657, 'scheduler_step_size': 370, 'weight_decay': 8.137890086132474e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8386447704755342
+Config ID: 205_0
+Config: {'batch_size': 112, 'epochs': 6, 'learning_rate': 4.37279230071602e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.8914517390389508, 'scheduler_step_size': 1359, 'weight_decay': 0.09895868565396847}
+-------------------------------------------------------------------------------
+Loss: 1.2377877235412598
+Config ID: 206_0
+Config: {'batch_size': 48, 'epochs': 6, 'learning_rate': 5.691888655642024e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.7885165655459807, 'scheduler_step_size': 650, 'weight_decay': 0.00010006452784710208}
+-------------------------------------------------------------------------------
+Loss: 0.9175048403336968
+Config ID: 207_0
+Config: {'batch_size': 20, 'epochs': 6, 'learning_rate': 0.00794400252195533, 'optimizer': 'adam', 'scheduler_gamma': 0.3200381764495258, 'scheduler_step_size': 784, 'weight_decay': 0.025391918769688084}
+-------------------------------------------------------------------------------
+Loss: 0.7420388907194138
+Config ID: 207_1
+Config: {'batch_size': 20, 'epochs': 20, 'learning_rate': 0.00794400252195533, 'optimizer': 'adam', 'scheduler_gamma': 0.3200381764495258, 'scheduler_step_size': 784, 'weight_decay': 0.025391918769688084}
+-------------------------------------------------------------------------------
+Loss: 0.5549461841583252
+Config ID: 208_1
+Config: {'batch_size': 61, 'epochs': 20, 'learning_rate': 0.010714292909195712, 'optimizer': 'adam', 'scheduler_gamma': 0.745284810948978, 'scheduler_step_size': 372, 'weight_decay': 0.0003971911371316361}
+-------------------------------------------------------------------------------
+Loss: 0.5771494430044423
+Config ID: 209_1
+Config: {'batch_size': 61, 'epochs': 20, 'learning_rate': 0.027509886926198147, 'optimizer': 'sgd', 'scheduler_gamma': 0.8578833575302168, 'scheduler_step_size': 1247, 'weight_decay': 0.00024112497185405207}
+-------------------------------------------------------------------------------
+Loss: 0.8615511933962504
+Config ID: 210_0
+Config: {'batch_size': 95, 'epochs': 6, 'learning_rate': 7.896351624599689e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.04232287910558039, 'scheduler_step_size': 44, 'weight_decay': 0.006080429496125435}
+-------------------------------------------------------------------------------
+Loss: 1.1654164791107178
+Config ID: 211_0
+Config: {'batch_size': 126, 'epochs': 6, 'learning_rate': 1.1603042576410026e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.7875890065652601, 'scheduler_step_size': 1195, 'weight_decay': 0.00012439869245227465}
+-------------------------------------------------------------------------------
+Loss: 0.7096941454543008
+Config ID: 212_0
+Config: {'batch_size': 82, 'epochs': 6, 'learning_rate': 0.045676733508196496, 'optimizer': 'sgd', 'scheduler_gamma': 0.3129781461266089, 'scheduler_step_size': 813, 'weight_decay': 9.354167416128352e-05}
+-------------------------------------------------------------------------------
+Loss: 0.6263015261954732
+Config ID: 212_1
+Config: {'batch_size': 82, 'epochs': 20, 'learning_rate': 0.045676733508196496, 'optimizer': 'sgd', 'scheduler_gamma': 0.3129781461266089, 'scheduler_step_size': 813, 'weight_decay': 9.354167416128352e-05}
+-------------------------------------------------------------------------------
+Loss: 0.7305565639524847
+Config ID: 213_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 0.011649499379601226, 'optimizer': 'sgd', 'scheduler_gamma': 0.980860109277301, 'scheduler_step_size': 397, 'weight_decay': 0.04467032791932061}
+-------------------------------------------------------------------------------
+Loss: 0.6095119416713715
+Config ID: 214_1
+Config: {'batch_size': 41, 'epochs': 20, 'learning_rate': 0.08667688881337589, 'optimizer': 'adamw', 'scheduler_gamma': 0.16329942345571027, 'scheduler_step_size': 1287, 'weight_decay': 3.088990574177414e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8186749009525074
+Config ID: 215_0
+Config: {'batch_size': 84, 'epochs': 6, 'learning_rate': 0.0006914433134744616, 'optimizer': 'sgd', 'scheduler_gamma': 0.15690673611830558, 'scheduler_step_size': 1133, 'weight_decay': 0.00013133329996359693}
+-------------------------------------------------------------------------------
+Loss: 1.776193277589206
+Config ID: 216_0
+Config: {'batch_size': 50, 'epochs': 6, 'learning_rate': 1.4945147911381533e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.5796087365412697, 'scheduler_step_size': 29, 'weight_decay': 3.070533798688246e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8641120259826247
+Config ID: 217_0
+Config: {'batch_size': 19, 'epochs': 6, 'learning_rate': 0.00011464014570151833, 'optimizer': 'sgd', 'scheduler_gamma': 0.5668534644716856, 'scheduler_step_size': 1302, 'weight_decay': 0.00018375474207459714}
+-------------------------------------------------------------------------------
+Loss: 1.7660852670669556
+Config ID: 216_1
+Config: {'batch_size': 50, 'epochs': 20, 'learning_rate': 1.4945147911381533e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.5796087365412697, 'scheduler_step_size': 29, 'weight_decay': 3.070533798688246e-05}
+-------------------------------------------------------------------------------
+Loss: 0.948088314384222
+Config ID: 218_1
+Config: {'batch_size': 22, 'epochs': 20, 'learning_rate': 0.00016364176086736324, 'optimizer': 'adamw', 'scheduler_gamma': 0.43329263140810725, 'scheduler_step_size': 65, 'weight_decay': 0.0006766203851956649}
+-------------------------------------------------------------------------------
+Loss: 0.5882028995288743
+Config ID: 219_1
+Config: {'batch_size': 82, 'epochs': 20, 'learning_rate': 0.01542480401184267, 'optimizer': 'adamw', 'scheduler_gamma': 0.846737820550535, 'scheduler_step_size': 511, 'weight_decay': 0.0005018887096863848}
+-------------------------------------------------------------------------------
+Loss: 0.5606572300195694
+Config ID: 220_0
+Config: {'batch_size': 72, 'epochs': 6, 'learning_rate': 0.0025722911430732997, 'optimizer': 'adamw', 'scheduler_gamma': 0.9853324003287677, 'scheduler_step_size': 1040, 'weight_decay': 7.189449331184733e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8493864621434892
+Config ID: 221_0
+Config: {'batch_size': 101, 'epochs': 6, 'learning_rate': 0.00010568546291007036, 'optimizer': 'sgd', 'scheduler_gamma': 0.20092210282111403, 'scheduler_step_size': 256, 'weight_decay': 0.08524160542900956}
+-------------------------------------------------------------------------------
+Loss: 1.3725158260627226
+Config ID: 222_0
+Config: {'batch_size': 16, 'epochs': 6, 'learning_rate': 0.004050199854693049, 'optimizer': 'sgd', 'scheduler_gamma': 0.060040736454641724, 'scheduler_step_size': 529, 'weight_decay': 0.054805342001753944}
+-------------------------------------------------------------------------------
+Loss: 0.6392297521233559
+Config ID: 220_1
+Config: {'batch_size': 72, 'epochs': 20, 'learning_rate': 0.0025722911430732997, 'optimizer': 'adamw', 'scheduler_gamma': 0.9853324003287677, 'scheduler_step_size': 1040, 'weight_decay': 7.189449331184733e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5925233537952105
+Config ID: 223_1
+Config: {'batch_size': 118, 'epochs': 20, 'learning_rate': 0.0003341736163668118, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.4614053418273352, 'scheduler_step_size': 1415, 'weight_decay': 1.5770919670246346e-05}
+-------------------------------------------------------------------------------
+Loss: 0.7843558430098571
+Config ID: 224_1
+Config: {'batch_size': 56, 'epochs': 20, 'learning_rate': 0.04087175887177697, 'optimizer': 'sgd', 'scheduler_gamma': 0.03181766263088243, 'scheduler_step_size': 313, 'weight_decay': 0.003140848143937399}
+-------------------------------------------------------------------------------
+Loss: 1.834256100654602
+Config ID: 225_0
+Config: {'batch_size': 72, 'epochs': 6, 'learning_rate': 1.3695613877910415e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.34361446166345494, 'scheduler_step_size': 95, 'weight_decay': 0.016935679975602837}
+-------------------------------------------------------------------------------
+Loss: 1.8450538627803326
+Config ID: 226_0
+Config: {'batch_size': 22, 'epochs': 6, 'learning_rate': 1.3553707629348845e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.07324805152206085, 'scheduler_step_size': 297, 'weight_decay': 0.08434287329131299}
+-------------------------------------------------------------------------------
+Loss: 0.562230401805469
+Config ID: 227_0
+Config: {'batch_size': 69, 'epochs': 6, 'learning_rate': 0.02280245371516616, 'optimizer': 'adamw', 'scheduler_gamma': 0.5457389825036155, 'scheduler_step_size': 454, 'weight_decay': 4.2241547716641794e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5618326649779365
+Config ID: 227_1
+Config: {'batch_size': 69, 'epochs': 20, 'learning_rate': 0.02280245371516616, 'optimizer': 'adamw', 'scheduler_gamma': 0.5457389825036155, 'scheduler_step_size': 454, 'weight_decay': 4.2241547716641794e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5207473240841768
+Config ID: 228_1
+Config: {'batch_size': 25, 'epochs': 20, 'learning_rate': 6.47459700215744e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.826180406109904, 'scheduler_step_size': 471, 'weight_decay': 3.9486752886251906e-05}
+-------------------------------------------------------------------------------
+Loss: 1.8519073459837172
+Config ID: 229_1
+Config: {'batch_size': 40, 'epochs': 20, 'learning_rate': 6.3057906281490254e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.40433448611388784, 'scheduler_step_size': 26, 'weight_decay': 0.052310879167842696}
+-------------------------------------------------------------------------------
+Loss: 0.667348498744624
+Config ID: 230_0
+Config: {'batch_size': 51, 'epochs': 6, 'learning_rate': 0.051736987722150796, 'optimizer': 'sgd', 'scheduler_gamma': 0.015803075064070582, 'scheduler_step_size': 491, 'weight_decay': 0.013635337851790325}
+-------------------------------------------------------------------------------
+Loss: 0.6714247443846294
+Config ID: 231_0
+Config: {'batch_size': 105, 'epochs': 6, 'learning_rate': 0.013989648708304278, 'optimizer': 'adam', 'scheduler_gamma': 0.7353270538810531, 'scheduler_step_size': 783, 'weight_decay': 5.6658795445797865e-05}
+-------------------------------------------------------------------------------
+Loss: 0.6464010842821815
+Config ID: 232_0
+Config: {'batch_size': 65, 'epochs': 6, 'learning_rate': 0.029686388501870328, 'optimizer': 'adamw', 'scheduler_gamma': 0.7761954805729611, 'scheduler_step_size': 1459, 'weight_decay': 1.940158215059266e-05}
+-------------------------------------------------------------------------------
+Loss: 0.7613725811243057
+Config ID: 232_1
+Config: {'batch_size': 65, 'epochs': 20, 'learning_rate': 0.029686388501870328, 'optimizer': 'adamw', 'scheduler_gamma': 0.7761954805729611, 'scheduler_step_size': 1459, 'weight_decay': 1.940158215059266e-05}
+-------------------------------------------------------------------------------
+Loss: 0.7241632189069476
+Config ID: 233_1
+Config: {'batch_size': 41, 'epochs': 20, 'learning_rate': 0.003337558792432364, 'optimizer': 'adamw', 'scheduler_gamma': 0.2666404765343586, 'scheduler_step_size': 62, 'weight_decay': 0.0018690116075470945}
+-------------------------------------------------------------------------------
+Loss: 0.5439376268121932
+Config ID: 234_1
+Config: {'batch_size': 52, 'epochs': 20, 'learning_rate': 0.0009319058842495872, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.20970828116831114, 'scheduler_step_size': 523, 'weight_decay': 0.007024045069961133}
+-------------------------------------------------------------------------------
+Loss: 0.5388650058635643
+Config ID: 235_0
+Config: {'batch_size': 51, 'epochs': 6, 'learning_rate': 0.0013509448578525069, 'optimizer': 'adamw', 'scheduler_gamma': 0.8717444371842625, 'scheduler_step_size': 60, 'weight_decay': 0.04479630294430232}
+-------------------------------------------------------------------------------
+Loss: 0.7179455672475424
+Config ID: 236_0
+Config: {'batch_size': 32, 'epochs': 6, 'learning_rate': 3.4165232511618604e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.6393348539381971, 'scheduler_step_size': 623, 'weight_decay': 0.01143655777033501}
+-------------------------------------------------------------------------------
+Loss: 1.8541147763078862
+Config ID: 237_0
+Config: {'batch_size': 64, 'epochs': 6, 'learning_rate': 0.0002396297049058918, 'optimizer': 'sgd', 'scheduler_gamma': 0.6527417703451567, 'scheduler_step_size': 542, 'weight_decay': 1.1233058510560235e-05}
+-------------------------------------------------------------------------------
+Loss: 0.45860573343400446
+Config ID: 235_1
+Config: {'batch_size': 51, 'epochs': 20, 'learning_rate': 0.0013509448578525069, 'optimizer': 'adamw', 'scheduler_gamma': 0.8717444371842625, 'scheduler_step_size': 60, 'weight_decay': 0.04479630294430232}
+-------------------------------------------------------------------------------
+Loss: 0.5825375274226472
+Config ID: 238_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 0.07841866194062465, 'optimizer': 'sgd', 'scheduler_gamma': 0.340995268328438, 'scheduler_step_size': 787, 'weight_decay': 7.876779793128254e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5582705073993566
+Config ID: 239_1
+Config: {'batch_size': 93, 'epochs': 20, 'learning_rate': 0.0002682525952992641, 'optimizer': 'adamw', 'scheduler_gamma': 0.2231486161347986, 'scheduler_step_size': 1249, 'weight_decay': 2.1520162954596303e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5589761804131901
+Config ID: 240_0
+Config: {'batch_size': 83, 'epochs': 6, 'learning_rate': 0.0009622805990692593, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.03477067862848614, 'scheduler_step_size': 818, 'weight_decay': 0.000565709526690468}
+-------------------------------------------------------------------------------
+Loss: 0.6488648940015722
+Config ID: 241_0
+Config: {'batch_size': 52, 'epochs': 6, 'learning_rate': 0.015852089123964252, 'optimizer': 'adamw', 'scheduler_gamma': 0.9252052424172995, 'scheduler_step_size': 653, 'weight_decay': 0.026226811799362284}
+-------------------------------------------------------------------------------
+Loss: 1.851981914960421
+Config ID: 242_0
+Config: {'batch_size': 108, 'epochs': 6, 'learning_rate': 0.00014091917968569111, 'optimizer': 'sgd', 'scheduler_gamma': 0.965200400360402, 'scheduler_step_size': 647, 'weight_decay': 0.0012108523037533273}
+-------------------------------------------------------------------------------
+Loss: 0.5085461753256181
+Config ID: 240_1
+Config: {'batch_size': 83, 'epochs': 20, 'learning_rate': 0.0009622805990692593, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.03477067862848614, 'scheduler_step_size': 818, 'weight_decay': 0.000565709526690468}
+-------------------------------------------------------------------------------
+Loss: 1.2343070209026337
+Config ID: 243_1
+Config: {'batch_size': 27, 'epochs': 20, 'learning_rate': 3.608188837308409e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.19335652431143036, 'scheduler_step_size': 1417, 'weight_decay': 0.00014660734237567264}
+-------------------------------------------------------------------------------
+Loss: 1.716663631233009
+Config ID: 244_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 1.1319374901943257e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.15493941033655503, 'scheduler_step_size': 253, 'weight_decay': 0.012037461833487362}
+-------------------------------------------------------------------------------
+Loss: 1.592645655075709
+Config ID: 245_0
+Config: {'batch_size': 117, 'epochs': 6, 'learning_rate': 0.00321066030246993, 'optimizer': 'sgd', 'scheduler_gamma': 0.13724681869064148, 'scheduler_step_size': 1209, 'weight_decay': 2.0205419751157772e-05}
+-------------------------------------------------------------------------------
+Loss: 1.4632870062537815
+Config ID: 246_0
+Config: {'batch_size': 31, 'epochs': 6, 'learning_rate': 0.0013349927310739005, 'optimizer': 'sgd', 'scheduler_gamma': 0.8048294830140109, 'scheduler_step_size': 1461, 'weight_decay': 0.01253951320750304}
+-------------------------------------------------------------------------------
+Loss: 1.86721324352991
+Config ID: 247_0
+Config: {'batch_size': 70, 'epochs': 6, 'learning_rate': 0.00019412070027528512, 'optimizer': 'sgd', 'scheduler_gamma': 0.5158158695865502, 'scheduler_step_size': 1283, 'weight_decay': 0.013172557500244245}
+-------------------------------------------------------------------------------
+Loss: 1.0112197768429052
+Config ID: 246_1
+Config: {'batch_size': 31, 'epochs': 20, 'learning_rate': 0.0013349927310739005, 'optimizer': 'sgd', 'scheduler_gamma': 0.8048294830140109, 'scheduler_step_size': 1461, 'weight_decay': 0.01253951320750304}
+-------------------------------------------------------------------------------
+Loss: 1.4757304939569211
+Config ID: 248_1
+Config: {'batch_size': 28, 'epochs': 20, 'learning_rate': 7.11580053878743e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.5367070431695345, 'scheduler_step_size': 25, 'weight_decay': 0.0003275470637571263}
+-------------------------------------------------------------------------------
+Loss: 0.9631780793792323
+Config ID: 249_1
+Config: {'batch_size': 75, 'epochs': 20, 'learning_rate': 1.7919297406629525e-05, 'optimizer': 'adamw', 'scheduler_gamma': 0.33303261114532073, 'scheduler_step_size': 278, 'weight_decay': 0.004168336861132621}
+-------------------------------------------------------------------------------
+Loss: 1.7829685421550976
+Config ID: 250_0
+Config: {'batch_size': 84, 'epochs': 6, 'learning_rate': 0.0009819693493375132, 'optimizer': 'sgd', 'scheduler_gamma': 0.4435577429828557, 'scheduler_step_size': 968, 'weight_decay': 0.0001352983201660162}
+-------------------------------------------------------------------------------
+Loss: 1.5044499865749426
+Config ID: 251_0
+Config: {'batch_size': 25, 'epochs': 6, 'learning_rate': 3.2285582882667127e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.6829203961470145, 'scheduler_step_size': 955, 'weight_decay': 6.888854250391638e-05}
+-------------------------------------------------------------------------------
+Loss: 1.7217155443994623
+Config ID: 252_0
+Config: {'batch_size': 25, 'epochs': 6, 'learning_rate': 2.9235938769975097e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.8253178275739743, 'scheduler_step_size': 172, 'weight_decay': 1.7928131325701638e-05}
+-------------------------------------------------------------------------------
+Loss: 1.126682202021281
+Config ID: 251_1
+Config: {'batch_size': 25, 'epochs': 20, 'learning_rate': 3.2285582882667127e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.6829203961470145, 'scheduler_step_size': 955, 'weight_decay': 6.888854250391638e-05}
+-------------------------------------------------------------------------------
+Loss: 0.594094683995118
+Config ID: 253_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 5.607903618926503e-05, 'optimizer': 'adam', 'scheduler_gamma': 0.9119315821346048, 'scheduler_step_size': 293, 'weight_decay': 0.0004284949521053902}
+-------------------------------------------------------------------------------
+Loss: 0.500210368108139
+Config ID: 254_1
+Config: {'batch_size': 17, 'epochs': 20, 'learning_rate': 0.00689833616862049, 'optimizer': 'adamw', 'scheduler_gamma': 0.785702828498394, 'scheduler_step_size': 432, 'weight_decay': 0.0034519460057182492}
+-------------------------------------------------------------------------------
+Loss: 1.2871219593545664
+Config ID: 255_0
+Config: {'batch_size': 63, 'epochs': 6, 'learning_rate': 5.474453175457503e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.8504089321901188, 'scheduler_step_size': 749, 'weight_decay': 6.23424557834139e-05}
+-------------------------------------------------------------------------------
+Loss: 0.9869471508336355
+Config ID: 256_0
+Config: {'batch_size': 17, 'epochs': 6, 'learning_rate': 0.004219838712324644, 'optimizer': 'sgd', 'scheduler_gamma': 0.451876802326167, 'scheduler_step_size': 1199, 'weight_decay': 1.0996744524376737e-05}
+-------------------------------------------------------------------------------
+Loss: 1.1107866913080215
+Config ID: 257_0
+Config: {'batch_size': 32, 'epochs': 6, 'learning_rate': 1.2286662156597e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.31697225866185563, 'scheduler_step_size': 1486, 'weight_decay': 0.07001909473411415}
+-------------------------------------------------------------------------------
+Loss: 0.8697691707007856
+Config ID: 256_1
+Config: {'batch_size': 17, 'epochs': 20, 'learning_rate': 0.004219838712324644, 'optimizer': 'sgd', 'scheduler_gamma': 0.451876802326167, 'scheduler_step_size': 1199, 'weight_decay': 1.0996744524376737e-05}
+-------------------------------------------------------------------------------
+Loss: 0.45658734825349623
+Config ID: 258_1
+Config: {'batch_size': 46, 'epochs': 20, 'learning_rate': 0.006364919561013377, 'optimizer': 'adam', 'scheduler_gamma': 0.5363691814517186, 'scheduler_step_size': 418, 'weight_decay': 0.00013028352918758183}
+-------------------------------------------------------------------------------
+Loss: 1.5840254957611497
+Config ID: 259_1
+Config: {'batch_size': 19, 'epochs': 20, 'learning_rate': 9.464413720889761e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.3191613830453194, 'scheduler_step_size': 306, 'weight_decay': 0.004990159842369212}
+-------------------------------------------------------------------------------
+Loss: 0.9258366931302875
+Config ID: 260_0
+Config: {'batch_size': 28, 'epochs': 6, 'learning_rate': 0.002491926698344759, 'optimizer': 'adam', 'scheduler_gamma': 0.24431205206613144, 'scheduler_step_size': 71, 'weight_decay': 0.08552289534420929}
+-------------------------------------------------------------------------------
+Loss: 2.150675096981962
+Config ID: 261_0
+Config: {'batch_size': 20, 'epochs': 6, 'learning_rate': 0.01880196834068467, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.37317373347510363, 'scheduler_step_size': 855, 'weight_decay': 0.01668292806360379}
+-------------------------------------------------------------------------------
+Loss: 0.6771234454853194
+Config ID: 262_0
+Config: {'batch_size': 51, 'epochs': 6, 'learning_rate': 0.0012318299519580931, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.4015797040970381, 'scheduler_step_size': 57, 'weight_decay': 3.990782895061611e-05}
+-------------------------------------------------------------------------------
+Loss: 0.6460079731685775
+Config ID: 262_1
+Config: {'batch_size': 51, 'epochs': 20, 'learning_rate': 0.0012318299519580931, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.4015797040970381, 'scheduler_step_size': 57, 'weight_decay': 3.990782895061611e-05}
+-------------------------------------------------------------------------------
+Loss: 1.0233399027683696
+Config ID: 263_1
+Config: {'batch_size': 23, 'epochs': 20, 'learning_rate': 1.8520441378189185e-05, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.40403311380651263, 'scheduler_step_size': 363, 'weight_decay': 0.004233287543408548}
+-------------------------------------------------------------------------------
+Loss: 0.5566898362622374
+Config ID: 264_1
+Config: {'batch_size': 70, 'epochs': 20, 'learning_rate': 0.021080836664539675, 'optimizer': 'adamw', 'scheduler_gamma': 0.6252904647281009, 'scheduler_step_size': 453, 'weight_decay': 0.00034045735117169113}
+-------------------------------------------------------------------------------
+Loss: 3.440295487642288
+Config ID: 265_0
+Config: {'batch_size': 89, 'epochs': 6, 'learning_rate': 0.028975648124475614, 'optimizer': 'adam', 'scheduler_gamma': 0.274182498592586, 'scheduler_step_size': 1007, 'weight_decay': 0.02416874919711357}
+-------------------------------------------------------------------------------
+Loss: 0.5301852745887561
+Config ID: 266_0
+Config: {'batch_size': 36, 'epochs': 6, 'learning_rate': 0.0001600211199802943, 'optimizer': 'adam', 'scheduler_gamma': 0.3836406485044205, 'scheduler_step_size': 786, 'weight_decay': 0.000282296170992093}
+-------------------------------------------------------------------------------
+Loss: 0.8018931405884879
+Config ID: 267_0
+Config: {'batch_size': 51, 'epochs': 6, 'learning_rate': 0.0015862048108697092, 'optimizer': 'adamw', 'scheduler_gamma': 0.1129400933725298, 'scheduler_step_size': 45, 'weight_decay': 0.06032124262765311}
+-------------------------------------------------------------------------------
+Loss: 0.4858775876271419
+Config ID: 266_1
+Config: {'batch_size': 36, 'epochs': 20, 'learning_rate': 0.0001600211199802943, 'optimizer': 'adam', 'scheduler_gamma': 0.3836406485044205, 'scheduler_step_size': 786, 'weight_decay': 0.000282296170992093}
+-------------------------------------------------------------------------------
+Loss: 0.5465524562767574
+Config ID: 268_1
+Config: {'batch_size': 41, 'epochs': 20, 'learning_rate': 0.016033787277049454, 'optimizer': 'sgd', 'scheduler_gamma': 0.8884047053870736, 'scheduler_step_size': 535, 'weight_decay': 0.015625221884048145}
+-------------------------------------------------------------------------------
+Loss: 0.7590751610696316
+Config ID: 269_1
+Config: {'batch_size': 22, 'epochs': 20, 'learning_rate': 0.024430238493850284, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.6960189573965406, 'scheduler_step_size': 371, 'weight_decay': 0.008550797769414153}
+-------------------------------------------------------------------------------
+Loss: 0.5730159026245738
+Config ID: 270_0
+Config: {'batch_size': 33, 'epochs': 6, 'learning_rate': 0.0003545576324532032, 'optimizer': 'adamw', 'scheduler_gamma': 0.20046463961148053, 'scheduler_step_size': 847, 'weight_decay': 7.755122759265809e-05}
+-------------------------------------------------------------------------------
+Loss: 1.4696775528422572
+Config ID: 271_0
+Config: {'batch_size': 25, 'epochs': 6, 'learning_rate': 3.325927324745002e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.6615159035619573, 'scheduler_step_size': 965, 'weight_decay': 0.00024104737531360415}
+-------------------------------------------------------------------------------
+Loss: 1.811857815493237
+Config ID: 272_0
+Config: {'batch_size': 16, 'epochs': 6, 'learning_rate': 2.183513973442488e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.8459485378633956, 'scheduler_step_size': 833, 'weight_decay': 0.08366054755849012}
+-------------------------------------------------------------------------------
+Loss: 0.5124136096862859
+Config ID: 270_1
+Config: {'batch_size': 33, 'epochs': 20, 'learning_rate': 0.0003545576324532032, 'optimizer': 'adamw', 'scheduler_gamma': 0.20046463961148053, 'scheduler_step_size': 847, 'weight_decay': 7.755122759265809e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5014411277942739
+Config ID: 273_1
+Config: {'batch_size': 24, 'epochs': 20, 'learning_rate': 0.00013113678661904495, 'optimizer': 'adamw', 'scheduler_gamma': 0.12749794432154507, 'scheduler_step_size': 1456, 'weight_decay': 1.8643589617892946e-05}
+-------------------------------------------------------------------------------
+Loss: 1.7850823716113442
+Config ID: 274_1
+Config: {'batch_size': 77, 'epochs': 20, 'learning_rate': 4.397690237580494e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.26090614311246385, 'scheduler_step_size': 104, 'weight_decay': 1.9793164718704854e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5971369594335556
+Config ID: 275_0
+Config: {'batch_size': 123, 'epochs': 6, 'learning_rate': 0.009729195937542562, 'optimizer': 'adam', 'scheduler_gamma': 0.05402233972279271, 'scheduler_step_size': 509, 'weight_decay': 0.00028168783677014376}
+-------------------------------------------------------------------------------
+Loss: 1.8538070583343507
+Config ID: 276_0
+Config: {'batch_size': 57, 'epochs': 6, 'learning_rate': 4.156322576042856e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.40614586130343033, 'scheduler_step_size': 1368, 'weight_decay': 0.003135025435884354}
+-------------------------------------------------------------------------------
+Loss: 0.6928895308690912
+Config ID: 277_0
+Config: {'batch_size': 83, 'epochs': 6, 'learning_rate': 0.04804967560420807, 'optimizer': 'sgd', 'scheduler_gamma': 0.4992930332088296, 'scheduler_step_size': 811, 'weight_decay': 2.3670152088930492e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5398198440670967
+Config ID: 275_1
+Config: {'batch_size': 123, 'epochs': 20, 'learning_rate': 0.009729195937542562, 'optimizer': 'adam', 'scheduler_gamma': 0.05402233972279271, 'scheduler_step_size': 509, 'weight_decay': 0.00028168783677014376}
+-------------------------------------------------------------------------------
+Loss: 0.459579205494779
+Config ID: 278_1
+Config: {'batch_size': 31, 'epochs': 20, 'learning_rate': 0.0007421226958939255, 'optimizer': 'adamw', 'scheduler_gamma': 0.6876757885638607, 'scheduler_step_size': 305, 'weight_decay': 5.3715119725459015e-05}
+-------------------------------------------------------------------------------
+Loss: 1.7332901330221266
+Config ID: 279_1
+Config: {'batch_size': 70, 'epochs': 20, 'learning_rate': 0.0005472039047918212, 'optimizer': 'sgd', 'scheduler_gamma': 0.4521819092474343, 'scheduler_step_size': 625, 'weight_decay': 2.0886136600584264e-05}
+-------------------------------------------------------------------------------
+Loss: 0.804508164525032
+Config ID: 280_0
+Config: {'batch_size': 60, 'epochs': 6, 'learning_rate': 0.017280944812201878, 'optimizer': 'sgd', 'scheduler_gamma': 0.8161331581373398, 'scheduler_step_size': 1065, 'weight_decay': 0.001650979659296764}
+-------------------------------------------------------------------------------
+Loss: 0.6164250060131675
+Config ID: 281_0
+Config: {'batch_size': 74, 'epochs': 6, 'learning_rate': 0.005951369433235061, 'optimizer': 'adam', 'scheduler_gamma': 0.12315559331765753, 'scheduler_step_size': 365, 'weight_decay': 0.002420969286824559}
+-------------------------------------------------------------------------------
+Loss: 1.2354512829333544
+Config ID: 282_0
+Config: {'batch_size': 22, 'epochs': 6, 'learning_rate': 5.142114624512042e-06, 'optimizer': 'adamw', 'scheduler_gamma': 0.2677334245586296, 'scheduler_step_size': 1453, 'weight_decay': 0.013709756193457896}
+-------------------------------------------------------------------------------
+Loss: 0.5721888714715054
+Config ID: 281_1
+Config: {'batch_size': 74, 'epochs': 20, 'learning_rate': 0.005951369433235061, 'optimizer': 'adam', 'scheduler_gamma': 0.12315559331765753, 'scheduler_step_size': 365, 'weight_decay': 0.002420969286824559}
+-------------------------------------------------------------------------------
+Loss: 1.8468075213224993
+Config ID: 283_1
+Config: {'batch_size': 63, 'epochs': 20, 'learning_rate': 1.0426791499691704e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.06695323988754191, 'scheduler_step_size': 380, 'weight_decay': 0.00019045821577832992}
+-------------------------------------------------------------------------------
+Loss: 1.281407506692977
+Config ID: 284_1
+Config: {'batch_size': 34, 'epochs': 20, 'learning_rate': 0.009193545224903468, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.6331843149325703, 'scheduler_step_size': 1400, 'weight_decay': 0.021945171242971774}
+-------------------------------------------------------------------------------
+Loss: 1.8491011990441217
+Config ID: 285_0
+Config: {'batch_size': 53, 'epochs': 6, 'learning_rate': 7.092320923393949e-06, 'optimizer': 'sgd', 'scheduler_gamma': 0.3792431293402439, 'scheduler_step_size': 1197, 'weight_decay': 0.0015354989098201155}
+-------------------------------------------------------------------------------
+Loss: 1.8598124132706568
+Config ID: 286_0
+Config: {'batch_size': 27, 'epochs': 6, 'learning_rate': 2.503360364181206e-05, 'optimizer': 'sgd', 'scheduler_gamma': 0.7852609852763529, 'scheduler_step_size': 1307, 'weight_decay': 0.0007573084744544877}
+-------------------------------------------------------------------------------
+Loss: 1.5496042324946477
+Config ID: 287_0
+Config: {'batch_size': 18, 'epochs': 6, 'learning_rate': 2.8439136923832453e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.37315052238133284, 'scheduler_step_size': 1366, 'weight_decay': 2.0817511135428935e-05}
+-------------------------------------------------------------------------------
+Loss: 1.332012767975147
+Config ID: 287_1
+Config: {'batch_size': 18, 'epochs': 20, 'learning_rate': 2.8439136923832453e-06, 'optimizer': 'rmsprop', 'scheduler_gamma': 0.37315052238133284, 'scheduler_step_size': 1366, 'weight_decay': 2.0817511135428935e-05}
+-------------------------------------------------------------------------------
+Loss: 0.5494902414434096
+Config ID: 288_1
+Config: {'batch_size': 84, 'epochs': 20, 'learning_rate': 0.000219563462212296, 'optimizer': 'adam', 'scheduler_gamma': 0.27701278006649455, 'scheduler_step_size': 1326, 'weight_decay': 0.0043301510650645796}
+-------------------------------------------------------------------------------
+Loss: 1.5346055775880814
+Config ID: 289_1
+Config: {'batch_size': 16, 'epochs': 20, 'learning_rate': 1.1721753206425135e-06, 'optimizer': 'adam', 'scheduler_gamma': 0.812975401312442, 'scheduler_step_size': 1072, 'weight_decay': 0.006917901781596977}
+-------------------------------------------------------------------------------
