@@ -17,7 +17,6 @@ from torch.utils.data.sampler import WeightedRandomSampler
 from torch.utils.data import random_split, Subset as TorchSubset
 from torchvision.datasets.utils import download_and_extract_archive, check_integrity
 
-
 BASE_URL = (
     "https://ml.informatik.uni-freiburg.de/research-artifacts/automl-exam-24-vision/"
 )
@@ -52,12 +51,12 @@ class BaseVisionDataset(VisionDataset):
     num_classes: int
 
     def __init__(
-        self,
-        root: Union[str, Path],
-        split: str = "train",
-        transform: Optional[Callable] = None,
-        target_transform: Optional[Callable] = None,
-        download: bool = False,
+            self,
+            root: Union[str, Path],
+            split: str = "train",
+            transform: Optional[Callable] = None,
+            target_transform: Optional[Callable] = None,
+            download: bool = False,
     ) -> None:
         super().__init__(root, transform=transform, target_transform=target_transform)
         assert split in ["train", "test"], f"Split {split} not supported"
@@ -79,12 +78,12 @@ class BaseVisionDataset(VisionDataset):
             rank = TorchDistributed.get_rank()
             world_size = TorchDistributed.get_world_size()
             self.data = self.data[
-                rank
-                * len(self.data)
-                // world_size : (rank + 1)
-                * len(self.data)
-                // world_size
-            ]
+                        rank
+                        * len(self.data)
+                        // world_size: (rank + 1)
+                                       * len(self.data)
+                                       // world_size
+                        ]
 
         self._labels = data["label"].tolist()
         self._image_files = data["image_file_name"].tolist()
@@ -93,7 +92,7 @@ class BaseVisionDataset(VisionDataset):
         train_images_folder = self._base_folder / "images_train"
         test_images_folder = self._base_folder / "images_test"
         if not (train_images_folder.exists() and train_images_folder.is_dir()) or not (
-            test_images_folder.exists() and test_images_folder.is_dir()
+                test_images_folder.exists() and test_images_folder.is_dir()
         ):
             return False
 
@@ -222,48 +221,25 @@ class Datasets(Enum):
         }[self]
 
 
-class Subset:
-    def __init__(self, torch_subset: TorchSubset) -> None:
-        self.torch_subset = torch_subset
-
-    @property
-    def dataset(self) -> BaseVisionDataset:
-        return self.torch_subset.dataset
-
-    @property
-    def indices(self):
-        return self.torch_subset.indices
+class DatasetWrapper(Dataset):
+    def __init__(
+            self,
+            dataset: Datasets,
+            transform: Optional[Callable] = None,
+            target_transform: Optional[Callable] = None,
+    ):
+        self.dataset = dataset
+        self.transform = transform
+        self.target_transform = target_transform
 
     @property
     def weights(self):
-        labels = torch.tensor(self.dataset._labels)
-        labels = labels[self.indices]
+        labels = torch.tensor(self.dataset._labels) if hasattr(self.dataset, '_labels') else torch.tensor(self.dataset.dataset._labels)[self.dataset.indices]
         classes = torch.unique(labels)
         weights = torch.ones_like(labels, dtype=torch.float32)
         for c in classes:
             weights[labels == c] /= len(labels[labels == c])
         return weights
-
-    def __getitem__(self, idx):
-        return self.torch_subset.__getitem__(idx)
-
-    def __getitems__(self, indices: list[int]) -> list:
-        return self.torch_subset.__getitems__(indices)
-
-    def __len__(self):
-        return len(self.indices)
-
-
-class DatasetWrapper(Dataset):
-    def __init__(
-        self,
-        dataset: Datasets,
-        transform: Optional[Callable] = None,
-        target_transform: Optional[Callable] = None,
-    ):
-        self.dataset = dataset
-        self.transform = transform
-        self.target_transform = target_transform
 
     def __len__(self):
         return len(self.dataset)
@@ -282,13 +258,13 @@ class DatasetWrapper(Dataset):
 
 class DataLoaders:
     def __init__(
-        self,
-        batch_size: int = 64,
-        num_workers: int = 0,
-        augmentations: Optional[Callable] = None,
-        transform: Optional[Callable] = None,
-        target_transform: Optional[Callable] = None,
-        dataset_class: Type[BaseVisionDataset] = None,
+            self,
+            batch_size: int = 64,
+            num_workers: int = 0,
+            augmentations: Optional[Callable] = None,
+            transform: Optional[Callable] = None,
+            target_transform: Optional[Callable] = None,
+            dataset_class: Type[BaseVisionDataset] = None,
     ):
         self.train_val_dataset = dataset_class(
             root="./data",
@@ -303,7 +279,6 @@ class DataLoaders:
         train_dataset, val_dataset = random_split(
             self.train_val_dataset, [train_size, val_size]
         )
-        train_dataset, val_dataset = Subset(train_dataset), Subset(val_dataset)
 
         train_dataset = DatasetWrapper(
             train_dataset,
@@ -315,17 +290,18 @@ class DataLoaders:
             transform=transform,
             target_transform=target_transform,
         )
-        train_dataset = DatasetWrapper(
-            train_dataset,
+        train_val_dataset = DatasetWrapper(
+            self.train_val_dataset,
             transform=Compose([augmentations, transform]),
             target_transform=target_transform,
         )
 
         sampler = WeightedRandomSampler(
-            weights=train_dataset.dataset.weights,
+            weights=train_dataset.weights,
             num_samples=len(train_dataset),
             replacement=True,
         )
+
         self.train = DataLoader(
             train_dataset,
             sampler=sampler,
@@ -338,8 +314,15 @@ class DataLoaders:
             batch_size=batch_size,
             num_workers=num_workers,
         )
+
+        sampler = WeightedRandomSampler(
+            weights=train_val_dataset.weights,
+            num_samples=len(train_val_dataset),
+            replacement=True,
+        )
+
         self.train_val = DataLoader(
-            train_dataset,
+            train_val_dataset,
             sampler=sampler,
             batch_size=batch_size,
             num_workers=num_workers,
