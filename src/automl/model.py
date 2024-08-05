@@ -105,9 +105,12 @@ class ConvNet(Model):
 
 
 class ResNet50(Model):
+    def convert_to_rgb(image):
+        return image.convert("RGB")
+
     transform = transforms.Compose(
         [
-            lambda x: x.convert("RGB"),
+            convert_to_rgb,
             ResNet50_Weights.IMAGENET1K_V2.transforms(),
         ]
     )

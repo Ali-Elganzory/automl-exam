@@ -3,9 +3,12 @@ AutoML class for vision classification tasks.
 """
 
 from __future__ import annotations
+
+import ast
 from time import time
 from pathlib import Path
 from typing import Tuple, Type, Dict, Union
+import re
 
 import neps
 import torch
@@ -27,9 +30,9 @@ class AutoML:
     )
 
     def __init__(
-        self,
-        dataset_class: Type[BaseVisionDataset],
-        seed: int,
+            self,
+            dataset_class: Type[BaseVisionDataset],
+            seed: int,
     ) -> None:
         self.dataset_class = dataset_class
         self.seed = seed
@@ -44,23 +47,23 @@ class AutoML:
         torch.backends.cudnn.benchmark = False
 
     def run_pipeline(
-        self,
-        epochs: int,
-        batch_size: int,
-        optimizer: str | Optimizer,
-        learning_rate: float,
-        weight_decay: float,
-        lr_scheduler: str | LR_Scheduler,
-        scheduler_step_size: int,
-        scheduler_gamma: float,
-        schedular_step_every_epoch: bool,
-        loss_fn: str | LossFn,
-        model: Models = Models.ResNet50,
-        pipeline_directory: Path | None = None,
-        previous_pipeline_directory: Path | None = None,
-        results_file: str | None = None,
-        save_best_to: str | None = None,
-        all_data: bool = False,
+            self,
+            epochs: int,
+            batch_size: int,
+            optimizer: str | Optimizer,
+            learning_rate: float,
+            weight_decay: float,
+            lr_scheduler: str | LR_Scheduler,
+            scheduler_step_size: int,
+            scheduler_gamma: float,
+            schedular_step_every_epoch: bool,
+            loss_fn: str | LossFn,
+            model: Models = Models.ResNet50,
+            pipeline_directory: Path | None = None,
+            previous_pipeline_directory: Path | None = None,
+            results_file: str | None = None,
+            save_best_to: str | None = None,
+            all_data: bool = False,
     ) -> Dict[str, any]:
         if isinstance(optimizer, str):
             optimizer = Optimizer(optimizer)
@@ -132,6 +135,16 @@ class AutoML:
             },
         }
 
+    def get_best_config(self, path):
+        with open(path + "best_loss_with_config_trajectory.txt", 'r') as file:
+            data = file.read()
+
+        pattern = r"Loss: ([\d\.]+)\nConfig ID: ([\d_]+)\nConfig: ({.*?})"
+        matches = re.findall(pattern, data, re.DOTALL)
+
+        best_config = ast.literal_eval(matches[-1][2])
+        return best_config
+
     def fit(self, budget: int) -> Dict[str, Union[float, str]]:
         """
         Run the AutoML pipeline, optimizing for the given budget.
@@ -143,40 +156,40 @@ class AutoML:
             A dictionary containing the best configuration found by the optimizer.
         """
         root_directory = (
-            "./results/"
-            + f"benchmark={self.dataset_class.__name__.replace('Dataset', '')}/"
-            + f"algorithm=PriorBand-BO/"
-            + f"seed={self.seed}/"
+                "./results/"
+                + f"benchmark={self.dataset_class.__name__.replace('Dataset', '')}/"
+                + f"algorithm=PriorBand-BO/"
+                + f"seed={self.seed}/"
         )
 
         # HPO
-        print(f"Running AutoML pipeline on dataset {self.dataset_class.__name__}")
-        start = time()
-        neps.run(
-            lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
-                pipeline_directory=pipeline_directory,
-                previous_pipeline_directory=previous_pipeline_directory,
-                **{
-                    **kwargs,
-                    "lr_scheduler": LR_Scheduler.step,
-                    "loss_fn": LossFn.cross_entropy,
-                    "schedular_step_every_epoch": False,
-                    "results_file": None,
-                },
-            ),
-            root_directory=root_directory,
-            pipeline_space="./pipeline_space.yaml",
-            searcher="priorband_bo",
-            max_cost_total=budget,
-            post_run_summary=True,
-            overwrite_working_directory=True,
-        )
-        end = time()
-        with open(f"{root_directory}time.txt", "w") as f:
-            f.write(str(end - start))
+        # print(f"Running AutoML pipeline on dataset {self.dataset_class.__name__}")
+        # start = time()
+        # neps.run(
+        #     lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
+        #         pipeline_directory=pipeline_directory,
+        #         previous_pipeline_directory=previous_pipeline_directory,
+        #         **{
+        #             **kwargs,
+        #             "lr_scheduler": LR_Scheduler.step,
+        #             "loss_fn": LossFn.cross_entropy,
+        #             "schedular_step_every_epoch": False,
+        #             "results_file": None,
+        #         },
+        #     ),
+        #     root_directory=root_directory,
+        #     pipeline_space="./pipeline_space.yaml",
+        #     searcher="priorband_bo",
+        #     max_cost_total=budget,
+        #     post_run_summary=True,
+        #     overwrite_working_directory=True,
+        # )
+        # end = time()
+        # with open(f"{root_directory}time.txt", "w") as f:
+        #     f.write(str(end - start))
 
         # Load best configuration
-        best_config = neps.get_summary_dict(root_directory)["best_config"]
+        best_config = self.get_best_config(path=root_directory)
         print("-" * 80)
         print(f"Best configuration: {best_config}")
         print("-" * 80)
