@@ -1,6 +1,12 @@
 import re
-import yaml
+
+import pandas as pd
 import ast
+
+import yaml
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import LabelEncoder
 
 from automl.automl import AutoML
 from automl.dataset import Datasets
@@ -9,7 +15,7 @@ from automl.trainer import LR_Scheduler, LossFn
 import csv
 
 
-def greedy_ablation(start_config, end_config, benchmark_name, seed):
+def greedy_ablation(start_config, end_config, benchmark_name, seed, uses_surrogate):
     """
     Performs greedy ablation
 
@@ -25,8 +31,14 @@ def greedy_ablation(start_config, end_config, benchmark_name, seed):
     best_local_config = start_config.copy()
     losses = []
 
+    model = None
+    optimizer_label_encoder = None
+    if uses_surrogate:
+        model, optimizer_label_encoder = surrogate_model(benchmark_name, seed)
+
     for t in range(6):
-        best_local_config, loss, modified_indice = best_modified_config(best_local_config, end_config, modified_indices)
+        best_local_config, loss, modified_indice = best_modified_config(best_local_config, end_config, modified_indices,
+                                                                        model, optimizer_label_encoder)
         if modified_indice is not None:
             modified_indices.append(modified_indice)
         else:
@@ -49,7 +61,7 @@ def greedy_ablation(start_config, end_config, benchmark_name, seed):
     return ablation_path
 
 
-def best_modified_config(start_config, best_config, modified_indices):
+def best_modified_config(start_config, best_config, modified_indices, surrogate_model, optimizer_label_encoder):
     best_loss = float('inf')
     best_config_result = None
     best_key = None
@@ -68,20 +80,27 @@ def best_modified_config(start_config, best_config, modified_indices):
                 seed=42,
             )
 
-            results = automl.run_pipeline(
-                epochs=1,  # TODO change this to 30
-                batch_size=modified_config['batch_size'],
-                optimizer=modified_config['optimizer'],
-                learning_rate=modified_config['learning_rate'],
-                weight_decay=modified_config['weight_decay'],
-                lr_scheduler=LR_Scheduler.step,
-                scheduler_step_size=modified_config['scheduler_step_size'],
-                scheduler_gamma=modified_config['scheduler_gamma'],
-                schedular_step_every_epoch=False,
-                loss_fn=LossFn.cross_entropy
-            )
+            if surrogate_model is None:
+                results = automl.run_pipeline(
+                    epochs=20,
+                    batch_size=modified_config['batch_size'],
+                    optimizer=modified_config['optimizer'],
+                    learning_rate=modified_config['learning_rate'],
+                    weight_decay=modified_config['weight_decay'],
+                    lr_scheduler=LR_Scheduler.step,
+                    scheduler_step_size=modified_config['scheduler_step_size'],
+                    scheduler_gamma=modified_config['scheduler_gamma'],
+                    schedular_step_every_epoch=False,
+                    loss_fn=LossFn.cross_entropy
+                )
+                current_loss = results['loss']
+            else:
+                modified_config['optimizer'] = optimizer_label_encoder.transform([modified_config['optimizer']])[0]
+                x = [modified_config["batch_size"], 30, modified_config["learning_rate"], modified_config["optimizer"],
+                     modified_config["scheduler_gamma"], modified_config["scheduler_step_size"],
+                     modified_config["weight_decay"]]
+                current_loss = surrogate_model.predict([x])[0]
 
-            current_loss = results['loss']
             if current_loss < best_loss:
                 best_loss = current_loss
                 best_config_result = modified_config
@@ -134,6 +153,37 @@ def reorder_dict_keys(reference_dict, target_dict):
     return reordered_dict
 
 
+def extract_last_element(array_str):
+    array = ast.literal_eval(array_str)
+    return array[-1]
+
+
+def surrogate_model(benchmark_name, seed):
+    config_data = pd.read_csv("results/benchmark=" + benchmark_name + "/algorithm=PriorBand-BO/seed=" + str(
+        seed) + "/summary_csv/config_data.csv")
+
+    optimizer_encoder = LabelEncoder()
+    config_data['config.optimizer'] = optimizer_encoder.fit_transform(config_data['config.optimizer'])
+
+    config_data['target'] = config_data['result.info_dict.val_losses'].apply(
+        lambda x: float(x.strip('[]').split(',')[-1]))
+
+    feature_columns = [
+        'config.batch_size', 'config.epochs', 'config.learning_rate',
+        'config.optimizer', 'config.scheduler_gamma', 'config.scheduler_step_size',
+        'config.weight_decay'
+    ]
+
+    X = config_data[feature_columns]
+    y = config_data['target']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+    regressor = RandomForestRegressor(n_estimators=100, random_state=42)
+    regressor.fit(X_train, y_train)
+
+    return regressor, optimizer_encoder
+
+
 if __name__ == "__main__":
     benchmark_seed_map = {
         "Fashion": 71,
@@ -150,4 +200,4 @@ if __name__ == "__main__":
         print(f"Start Config: {start_config}")
 
         best_config = read_best_config(key, value)
-        greedy_ablation(start_config, best_config, key, value)
+        greedy_ablation(start_config, best_config, key, value, uses_surrogate=False)
