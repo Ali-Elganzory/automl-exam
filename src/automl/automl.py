@@ -163,30 +163,30 @@ class AutoML:
         )
 
         # HPO
-        # print(f"Running AutoML pipeline on dataset {self.dataset_class.__name__}")
-        # start = time()
-        # neps.run(
-        #     lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
-        #         pipeline_directory=pipeline_directory,
-        #         previous_pipeline_directory=previous_pipeline_directory,
-        #         **{
-        #             **kwargs,
-        #             "lr_scheduler": LR_Scheduler.step,
-        #             "loss_fn": LossFn.cross_entropy,
-        #             "schedular_step_every_epoch": False,
-        #             "results_file": None,
-        #         },
-        #     ),
-        #     root_directory=root_directory,
-        #     pipeline_space="./pipeline_space.yaml",
-        #     searcher="priorband_bo",
-        #     max_cost_total=budget,
-        #     post_run_summary=True,
-        #     overwrite_working_directory=True,
-        # )
-        # end = time()
-        # with open(f"{root_directory}time.txt", "w") as f:
-        #     f.write(str(end - start))
+        print(f"Running AutoML pipeline on dataset {self.dataset_class.__name__}")
+        start = time()
+        neps.run(
+            lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
+                pipeline_directory=pipeline_directory,
+                previous_pipeline_directory=previous_pipeline_directory,
+                **{
+                    **kwargs,
+                    "lr_scheduler": LR_Scheduler.step,
+                    "loss_fn": LossFn.cross_entropy,
+                    "schedular_step_every_epoch": False,
+                    "results_file": None,
+                },
+            ),
+            root_directory=root_directory,
+            pipeline_space="./pipeline_space.yaml",
+            searcher="priorband_bo",
+            max_cost_total=budget,
+            post_run_summary=True,
+            overwrite_working_directory=True,
+        )
+        end = time()
+        with open(f"{root_directory}time.txt", "w") as f:
+            f.write(str(end - start))
 
         # Load best configuration
         best_config = self.get_best_config(path=root_directory)
