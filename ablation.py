@@ -9,7 +9,7 @@ from automl.trainer import LR_Scheduler, LossFn
 import csv
 
 
-def greedy_ablation(start_config, end_config):
+def greedy_ablation(start_config, end_config, benchmark_name, seed):
     """
     Performs greedy ablation
 
@@ -35,7 +35,8 @@ def greedy_ablation(start_config, end_config):
         ablation_path.append(best_local_config.copy())
         losses.append(loss)
 
-    with open("src/greedy_ablation/ablation_results.csv", 'w', newline='') as csvfile:
+    with open('results/benchmark=' + benchmark_name + '/algorithm=PriorBand-BO/seed=' + str(
+            seed) + '/ablation_results.csv', 'w', newline='') as csvfile:
         fieldnames = ['Step', 'Configuration', 'Loss']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
@@ -100,6 +101,22 @@ def read_start_config(config_space):
     return config
 
 
+def read_best_config(benchmark_name, seed):
+    with open(
+            'results/benchmark=' + benchmark_name + '/algorithm=PriorBand-BO/seed=' + str(
+                seed) + '/best_loss_with_config_trajectory.txt',
+            'r') as file:
+        data = file.read()
+
+    pattern = r"Loss: ([\d\.]+)\nConfig ID: ([\d_]+)\nConfig: ({.*?})"
+    matches = re.findall(pattern, data, re.DOTALL)
+
+    best_config = ast.literal_eval(matches[-1][2])
+    best_config = reorder_dict_keys(start_config, best_config)
+    print(f"Best Config: {best_config}")
+    return best_config
+
+
 def reorder_dict_keys(reference_dict, target_dict):
     """
     Reorders the target_dict to match the key order of reference_dict.
@@ -118,23 +135,19 @@ def reorder_dict_keys(reference_dict, target_dict):
 
 
 if __name__ == "__main__":
-    with open('pipeline_space.yaml', 'r') as file:
-        config_space = yaml.safe_load(file)
+    benchmark_seed_map = {
+        "Fashion": 71,
+        "Emotions": 71,
+        "Flowers": 71,
+        "SkinCancer": 71,
+    }
 
-    start_config = read_start_config(config_space)
+    for key, value in benchmark_seed_map.items():
+        with open('pipeline_space.yaml', 'r') as file:
+            config_space = yaml.safe_load(file)
 
-    print(f"Start Config: {start_config}")
+        start_config = read_start_config(config_space)
+        print(f"Start Config: {start_config}")
 
-    # TODO ablation for skin cancer dataset on 30 epochs
-    with open('results/benchmark=Flowers/algorithm=PriorBand-BO/seed=42/best_loss_with_config_trajectory.txt',
-              'r') as file:
-        data = file.read()
-
-    pattern = r"Loss: ([\d\.]+)\nConfig ID: ([\d_]+)\nConfig: ({.*?})"
-    matches = re.findall(pattern, data, re.DOTALL)
-
-    best_config = ast.literal_eval(matches[-1][2])
-    best_config = reorder_dict_keys(start_config, best_config)
-    print(f"Best Config: {best_config}")
-
-    greedy_ablation(start_config, best_config)
+        best_config = read_best_config(key, value)
+        greedy_ablation(start_config, best_config, key, value)
