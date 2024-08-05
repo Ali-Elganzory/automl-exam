@@ -80,7 +80,7 @@ class AutoML:
         # Dataset
         self.dataloaders = DataLoaders(
             batch_size=batch_size,
-            num_workers=8,
+            num_workers=4,
             augmentations=self.augmentations,
             transform=model.transform,
             dataset_class=self.dataset_class,
