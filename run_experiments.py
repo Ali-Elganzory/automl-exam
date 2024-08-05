@@ -35,7 +35,7 @@ gpu_available = [True]
 
 
 def run_command(command: str, gpu_id: int):
-    command = f"{command}'"
+    command = f"{command}"
     os.system(command)
     gpu_available[gpu_id] = True
 
