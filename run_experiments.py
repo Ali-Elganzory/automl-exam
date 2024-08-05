@@ -9,33 +9,33 @@ def command_factory(
     dataset: Datasets,
     seed: int,
 ):
-    return f"python run.py auto --dataset {dataset.value} --seed {seed} --budget 82800 2>&1 | tee logs/{dataset.value}-{seed}-82800.log"
+    return f"python run.py auto --dataset {dataset.value} --seed {seed} --budget 82800"
 
 
 commands = [
     command_factory(
         Datasets.FASHION,
-        93,
+        71,
     ),
     command_factory(
         Datasets.FLOWERS,
-        93,
+        71,
     ),
     command_factory(
         Datasets.EMOTIONS,
-        93,
+        71,
     ),
-    # command_factory(
-    #     Datasets.SKIN_CANCER,
-    #     93,
-    # ),
+    command_factory(
+        Datasets.SKIN_CANCER,
+        71,
+    ),
 ]
 
-gpu_available = [True, True, True, False]
+gpu_available = [True]
 
 
 def run_command(command: str, gpu_id: int):
-    command = f"zsh -c '. ~/.zshrc && mamba activate dl && CUDA_VISIBLE_DEVICES={gpu_id} {command}'"
+    command = f"{command}'"
     os.system(command)
     gpu_available[gpu_id] = True
 
