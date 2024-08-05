@@ -21,14 +21,14 @@ commands = [
         Datasets.FLOWERS,
         71,
     ),
-    command_factory(
-        Datasets.EMOTIONS,
-        71,
-    ),
-    command_factory(
-        Datasets.SKIN_CANCER,
-        71,
-    ),
+    # command_factory(
+    #     Datasets.EMOTIONS,
+    #     71,
+    # ),
+    # command_factory(
+    #     Datasets.SKIN_CANCER,
+    #     71,
+    # ),
 ]
 
 gpu_available = [True]
