@@ -186,9 +186,9 @@ def surrogate_model(benchmark_name, seed):
 
 if __name__ == "__main__":
     benchmark_seed_map = {
-        "Fashion": 71,
-        "Emotions": 71,
-        "Flowers": 71,
+        #"Fashion": 71,
+        #"Emotions": 71,
+        #"Flowers": 71,
         "SkinCancer": 71,
     }
 
