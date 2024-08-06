@@ -33,12 +33,13 @@ def greedy_ablation(start_config, end_config, benchmark_name, seed, uses_surroga
 
     model = None
     optimizer_label_encoder = None
+    feature_columns = None
     if uses_surrogate:
-        model, optimizer_label_encoder = surrogate_model(benchmark_name, seed)
+        model, optimizer_label_encoder, feature_columns = surrogate_model(benchmark_name, seed)
 
     for t in range(6):
         best_local_config, loss, modified_indice = best_modified_config(best_local_config, end_config, modified_indices,
-                                                                        model, optimizer_label_encoder)
+                                                                        model, optimizer_label_encoder, feature_columns)
         if modified_indice is not None:
             modified_indices.append(modified_indice)
         else:
@@ -61,7 +62,8 @@ def greedy_ablation(start_config, end_config, benchmark_name, seed, uses_surroga
     return ablation_path
 
 
-def best_modified_config(start_config, best_config, modified_indices, surrogate_model, optimizer_label_encoder):
+def best_modified_config(start_config, best_config, modified_indices, surrogate_model, optimizer_label_encoder,
+                         feature_columns):
     best_loss = float('inf')
     best_config_result = None
     best_key = None
@@ -95,12 +97,16 @@ def best_modified_config(start_config, best_config, modified_indices, surrogate_
                 )
                 current_loss = results['loss']
             else:
-                modified_config['optimizer'] = optimizer_label_encoder.transform([modified_config['optimizer']])[0]
-                x = [modified_config["batch_size"], 30, modified_config["learning_rate"], modified_config["optimizer"],
-                     modified_config["scheduler_gamma"], modified_config["scheduler_step_size"],
-                     modified_config["weight_decay"]]
-                current_loss = surrogate_model.predict([x])[0]
-
+                modified_config['optimizer'] = optimizer_label_encoder.transform([modified_config['optimizer']])[
+                    0] if isinstance(modified_config['optimizer'], str) else modified_config['optimizer']
+                x = pd.DataFrame([[
+                    modified_config["batch_size"], 30, modified_config["learning_rate"],
+                    modified_config["optimizer"], modified_config["scheduler_gamma"],
+                    modified_config["scheduler_step_size"], modified_config["weight_decay"]
+                ]], columns=feature_columns)
+                current_loss = surrogate_model.predict(x)[0]
+                modified_config['optimizer'] = optimizer_label_encoder.inverse_transform(
+                    [modified_config['optimizer']])[0]
             if current_loss < best_loss:
                 best_loss = current_loss
                 best_config_result = modified_config
@@ -181,14 +187,14 @@ def surrogate_model(benchmark_name, seed):
     regressor = RandomForestRegressor(n_estimators=100, random_state=42)
     regressor.fit(X_train, y_train)
 
-    return regressor, optimizer_encoder
+    return regressor, optimizer_encoder, feature_columns
 
 
 if __name__ == "__main__":
     benchmark_seed_map = {
-        #"Fashion": 71,
-        #"Emotions": 71,
-        #"Flowers": 71,
+        # "Fashion": 71,
+        # "Emotions": 71,
+        # "Flowers": 71,
         "SkinCancer": 71,
     }
 
@@ -200,4 +206,4 @@ if __name__ == "__main__":
         print(f"Start Config: {start_config}")
 
         best_config = read_best_config(key, value)
-        greedy_ablation(start_config, best_config, key, value, uses_surrogate=False)
+        greedy_ablation(start_config, best_config, key, value, uses_surrogate=True)
