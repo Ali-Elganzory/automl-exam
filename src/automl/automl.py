@@ -163,30 +163,30 @@ class AutoML:
         )
 
         # HPO
-        print(f"Running AutoML pipeline on dataset {self.dataset_class.__name__}")
-        start = time()
-        neps.run(
-            lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
-                pipeline_directory=pipeline_directory,
-                previous_pipeline_directory=previous_pipeline_directory,
-                **{
-                    **kwargs,
-                    "lr_scheduler": LR_Scheduler.step,
-                    "loss_fn": LossFn.cross_entropy,
-                    "schedular_step_every_epoch": False,
-                    "results_file": None,
-                },
-            ),
-            root_directory=root_directory,
-            pipeline_space="./pipeline_space.yaml",
-            searcher="priorband_bo",
-            max_cost_total=budget,
-            post_run_summary=True,
-            overwrite_working_directory=True,
-        )
-        end = time()
-        with open(f"{root_directory}time.txt", "w") as f:
-            f.write(str(end - start))
+        # print(f"Running AutoML pipeline on dataset {self.dataset_class.__name__}")
+        # start = time()
+        # neps.run(
+        #     lambda pipeline_directory, previous_pipeline_directory, **kwargs: self.run_pipeline(
+        #         pipeline_directory=pipeline_directory,
+        #         previous_pipeline_directory=previous_pipeline_directory,
+        #         **{
+        #             **kwargs,
+        #             "lr_scheduler": LR_Scheduler.step,
+        #             "loss_fn": LossFn.cross_entropy,
+        #             "schedular_step_every_epoch": False,
+        #             "results_file": None,
+        #         },
+        #     ),
+        #     root_directory=root_directory,
+        #     pipeline_space="./pipeline_space.yaml",
+        #     searcher="priorband_bo",
+        #     max_cost_total=budget,
+        #     post_run_summary=True,
+        #     overwrite_working_directory=True,
+        # )
+        # end = time()
+        # with open(f"{root_directory}time.txt", "w") as f:
+        #     f.write(str(end - start))
 
         # Load best configuration
         best_config = self.get_best_config(path=root_directory)
@@ -195,20 +195,20 @@ class AutoML:
         print("-" * 80)
 
         # Train with best configuration
-        print(f"Training with best configuration")
-        results = self.run_pipeline(
-            pipeline_directory=None,
-            previous_pipeline_directory=None,
-            epochs=100,
-            lr_scheduler=LR_Scheduler.step,
-            schedular_step_every_epoch=False,
-            loss_fn=LossFn.cross_entropy,
-            results_file=f"{root_directory}best_config_results.csv",
-            **(best_config.pop("epochs") and best_config),
-        )
-        print("-" * 80)
-        print(f"Results: {results}")
-        print("-" * 80)
+        # print(f"Training with best configuration")
+        # results = self.run_pipeline(
+        #     pipeline_directory=None,
+        #     previous_pipeline_directory=None,
+        #     epochs=100,
+        #     lr_scheduler=LR_Scheduler.step,
+        #     schedular_step_every_epoch=False,
+        #     loss_fn=LossFn.cross_entropy,
+        #     results_file=f"{root_directory}best_config_results.csv",
+        #     **(best_config.pop("epochs") and best_config),
+        # )
+        # print("-" * 80)
+        # print(f"Results: {results}")
+        # print("-" * 80)
 
         print(
             f"Training with best configuration on both training and validation data (final model)"

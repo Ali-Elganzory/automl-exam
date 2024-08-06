@@ -13,22 +13,22 @@ def command_factory(
 
 
 commands = [
-    # command_factory(
-    #     Datasets.FASHION,
-    #     71,
-    # ),
-    # command_factory(
-    #     Datasets.FLOWERS,
-    #     71,
-    # ),
     command_factory(
-        Datasets.EMOTIONS,
+        Datasets.FASHION,
         71,
     ),
     command_factory(
-        Datasets.SKIN_CANCER,
+        Datasets.FLOWERS,
         71,
     ),
+    # command_factory(
+    #     Datasets.EMOTIONS,
+    #     71,
+    # ),
+    # command_factory(
+    #     Datasets.SKIN_CANCER,
+    #     71,
+    # ),
 ]
 
 gpu_available = [True]
