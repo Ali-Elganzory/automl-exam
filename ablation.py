@@ -78,13 +78,13 @@ def best_modified_config(start_config, best_config, modified_indices, surrogate_
             print(f"best config:{best_config}")
 
             automl = AutoML(
-                Datasets.EMOTIONS.factory,
+                Datasets.SKIN_CANCER.factory,
                 seed=42,
             )
 
             if surrogate_model is None:
                 results = automl.run_pipeline(
-                    epochs=20,
+                    epochs=5,
                     batch_size=modified_config['batch_size'],
                     optimizer=modified_config['optimizer'],
                     learning_rate=modified_config['learning_rate'],
