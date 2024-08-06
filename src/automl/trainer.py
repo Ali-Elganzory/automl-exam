@@ -289,7 +289,7 @@ class Trainer:
                 "f1": f1s,
             }
             with open(self.results_file, "w") as f:
-                f.write("epoch,train_loss,train_accuracy,val_loss,val_accuracy\n")
+                f.write("epoch,train_loss,train_accuracy,val_loss,val_accuracy,f1\n")
                 for i in range(epochs):
                     f.write(
                         f"{data['epoch'][i]},{data['train_loss'][i]},{data['train_accuracy'][i]},{data['val_loss'][i]},{data['val_accuracy'][i]},{data['f1'][i]}\n"
