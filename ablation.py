@@ -78,7 +78,7 @@ def best_modified_config(start_config, best_config, modified_indices, surrogate_
             print(f"best config:{best_config}")
 
             automl = AutoML(
-                Datasets.EMOTIONS.factory,
+                Datasets.SKIN_CANCER.factory,
                 seed=42,
             )
 
