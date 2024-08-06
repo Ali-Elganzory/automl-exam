@@ -338,6 +338,10 @@ def predict(
         dataloaders.test,
     )
 
+    # Create predictions directory if it does not exist
+    if not predictions_path.parent.exists():
+        predictions_path.parent.mkdir(parents=True)
+
     # Save predictions
     with predictions_path.open("wb") as f:
         np.save(f, predictions.cpu().numpy())
