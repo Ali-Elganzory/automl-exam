@@ -176,3 +176,4 @@ results/**/.seed_state
 results/**/.decision_lock
 results/**/.csv_lock
 results/**/*.pth
+!results/**/best_config_model.pth
