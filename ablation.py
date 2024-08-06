@@ -84,7 +84,7 @@ def best_modified_config(start_config, best_config, modified_indices, surrogate_
 
             if surrogate_model is None:
                 results = automl.run_pipeline(
-                    epochs=20,
+                    epochs=5,
                     batch_size=modified_config['batch_size'],
                     optimizer=modified_config['optimizer'],
                     learning_rate=modified_config['learning_rate'],
